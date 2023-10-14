@@ -2,7 +2,6 @@ package Proyecto;
 
 public class Carro 
 
-//calorejalldfjñlaskjfñldfkjaslñkfjalñ
 {
     private String placa;
     private String modelo;
