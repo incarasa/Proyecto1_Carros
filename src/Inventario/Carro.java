@@ -30,7 +30,8 @@ public class Carro
 
 	// Métodos para cambiar el estado del carro
     public void alquilarCarro(String cliente) {
-        if (!alquilado) {
+        if (!alquilado) 
+        {
             alquilado = true;
             sede = "Cliente: " + cliente;
         }

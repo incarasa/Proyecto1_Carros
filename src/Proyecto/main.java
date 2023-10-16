@@ -10,6 +10,8 @@ import Instalaciones.Sede;
 import Instalaciones.Sedes;
 import Inventario.Carro;
 import Inventario.InventarioCarros;
+import Usuarios.Cliente;
+import Usuarios.Usuarios;
 
 public class main {
 
@@ -51,12 +53,22 @@ public class main {
 		System.out.println("PRUEBAS INVENTARIO");
 		
 		InventarioCarros inventario = new InventarioCarros();
-		//inventario.agregarCarro("MCU788", "KIA", 2013, "MECANICA", "A", "NORMANDIA");
-		//inventario.agregarCarro("HJM755", "FORD", 2020, "AUTOMATICA", "B", "MODELIA");
+		inventario.agregarCarro("MCU788", "KIA", 2013, "MECANICA", "A", "NORMANDIA");
+		inventario.agregarCarro("HJM755", "FORD", 2020, "AUTOMATICA", "B", "MODELIA");
 		inventario.cargarCarrosDesdeCSV();
+		inventario.agregarCarro("LZQ422", "CHEVROLET", 2020, "AUTOMATICA", "C", "MODELIA");
 		Map<String, Carro> mapa_carros = inventario.getInventario();
 		Carro carro1 = mapa_carros.get("MCU788");
 		System.out.println(carro1.getMarca());
+		
+		//PRUEBAS SOBRE USUARIOS
+		Usuarios usuarios = new Usuarios();
+		usuarios.crearCliente("incarasa","12345","cliente","Raul Insuasty","1000271188",
+				"3142715800", "rasanicw@gmail.com","01/08/2004","3102177829",
+				"Colombia","10/12/2030", "31203444403330", "042", "04/26");
+
+		
+		
 		
 	}
 

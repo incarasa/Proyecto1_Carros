@@ -30,6 +30,14 @@ public class InventarioCarros {
         inventario.put(placa, carro);
         Manejo_CSV.actualizarCSV(inventario, rutaCSV);
         
+    }
+    
+    public void eliminarCarro(String placa) 
+    {
+    	//elimina un carro
+        inventario.remove(placa);
+        Manejo_CSV.actualizarCSV(inventario, rutaCSV);
+        
         
     }
 
