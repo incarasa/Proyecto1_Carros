@@ -53,7 +53,7 @@ public class main {
 		System.out.println("PRUEBAS INVENTARIO");
 		
 		InventarioCarros inventario = new InventarioCarros();
-		inventario.agregarCarro("MCU788", "KIA", 2013, "MECANICA", "A", "NORMANDIA");
+		inventario.agregarCarro("MCU788", "KIA", 2013, "MECANICA", "A", "NORMANDÍA");
 		inventario.agregarCarro("HJM755", "FORD", 2020, "AUTOMATICA", "B", "MODELIA");
 		inventario.cargarCarrosDesdeCSV();
 		inventario.agregarCarro("LZQ422", "CHEVROLET", 2020, "AUTOMATICA", "C", "MODELIA");
@@ -63,10 +63,16 @@ public class main {
 		
 		//PRUEBAS SOBRE USUARIOS
 		Usuarios usuarios = new Usuarios();
+		usuarios.cargarClientesDesdeCSV();
+		usuarios.cargarEmpleadosDesdeCSV();
 		usuarios.crearCliente("incarasa","12345","cliente","Raul Insuasty","1000271188",
 				"3142715800", "rasanicw@gmail.com","01/08/2004","3102177829",
 				"Colombia","10/12/2030", "31203444403330", "042", "04/26");
-
+		
+		usuarios.crearEmpleado("empleado1", "12345", "empleado", "Alberto Rojas", "Normandía");
+		usuarios.crearEmpleado("empleado2", "12345", "empleado", "Pablo Beltrán", "Modelia");
+		usuarios.crearAdminSede("admin1", "12345", "admin", "Rodrigo Pérez", "Modelia");
+		usuarios.crearAdminSede("admin2", "12345", "admin", "Santiago Cárdenas", "Normandía");
 		
 		
 		
