@@ -1,6 +1,5 @@
 package Usuarios;
 
-import Instalaciones.Sede;
 
 public class Administrador_Sede extends Usuario
 {
@@ -18,4 +17,26 @@ public class Administrador_Sede extends Usuario
 		this.nombreSede = nombreSede;
 	}
 
+	
+	//getters-setters
+	
+	public String getNombre() {
+		return nombre;
+	}
+
+
+	public String getNombreSede() {
+		return nombreSede;
+	}
+
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+
+	public void setNombreSede(String nombreSede) {
+		this.nombreSede = nombreSede;
+	}
+	
 }
