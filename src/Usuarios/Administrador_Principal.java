@@ -11,5 +11,8 @@ public class Administrador_Principal extends Usuario
 		super(usuario, contraseña, tipoUsuario);
 		this.nombre = nombre;
 	}
+	public String getNombre() {
+		return nombre;
+	}
 	
 }

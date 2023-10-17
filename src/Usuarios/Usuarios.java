@@ -144,4 +144,85 @@ public class Usuarios
         }
     }
 	
+	public boolean verificarCliente(String usuario, String contraseña)
+	{
+		Usuario user = mapaClientes.get(usuario);
+		String clave = user.getContraseña();
+		if(contraseña == clave)
+		{
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	public boolean verificarEmpleado(String usuario, String contraseña)
+	{
+		Usuario user = mapaEmpleados.get(usuario);
+		String clave = user.getContraseña();
+		if(contraseña == clave)
+		{
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	public boolean verificarAdmin(String usuario, String contraseña)
+	{
+		Usuario user = mapaAdministradores_Sede.get(usuario);
+		String clave = user.getContraseña();
+		if(contraseña == clave)
+		{
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	public boolean verificarAdminP(String usuario, String contraseña)
+	{
+		Usuario user = admin_princ;
+		String clave = user.getContraseña();
+		if(contraseña == clave)
+		{
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	
+	public Cliente retornarCliente(String usuario)
+	{
+		Cliente cliente = mapaClientes.get(usuario);
+		return cliente;
+		
+	}
+	
+	public Empleado retornarEmpleado(String usuario)
+	{
+		Empleado empleado = mapaEmpleados.get(usuario);
+		return empleado;
+		
+	}
+	
+	public Administrador_Sede retornarAdminSede(String usuario)
+	{
+		Administrador_Sede admin = mapaAdministradores_Sede.get(usuario);
+		return admin;
+		
+	}
+	
+	public Administrador_Principal retornarAdminPrincipal(String usuario)
+	{
+		Administrador_Principal adminp = admin_princ;
+		return adminp;
+		
+	}
+
 }
