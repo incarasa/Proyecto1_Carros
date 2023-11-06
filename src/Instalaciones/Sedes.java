@@ -2,6 +2,7 @@ package Instalaciones;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -36,6 +37,14 @@ public class Sedes
 	//este metodo carga todos los elementos en el archivo de rutas a la lista de archivos de sedes.
 	
 	{
+		File carpeta = new File("./data/sedes");
+		
+		//IMPORTANTE
+		File[] archivos = carpeta.listFiles();
+		for(File f: archivos)
+		{
+			System.out.println(f.getName());
+		}
 		try (BufferedReader br = new BufferedReader(new FileReader("data/sedes/rutas.txt"))) 
 		{
 			String linea;

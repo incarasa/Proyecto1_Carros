@@ -3,12 +3,18 @@ package Inventario;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.Map;
 
 public class Manejo_CSV 
 
 {
-	//Paso un carro y me devuelve una linea CSV
+	/**
+	 * Paso un carro y me devuelve un string con CSV
+	 * @param carro
+	 * @return String (linea CSV)
+	 */
 	public static String toCSV(Carro carro) 
 	{
 	    return carro.getPlaca() + "," + carro.getMarca() + "," + carro.getModelo() + "," 
@@ -32,6 +38,7 @@ public class Manejo_CSV
 	    }
 	}
 	
+	//Retorna un carro desde una linea de CSV
 	public static Carro fromCSV(String lineaCSV) 
 	{
 	    String[] partes = lineaCSV.split(",");
@@ -52,5 +59,22 @@ public class Manejo_CSV
 	    return carro;
 	}
 	
+	/**
+	 * Esta funcion toma una linea del CSV y la convierte en una fecha LocalDate
+	 * @param linea
+	 * @return
+	 */
+	public static LocalDate lineaCSVaDate(String linea)
+	{
+		String elementos[] = linea.split("/");
+		int año = Integer.parseInt(elementos[0]);
+		Month mes = Month.valueOf(elementos[1]);
+		int dia = Integer.parseInt(elementos[2]);
+		
+		LocalDate fecha = LocalDate.of(año, mes, dia);
+		return fecha;
+		
+		
+	}
 	
 }

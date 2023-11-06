@@ -35,17 +35,10 @@ public class Alquiler
 		return placaAuto;
 	}
 
-	public void setPlacaAuto(String placaAuto) {
-		this.placaAuto = placaAuto;
-	}
-
 	public String getCedulaCliente() {
 		return cedulaCliente;
 	}
 
-	public void setCedulaCliente(String cedulaCliente) {
-		this.cedulaCliente = cedulaCliente;
-	}
 
 	public LocalDate getFechaRecogida() {
 		return fechaRecogida;
@@ -65,10 +58,6 @@ public class Alquiler
 
 	public String getSedeRecogida() {
 		return sedeRecogida;
-	}
-
-	public void setSedeRecogida(String sedeRecogida) {
-		this.sedeRecogida = sedeRecogida;
 	}
 
 	public String getSedeEntrega() {
