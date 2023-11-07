@@ -5,8 +5,11 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Month;
+import java.util.List;
+import java.util.Map;
 
 import Alquiler.GestorReservas;
+import Alquiler.Reserva;
 import Instalaciones.Sedes;
 import Inventario.Carro;
 import Inventario.InventarioCarros;
@@ -33,6 +36,7 @@ public class RentACar
 	{
 		inventario.cargarCarrosDesdeCarpeta();
 		sedes.cargarSedesMapa();
+		gestorReservas.cargarReservasDesdeCSV();
 	}
 	
 	public void reservarCarro(String placa, LocalDate diaInicio, LocalDate diaFin)
@@ -85,7 +89,17 @@ public class RentACar
 		
 		LocalTime t1 = LocalTime.of(10, 0);
 		
-		gestorReservas.crearReserva(t1, fecha1, fecha2, "1000271186", 30000000, "A", "SJM89E");
+		//gestorReservas.crearReserva(t1, fecha1, fecha2, "1000271186", 30000000, "A", "SJM89E");
+		
+		Map<String, List<Reserva>> mapaMap = gestorReservas.getMap();
+		
+		List<Reserva> listares = mapaMap.get("1000271186");
+		Reserva reserva = listares.get(0);
+		System.out.println(reserva.getPlacaVehiculo());
+		
+		//persistencia funciona bien
+		
+		
 		
 	}
 
