@@ -12,7 +12,7 @@ import manejoCSV.ReservasCSV;
 public class GestorReservas 
 {
 	private Map<String, List<Reserva>> mapaReservas;  //mapa con llave (documento), valor reservas del cliente
-	private String rutaReservasCSV = "data/usuarios/admins.csv";
+	private String rutaReservasCSV = "data/alquiler/reservas.csv";
 	
 	public GestorReservas()
 	{
