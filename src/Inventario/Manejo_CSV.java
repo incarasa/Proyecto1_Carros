@@ -21,22 +21,6 @@ public class Manejo_CSV
 	    		+ carro.getTransmision() + "," + carro.getCategoría() + "," 
 	    		+ carro.isAlquilado() + "," + carro.isDisponible() + "," + carro.getSede();
 	}
-	public static void actualizarCSV(Map<String, Carro> mapaCarros, String nombreArchivo)
-	//toma los elementos del mapa y actualiza el CSV.
-	
-	{
-	    try (BufferedWriter writer = new BufferedWriter(new FileWriter(nombreArchivo))) 
-	    {
-	        for (Map.Entry<String, Carro> entry : mapaCarros.entrySet()) 
-	        {
-	            Carro carro = entry.getValue();
-	            writer.write(Manejo_CSV.toCSV(carro));
-	            writer.newLine();
-	        }
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    }
-	}
 	
 	//Retorna un carro desde una linea de CSV
 	public static Carro fromCSV(String lineaCSV) 
@@ -76,5 +60,27 @@ public class Manejo_CSV
 		
 		
 	}
+	
+	
+//----------------------------------------
+	/*
+	public static void actualizarCSV(Map<String, Carro> mapaCarros, String nombreArchivo)
+	//toma los elementos del mapa y actualiza el CSV.
+	
+	{
+	    try (BufferedWriter writer = new BufferedWriter(new FileWriter(nombreArchivo))) 
+	    {
+	        for (Map.Entry<String, Carro> entry : mapaCarros.entrySet()) 
+	        {
+	            Carro carro = entry.getValue();
+	            writer.write(Manejo_CSV.toCSV(carro));
+	            writer.newLine();
+	        }
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	}
+	
+	*/
 	
 }

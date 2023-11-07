@@ -56,10 +56,10 @@ public class Sede
         }
     }
 	
-	public static Sede cargarDesdeArchivo(String nombreArchivo) 
+	public static Sede cargarDesdeArchivo(File archivo) 
 	{
         Sede sede = null;
-        try (BufferedReader reader = new BufferedReader(new FileReader(nombreArchivo))) 
+        try (BufferedReader reader = new BufferedReader(new FileReader(archivo))) 
         {
             String nombre = reader.readLine();
             String direccion = reader.readLine();

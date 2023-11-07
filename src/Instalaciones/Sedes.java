@@ -20,7 +20,6 @@ public class Sedes
 
 {
 	//atributos
-	private List<String> listaArchivos; //Guarda rutas de archivos sede
 	private Map<String , Sede> mapaSedes;
 	
 	
@@ -28,64 +27,22 @@ public class Sedes
 	//contructor
 	public Sedes() 
 	{
-		this.listaArchivos = new ArrayList<>();
 		this.mapaSedes = new HashMap<>();
 	}
 	
-	//METODOS PARA PASAR DE LISTA A ARCHIVO Y VICEVERSA
-	public void cargarListaArchivos()
-	//este metodo carga todos los elementos en el archivo de rutas a la lista de archivos de sedes.
+	//METODOS
+	
+	
+	public void cargarSedesMapa()
+	//carga las sedes al mapa desde la carpeta de sedes.
 	
 	{
 		File carpeta = new File("./data/sedes");
-		
-		//IMPORTANTE
 		File[] archivos = carpeta.listFiles();
-		for(File f: archivos)
+	
+		for (File archivoSede : archivos)
 		{
-			System.out.println(f.getName());
-		}
-		try (BufferedReader br = new BufferedReader(new FileReader("data/sedes/rutas.txt"))) 
-		{
-			String linea;
-	        while ((linea = br.readLine()) != null) 
-	        {
-	        	listaArchivos.add(linea);
-	        }
-	    }
-		
-		catch (IOException e) {
-	            e.printStackTrace();
-	        }
-
-	}
-	
-	public void escribirListaEnArchivo()
-	
-	//este metodo escribe las rutas en la lista en el archivo te texto que persiste.
-	{
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter("data/sedes/rutas.txt"))) 
-        {
-            for (String linea : listaArchivos) 
-            {
-                bw.write(linea);
-                bw.newLine(); // Agregar una nueva línea después de cada cadena
-            }
-        } 
-        catch (IOException e) 
-        {
-            e.printStackTrace();
-        }
-    }
-	
-	public void cargarSedesMapa()
-	//carga las sedes al mapa desde la lista de rutas.
-	
-	
-	{
-		for (String sede_archivo : listaArchivos)
-		{
-			Sede sede = Sede.cargarDesdeArchivo(sede_archivo);
+			Sede sede = Sede.cargarDesdeArchivo(archivoSede);
 			mapaSedes.put(sede.getNombre(), sede);
 		}
 	}
@@ -104,8 +61,6 @@ public class Sedes
 		
 		String ruta_sede = "data/sedes/" + nombreSede + ".txt";
 		sede.guardarEnArchivo(ruta_sede); //guarda la sede en archivo
-		listaArchivos.add(ruta_sede); //se añade la ruta del archivo a la lista de rutas.
-		escribirListaEnArchivo();// se sobreescribe el archivo de rutas
 		
 	}
 	
@@ -114,11 +69,17 @@ public class Sedes
 		//este metodo saca la sede del mapa, actualiza su horario y la vuelve a meter.
 		
 		Sede sede = mapaSedes.get(nombreSede); //pedir la sede
-		sede.agregarHorario(dia, horaApertura, horaCierre); //actualizar sede
-		mapaSedes.put(nombreSede, sede); //devolver la sede
+		if(sede != null)
+		{
+			sede.agregarHorario(dia, horaApertura, horaCierre); //actualizar sede
+			mapaSedes.put(nombreSede, sede); //devolver la sede
 		
-		//como ya se creo el archivo solo se sobreescribe con la nueva info
-		sede.guardarEnArchivo("data/sedes/" + nombreSede + ".txt");
+			//como ya se creo el archivo solo se sobreescribe con la nueva info
+			sede.guardarEnArchivo("data/sedes/" + nombreSede + ".txt");
+		}
+		else {
+			System.out.println("SEDE MAL ESCRITA");
+		}
 		
 	}
 	//GETTER
@@ -127,9 +88,6 @@ public class Sedes
 	
 	}
 
-	public List<String> getListaArchivos() {
-		return listaArchivos;
-	}
 	
 	
 	

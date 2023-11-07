@@ -48,6 +48,7 @@ public class InventarioCarros {
         //persistencia
         String ruta_carro = "data/carros/" + placa + ".txt";
     	carro.guardarEnArchivo(ruta_carro); //guarda el carro en archivo
+    	System.out.println("Carro creado");
         
     }
     
@@ -55,11 +56,13 @@ public class InventarioCarros {
     {
     	//elimina un carro
         inventario.remove(placa);
-        //ELIMINAR ESA FUNCION
-        // Manejo_CSV.actualizarCSV(inventario, rutaCSV);
         
-        
-        
+        //elimina el archivo del carro
+        String ruta_carro = "data/carros/" + placa + ".txt";
+        File archivoCarro = new File(ruta_carro);
+        archivoCarro.delete();
+        System.out.println("Carro eliminado");
+            
     }
 
     public Carro buscarCarroPorPlaca(String placa) {
