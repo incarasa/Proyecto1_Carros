@@ -90,7 +90,7 @@ public class InventarioCarros {
      * Este metodo carga los datos de los vehiculos.
      */
     public void cargarCarrosDesdeCarpeta() 
-    {;
+    {
     	File carpetaCarros = new File("./data/carros");
 	
     	//IMPORTANTE

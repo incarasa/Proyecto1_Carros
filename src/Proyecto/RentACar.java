@@ -5,26 +5,32 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import Alquiler.Alquiler;
+import Alquiler.GestorAlquileres;
 import Alquiler.GestorReservas;
 import Alquiler.Reserva;
 import Instalaciones.Sedes;
 import Inventario.Carro;
 import Inventario.InventarioCarros;
+import Tarifas.Conductor;
 
 public class RentACar 
 {
 	private InventarioCarros inventario;
 	private Sedes sedes;
 	private GestorReservas gestorReservas;
+	private GestorAlquileres gestorAlquileres;
 	
 	public RentACar()
 	{
 		this.inventario = new InventarioCarros();
 		this.sedes = new Sedes();
 		this.gestorReservas = new GestorReservas();
+		this.gestorAlquileres = new GestorAlquileres();
 	}
 	
 	public void agregarCarro(String placa, String marca, int modelo, String transmision, String categoría, String sede)
@@ -37,6 +43,7 @@ public class RentACar
 		inventario.cargarCarrosDesdeCarpeta();
 		sedes.cargarSedesMapa();
 		gestorReservas.cargarReservasDesdeCSV();
+		gestorAlquileres.cargarAlquileresDesdeCarpeta();
 	}
 	
 	public void reservarCarro(String placa, LocalDate diaInicio, LocalDate diaFin)
@@ -58,6 +65,11 @@ public class RentACar
 		return gestorReservas;
 	}
 	
+	public GestorAlquileres getGestorAlquileres()
+	{
+		return gestorAlquileres;
+	}
+	
 	
 	public static void main(String[] args) 
 	{
@@ -65,6 +77,7 @@ public class RentACar
 		InventarioCarros inventario = app.getInventario();
 		Sedes sedes = app.getSedes();
 		GestorReservas gestorReservas = app.getGestorReservas();
+		GestorAlquileres gestorAlquileres = app.getGestorAlquileres();
 		
 		app.cargarInformacion();  //este metodo carga todo, no tocarlo.
 		
@@ -89,7 +102,7 @@ public class RentACar
 		
 		LocalTime t1 = LocalTime.of(10, 0);
 		
-		//gestorReservas.crearReserva(t1, fecha1, fecha2, "1000271186", 30000000, "A", "SJM89E");
+		//gestorReservas.crearReserva(t1, fecha1, fecha2, "1000271186", 30000000, "A", "FJK123");
 		
 		Map<String, List<Reserva>> mapaMap = gestorReservas.getMap();
 		
@@ -99,8 +112,26 @@ public class RentACar
 		
 		//persistencia funciona bien
 		
+		//app.reservarCarro("SJM853", fecha1, fecha2);
+		
+		//PRUEBAS ALQUILERES
+		Conductor conductor1 = new Conductor("Carlos Ramirez", "100029343", "Colombia", "10/20/2019");
+		Conductor conductor2 = new Conductor("Juanito Perez", "1000234892", "Colombia", "10/20/2023");
+		
+		List<Conductor> listaConductores = new ArrayList<Conductor>();
+		listaConductores.add(conductor1);
+		listaConductores.add(conductor2);
 		
 		
+		
+		//gestorAlquileres.crearAlquiler("SJM89E", "1000271186", fecha1, fecha2, "NORMADIA" , "NORMANDIA" , listaConductores);
+		
+		Alquiler alquilerPrueba = gestorAlquileres.darAlquiler("1000271186");
+		List<Conductor> listaConductors = alquilerPrueba.getListaConductores();
+		for(Conductor conductor : listaConductors)
+		{
+			System.out.println(conductor.getNombre());
+		}
 	}
 
 }

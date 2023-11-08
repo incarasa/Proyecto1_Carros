@@ -1,10 +1,15 @@
 package Alquiler;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import Inventario.Manejo_CSV;
 import Tarifas.Conductor;
+import manejoCSV.AlquilerCSV;
+import manejoCSV.ConductorCSV;
 
 //hola
 public class Alquiler 
@@ -17,18 +22,47 @@ public class Alquiler
 	private String sedeEntrega;
 	private List<Conductor> conductores;
 	
-	public Alquiler(String placaAuto, String cedulaCliente, LocalDate fechaEntrega,
-			String sedeRecogida, String sedeEntrega) 
+	public Alquiler(String placaAuto, String cedulaCliente, LocalDate fechaEntrega, LocalDate fechaRecogida,
+			String sedeRecogida, String sedeEntrega)
 	{
 		this.placaAuto = placaAuto;
 		this.cedulaCliente = cedulaCliente;
-		this.fechaRecogida = LocalDate.now();
+		this.fechaRecogida = fechaRecogida;
 		this.fechaEntrega = fechaEntrega;
 		this.sedeRecogida = sedeRecogida;
 		this.sedeEntrega = sedeEntrega;
 		this.conductores = new ArrayList<>();
 	}
 
+	
+	/**
+	 * Guarda un alquiler en un archivo y sus clientes los guarda en las siguientes lineas.
+	 * @param nombreArchivo
+	 */
+	 public void guardarEnArchivo(String nombreArchivo) 
+		{
+	        try (FileWriter writer = new FileWriter(nombreArchivo)) 
+	        {
+	            writer.write(AlquilerCSV.toCSV(this) + "\n");
+	            for (Conductor conductor : conductores) 
+	            {
+	                writer.write(ConductorCSV.toCSV(conductor)+"\n");
+	            }
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	    }
+	 
+	 
+	 /**
+	  * Añade un conductor al Alquiler
+	  * @param conductor
+	  */
+	 public void añadirConductor(Conductor conductor)
+	 {
+		 conductores.add(conductor);
+	 }
+	
 	//metodos
 	
 	public String getPlacaAuto() {
@@ -62,6 +96,11 @@ public class Alquiler
 
 	public String getSedeEntrega() {
 		return sedeEntrega;
+	}
+	
+	public List<Conductor> getListaConductores()
+	{
+		return conductores;
 	}
 
 	public void setSedeEntrega(String sedeEntrega) {
