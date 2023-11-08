@@ -8,14 +8,14 @@ import java.util.Map;
 
 import manejoCSV.CategoriaCSV;
 
-public class Categoria 
+public class Categorias 
 {
 	private Map<String, String> mapaCategorías;
 	
 	//constructor
-	public Categoria()
+	public Categorias()
 	{
-		mapaCategorías = new HashMap<>();
+		mapaCategorías = new HashMap<String, String>();
 	}
 	
 	//metodos
@@ -38,10 +38,12 @@ public class Categoria
         try (BufferedReader reader = new BufferedReader(new FileReader("data/tarifas/categorías.csv"))) 
         {
             String linea;
-            while ((linea = reader.readLine()) != null) 
+            linea = reader.readLine();
+            while (linea != null) 
             {
             	String[] partes = linea.split(",");
             	mapaCategorías.put(partes[0], partes[1]);
+            	linea = reader.readLine();
             }
         } 
         catch (IOException e) 
@@ -49,4 +51,12 @@ public class Categoria
             e.printStackTrace();
         }
     }
+	
+	public Map<String, String> darMapaCategorias()
+	{
+		return mapaCategorías;
+	}
 }
+
+
+	

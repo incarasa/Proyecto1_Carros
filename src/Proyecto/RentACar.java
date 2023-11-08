@@ -16,6 +16,7 @@ import Alquiler.Reserva;
 import Instalaciones.Sedes;
 import Inventario.Carro;
 import Inventario.InventarioCarros;
+import Tarifas.Categorias;
 import Tarifas.Conductor;
 
 public class RentACar 
@@ -24,6 +25,7 @@ public class RentACar
 	private Sedes sedes;
 	private GestorReservas gestorReservas;
 	private GestorAlquileres gestorAlquileres;
+	private Categorias categorias;  //tiene a las categorias y sus precios
 	
 	public RentACar()
 	{
@@ -31,6 +33,7 @@ public class RentACar
 		this.sedes = new Sedes();
 		this.gestorReservas = new GestorReservas();
 		this.gestorAlquileres = new GestorAlquileres();
+		this.categorias = new Categorias();
 	}
 	
 	public void agregarCarro(String placa, String marca, int modelo, String transmision, String categoría, String sede)
@@ -44,6 +47,7 @@ public class RentACar
 		sedes.cargarSedesMapa();
 		gestorReservas.cargarReservasDesdeCSV();
 		gestorAlquileres.cargarAlquileresDesdeCarpeta();
+		categorias.cargarCategoríasDesdeCSV();
 	}
 	
 	public void reservarCarro(String placa, LocalDate diaInicio, LocalDate diaFin)
@@ -68,6 +72,11 @@ public class RentACar
 	public GestorAlquileres getGestorAlquileres()
 	{
 		return gestorAlquileres;
+	}
+	
+	public Categorias getCategorias()
+	{
+		return categorias;
 	}
 	
 	
@@ -132,6 +141,19 @@ public class RentACar
 		{
 			System.out.println(conductor.getNombre());
 		}
+		
+		//prueba sobre categorias
+		Categorias categorias = app.getCategorias();
+		//categorias.añadirCategoría("A", "50000");
+		//categorias.añadirCategoría("B", "60000");
+		//categorias.añadirCategoría("C", "70000");
+		categorias.añadirCategoría("D", "80000");
+		Map<String, String> mapaCateg = categorias.darMapaCategorias();
+		String precioA = mapaCateg.get("A");
+		System.out.println(precioA);
+		
+		//categorias funcionan correctamente
+		
 	}
 
 }
