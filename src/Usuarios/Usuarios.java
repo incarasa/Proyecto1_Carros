@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+
+
 import Inventario.Carro;
 import Inventario.Manejo_CSV;
 import manejoCSV.AdminSedeCSV;
@@ -26,6 +28,7 @@ public class Usuarios
 	private String rutaClientesCSV;
 	private String rutaEmpleadosCSV;
 	private String rutaAdminsCSV;
+	private String rutaPrincipalCSV;
 	
 	
 	//constructor
@@ -39,6 +42,7 @@ public class Usuarios
 		rutaClientesCSV = "data/usuarios/clientes.csv";
 		rutaEmpleadosCSV = "data/usuarios/empleados.csv";
 		rutaAdminsCSV = "data/usuarios/admins.csv";
+		rutaPrincipalCSV = "data/usuarios/principal.csv";
 	}
 	
 	//metodos
@@ -74,8 +78,21 @@ public class Usuarios
 	}
 	
 	
-	//Cargar Datos
-	public void cargarClientesDesdeCSV() 
+	/**
+	 * Este metodo carga a los todos usuarios desde sus archivos CSV 
+	 * llamando a las funciones auxiliares.
+	 */
+	public void cargarUsuarios()
+	{
+		cargarClientesDesdeCSV();
+		cargarEmpleadosDesdeCSV();
+		cargarAdminsDesdeCSV();
+		cargarPrincipalDesdeCSV();
+		
+	}
+	
+	
+	private void cargarClientesDesdeCSV() 
     {;
         try (BufferedReader reader = new BufferedReader(new FileReader(rutaClientesCSV))) 
         {
@@ -93,7 +110,7 @@ public class Usuarios
     }
 	
 	
-	public void cargarEmpleadosDesdeCSV() 
+	private void cargarEmpleadosDesdeCSV() 
     {
         try (BufferedReader reader = new BufferedReader(new FileReader(rutaEmpleadosCSV))) 
         {
@@ -110,9 +127,9 @@ public class Usuarios
         }
     }
 	
-	public void cargarAdminsDesdeCSV() 
+	private void cargarAdminsDesdeCSV() 
     {
-        try (BufferedReader reader = new BufferedReader(new FileReader(rutaEmpleadosCSV))) 
+        try (BufferedReader reader = new BufferedReader(new FileReader(rutaAdminsCSV))) 
         {
             String linea;
             while ((linea = reader.readLine()) != null) 
@@ -127,9 +144,9 @@ public class Usuarios
         }
     }
 	
-	public void cargarPrincipalDesdeCSV() 
+	private void cargarPrincipalDesdeCSV() 
     {
-        try (BufferedReader reader = new BufferedReader(new FileReader(rutaEmpleadosCSV))) 
+        try (BufferedReader reader = new BufferedReader(new FileReader(rutaPrincipalCSV))) 
         {
             String linea;
             while ((linea = reader.readLine()) != null) 
@@ -144,56 +161,119 @@ public class Usuarios
         }
     }
 	
+	//FUNCIONES DE VERIFICACION DE USUARIO
+	
+	/**
+	 * La funcion verificar va verificando en las diferentes funciones qué tipo de usuario es.
+	 * @param usuario
+	 * @param contraseña
+	 */
+	public void verificar(String usuario, String contraseña)
+	{
+		verificarCliente(usuario, contraseña); // si no es un cliente sigue saltando a los otros
+											   // a través del bloque catch
+	}
+	
 	public boolean verificarCliente(String usuario, String contraseña)
 	{
-		Usuario user = mapaClientes.get(usuario);
-		String clave = user.getContraseña();
-		if(contraseña == clave)
+		try 
 		{
-			return true;
+			Usuario user = mapaClientes.get(usuario);
+			String clave = user.getContraseña();
+			if(contraseña.equals(clave))
+			{
+				System.out.println("Ha accedido correctamente como un cliente");
+				return true;
+			}
+			else 	
+			{
+				System.out.println("Contraseña incorrecta");
+				return false;
+			}
 		}
-		else {
-			return false;
+		catch (NullPointerException e) 
+		{
+			System.out.println("El usuario ingresado no es un cliente");
+			verificarEmpleado(usuario, contraseña);
 		}
+		return false;
 	}
 	
 	public boolean verificarEmpleado(String usuario, String contraseña)
 	{
-		Usuario user = mapaEmpleados.get(usuario);
-		String clave = user.getContraseña();
-		if(contraseña == clave)
+		try 
 		{
-			return true;
+			Usuario user = mapaEmpleados.get(usuario);
+			String clave = user.getContraseña();
+			if(contraseña.equals(clave))
+			{
+				System.out.println("Ha accedido correctamente como un empleado");
+				return true;
+			}
+			else {
+				System.out.println("Contraseña incorrecta");
+				return false;
+			}
 		}
-		else {
-			return false;
+		catch (NullPointerException e) 
+		{
+			System.out.println("El usuario ingresado no es un empleado");
+			verificarAdmin(usuario, contraseña);
 		}
+		return false;
 	}
 	
 	public boolean verificarAdmin(String usuario, String contraseña)
 	{
-		Usuario user = mapaAdministradores_Sede.get(usuario);
-		String clave = user.getContraseña();
-		if(contraseña == clave)
+		try
 		{
-			return true;
+			Usuario user = mapaAdministradores_Sede.get(usuario);
+			String clave = user.getContraseña();
+			System.out.println(clave);
+			System.out.println(contraseña);
+			if(clave.equals(contraseña))
+			{
+				System.out.println("Ha accedido correctamente como un administrador");
+				return true;
+			}
+			else 
+			{
+				System.out.println("Contraseña incorrecta");
+				return false;
+			}
 		}
-		else {
-			return false;
+		catch (NullPointerException e) 
+		{
+			System.out.println("El usuario ingresado no es un admin");
+			verificarAdminP(usuario, contraseña);
 		}
+		return false;
 	}
 	
 	public boolean verificarAdminP(String usuario, String contraseña)
 	{
-		Usuario user = admin_princ;
-		String clave = user.getContraseña();
-		if(contraseña == clave)
+
+		Usuario administradorPrincipal = admin_princ;
+		String clave = administradorPrincipal.getContraseña();
+		if(administradorPrincipal.getUsuario().equals(usuario))
 		{
-			return true;
+			if(contraseña.equals(clave))
+			{
+				System.out.println("Ha accedido correctamente como el administrador principal");
+				return true;
+			}
+			else 
+			{
+				System.out.println("Contraseña incorrecta");
+			}
 		}
-		else {
+		else 
+		{
+			System.out.println("El usuario ingresado no es un prinicipal");
 			return false;
 		}
+		return false;
+
 	}
 	
 	

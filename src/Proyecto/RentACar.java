@@ -18,6 +18,7 @@ import Inventario.Carro;
 import Inventario.InventarioCarros;
 import Tarifas.Categorias;
 import Tarifas.Conductor;
+import Usuarios.Usuarios;
 
 public class RentACar 
 {
@@ -26,6 +27,7 @@ public class RentACar
 	private GestorReservas gestorReservas;
 	private GestorAlquileres gestorAlquileres;
 	private Categorias categorias;  //tiene a las categorias y sus precios
+	private Usuarios usuarios;
 	
 	public RentACar()
 	{
@@ -34,6 +36,13 @@ public class RentACar
 		this.gestorReservas = new GestorReservas();
 		this.gestorAlquileres = new GestorAlquileres();
 		this.categorias = new Categorias();
+		this.usuarios = new Usuarios();
+		
+	}
+	
+	public void autenticar(String usuario, String contraseña)
+	{
+		
 	}
 	
 	public void agregarCarro(String placa, String marca, int modelo, String transmision, String categoría, String sede)
@@ -48,6 +57,7 @@ public class RentACar
 		gestorReservas.cargarReservasDesdeCSV();
 		gestorAlquileres.cargarAlquileresDesdeCarpeta();
 		categorias.cargarCategoríasDesdeCSV();
+		usuarios.cargarUsuarios();
 	}
 	
 	public void reservarCarro(String placa, LocalDate diaInicio, LocalDate diaFin)
@@ -79,6 +89,10 @@ public class RentACar
 		return categorias;
 	}
 	
+	public Usuarios getUsuarios()
+	{
+		return usuarios;
+	}
 	
 	public static void main(String[] args) 
 	{
@@ -153,6 +167,14 @@ public class RentACar
 		System.out.println(precioA);
 		
 		//categorias funcionan correctamente
+		
+		//prueba usuarios
+		Usuarios usuarios = app.getUsuarios();
+		//usuarios.crearAdminSede("admin1", "12345", "admin", "Pedro Sanchez", "NORMANDIA");
+		//usuarios.crearAdminSede("admin2", "12345", "admin", "Juan Romero", "MODELIA");
+		
+		usuarios.verificar("principal1", "principal12345");
+		
 		
 	}
 
