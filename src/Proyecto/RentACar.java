@@ -44,9 +44,14 @@ public class RentACar
 		
 	}
 	
-	public void autenticar(String usuario, String contraseña)
+	public int autenticar(String usuario, String contraseña)
 	{
 		usuarios.verificar(usuario, contraseña);
+		/*
+		 * la funcion mira el parametro tipo de usuario que queda tras autenticar,
+		 * para generar una respuesta.
+		 */
+		return usuarios.getTipoUsuario();
 	}
 	
 	public void agregarCarro(String placa, String marca, int modelo, String transmision, String categoría, String sede)
@@ -183,6 +188,9 @@ public class RentACar
 		FlatLightLaf.install();
 		InterfazPrincipal ventanaPrincipal = new InterfazPrincipal();
 		ventanaPrincipal.setVisible(true);
+		
+		
+		
 	}
 
 }

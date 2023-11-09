@@ -30,6 +30,13 @@ public class Usuarios
 	private String rutaAdminsCSV;
 	private String rutaPrincipalCSV;
 	
+	/*
+	 * Este artributo sera 1 - cliente, 2 - empleado, 3 - admin, 4 - principal
+	 * 0 - usuario no existe, 10 - contraseña errada. 
+	 * Me permite saber
+	 * quien fue el que inicio sesión.
+	 */
+	private int tipoUsuario;
 	
 	//constructor
 	
@@ -170,11 +177,12 @@ public class Usuarios
 	 */
 	public void verificar(String usuario, String contraseña)
 	{
+		this.tipoUsuario = 0;
 		verificarCliente(usuario, contraseña); // si no es un cliente sigue saltando a los otros
 											   // a través del bloque catch
 	}
 	
-	public boolean verificarCliente(String usuario, String contraseña)
+	public void verificarCliente(String usuario, String contraseña)
 	{
 		try 
 		{
@@ -182,13 +190,13 @@ public class Usuarios
 			String clave = user.getContraseña();
 			if(contraseña.equals(clave))
 			{
+				this.tipoUsuario = 1; //es cliente
 				System.out.println("Ha accedido correctamente como un cliente");
-				return true;
 			}
-			else 	
+			else
 			{
+				this.tipoUsuario = 10; //clave incorrecta
 				System.out.println("Contraseña incorrecta");
-				return false;
 			}
 		}
 		catch (NullPointerException e) 
@@ -196,10 +204,9 @@ public class Usuarios
 			System.out.println("El usuario ingresado no es un cliente");
 			verificarEmpleado(usuario, contraseña);
 		}
-		return false;
 	}
 	
-	public boolean verificarEmpleado(String usuario, String contraseña)
+	public void verificarEmpleado(String usuario, String contraseña)
 	{
 		try 
 		{
@@ -207,12 +214,13 @@ public class Usuarios
 			String clave = user.getContraseña();
 			if(contraseña.equals(clave))
 			{
+				this.tipoUsuario = 2; //cambia el tipo de usuario
 				System.out.println("Ha accedido correctamente como un empleado");
-				return true;
 			}
-			else {
+			else 
+			{
+				this.tipoUsuario = 10; //clave incorrecta
 				System.out.println("Contraseña incorrecta");
-				return false;
 			}
 		}
 		catch (NullPointerException e) 
@@ -220,24 +228,24 @@ public class Usuarios
 			System.out.println("El usuario ingresado no es un empleado");
 			verificarAdmin(usuario, contraseña);
 		}
-		return false;
 	}
 	
-	public boolean verificarAdmin(String usuario, String contraseña)
-	{
+	public void verificarAdmin(String usuario, String contraseña)
+	{ 
 		try
 		{
 			Usuario user = mapaAdministradores_Sede.get(usuario);
 			String clave = user.getContraseña();
 			if(clave.equals(contraseña))
 			{
+				this.tipoUsuario = 3; //cambia el tipo de usuario
 				System.out.println("Ha accedido correctamente como un administrador");
-				return true;
+				//si inicia correctamente retorna true
 			}
 			else 
 			{
+				this.tipoUsuario = 10; //clave incorrecta
 				System.out.println("Contraseña incorrecta");
-				return false;
 			}
 		}
 		catch (NullPointerException e) 
@@ -245,32 +253,30 @@ public class Usuarios
 			System.out.println("El usuario ingresado no es un admin");
 			verificarAdminP(usuario, contraseña);
 		}
-		return false;
 	}
 	
-	public boolean verificarAdminP(String usuario, String contraseña)
+	public void verificarAdminP(String usuario, String contraseña)
 	{
-
+		
 		Usuario administradorPrincipal = admin_princ;
 		String clave = administradorPrincipal.getContraseña();
 		if(administradorPrincipal.getUsuario().equals(usuario))
 		{
 			if(contraseña.equals(clave))
 			{
+				this.tipoUsuario = 4; //cambia el tipo de usuario
 				System.out.println("Ha accedido correctamente como el administrador principal");
-				return true;
 			}
 			else 
 			{
+				this.tipoUsuario = 10; //contraseña incorrecta
 				System.out.println("Contraseña incorrecta");
 			}
 		}
 		else 
 		{
 			System.out.println("El usuario ingresado no es un prinicipal");
-			return false;
 		}
-		return false;
 
 	}
 	
@@ -301,6 +307,11 @@ public class Usuarios
 		Administrador_Principal adminp = admin_princ;
 		return adminp;
 		
+	}
+	
+	public int getTipoUsuario()
+	{
+		return tipoUsuario;
 	}
 
 }

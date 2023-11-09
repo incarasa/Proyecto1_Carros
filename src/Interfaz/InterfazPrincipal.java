@@ -9,8 +9,9 @@ import Proyecto.RentACar;
 public class InterfazPrincipal extends JFrame
 {
 	private RentACar aplicacion;
+	private ipPanelCentral panelCentral;
 	
-	private JPanel panelCentral;
+	private JFrame interfazCliente;
 	
 	
 	public InterfazPrincipal()
@@ -35,6 +36,25 @@ public class InterfazPrincipal extends JFrame
 	
 	public void validarInicioSesion(String usuario, String contraseña)
 	{
-		aplicacion.autenticar(usuario, contraseña);
+		int tipoUsuario = aplicacion.autenticar(usuario, contraseña);
+		if(tipoUsuario == 1)
+		{
+			interfazCliente = new InterfazCliente(aplicacion);
+			interfazCliente.setVisible(true);
+		}
+		else if(tipoUsuario == 0)
+		{
+			panelCentral.setTextEstado("El usuario no existe");
+		}
+		else if(tipoUsuario == 10)
+		{
+			panelCentral.setTextEstado("Contraseña incorrecta");
+		}
+		
+		
 	}
+	
+	
+	
+	
 }
