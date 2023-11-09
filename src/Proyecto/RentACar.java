@@ -14,11 +14,13 @@ import Alquiler.GestorAlquileres;
 import Alquiler.GestorReservas;
 import Alquiler.Reserva;
 import Instalaciones.Sedes;
+import Interfaz.InterfazPrincipal;
 import Inventario.Carro;
 import Inventario.InventarioCarros;
 import Tarifas.Categorias;
 import Tarifas.Conductor;
 import Usuarios.Usuarios;
+
 
 public class RentACar 
 {
@@ -42,7 +44,7 @@ public class RentACar
 	
 	public void autenticar(String usuario, String contraseña)
 	{
-		
+		usuarios.verificar(usuario, contraseña);
 	}
 	
 	public void agregarCarro(String placa, String marca, int modelo, String transmision, String categoría, String sede)
@@ -175,7 +177,9 @@ public class RentACar
 		
 		usuarios.verificar("principal1", "principal12345");
 		
-		
+		//GUI
+		InterfazPrincipal ventanaPrincipal = new InterfazPrincipal();
+		ventanaPrincipal.setVisible(true);
 	}
 
 }

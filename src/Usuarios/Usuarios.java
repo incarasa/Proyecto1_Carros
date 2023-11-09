@@ -229,8 +229,6 @@ public class Usuarios
 		{
 			Usuario user = mapaAdministradores_Sede.get(usuario);
 			String clave = user.getContraseña();
-			System.out.println(clave);
-			System.out.println(contraseña);
 			if(clave.equals(contraseña))
 			{
 				System.out.println("Ha accedido correctamente como un administrador");
