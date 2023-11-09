@@ -3,7 +3,9 @@ package Tarifas;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import manejoCSV.CategoriaCSV;
@@ -30,6 +32,33 @@ public class Categorias
 		String precio = mapaCategorías.get(categoría);
 		int precio_int = Integer.parseInt(precio);
 		return precio_int;
+	}
+	
+	/**
+	 * Devuelve el numero de categorías en el mapa
+	 * @return
+	 */
+	public int numeroCategorias()
+	{
+		return mapaCategorías.size();
+	}
+	
+	/**
+	 * Devuelve un arreglo de Strings con las categorias
+	 * @return
+	 */
+	public String[] darCategorias()
+	{
+		int numeroCategorias = numeroCategorias();
+		String[] categoriasArray = new String[numeroCategorias];
+		List<String> listaCategorias = new ArrayList<String>(mapaCategorías.keySet());
+		int i = 0;
+		for(String categoria : listaCategorias)
+		{
+			categoriasArray[i] = categoria;
+			i++;
+		}
+		return categoriasArray;
 	}
 	
 	//CARGAR DATOS

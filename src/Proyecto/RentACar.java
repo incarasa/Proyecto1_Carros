@@ -69,6 +69,17 @@ public class RentACar
 		usuarios.cargarUsuarios();
 	}
 	
+	//metodos para el CLIENTE
+	/**
+	 * Devuelve en una lista de strings las categorías que existan.
+	 * @return
+	 */
+	public String[] darCategorias()
+	{
+		return categorias.darCategorias();
+	}
+	
+	
 	public void reservarCarro(String placa, LocalDate diaInicio, LocalDate diaFin)
 	{
 		inventario.reservarCarro(placa, diaInicio, diaFin);
