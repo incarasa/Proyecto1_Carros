@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.formdev.flatlaf.FlatLightLaf;
+
 import Alquiler.Alquiler;
 import Alquiler.GestorAlquileres;
 import Alquiler.GestorReservas;
@@ -178,6 +180,7 @@ public class RentACar
 		usuarios.verificar("principal1", "principal12345");
 		
 		//GUI
+		FlatLightLaf.install();
 		InterfazPrincipal ventanaPrincipal = new InterfazPrincipal();
 		ventanaPrincipal.setVisible(true);
 	}
