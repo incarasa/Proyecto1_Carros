@@ -1,6 +1,9 @@
 package Interfaz;
 
 import java.awt.BorderLayout;
+import java.security.PublicKey;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import javax.swing.*;
@@ -28,9 +31,19 @@ public class InterfazCliente extends JFrame
 		String[] arrayCategorias =  aplicacion.darCategorias();
 		String[] arraySedes = aplicacion.darSedes();
 		
-		panelOpciones = new icPanelOpciones(arrayCategorias , arraySedes);
+		panelOpciones = new icPanelOpciones(arrayCategorias , arraySedes , this);
 		add(panelOpciones, BorderLayout.EAST);
 		
-		
+	}
+	
+	public void cerrarVentana()
+	{
+		dispose();
+	}
+	
+	public void reservar(LocalDate fechaRecogida, LocalDate fechaDevolucion, LocalTime horaRecogida,
+			LocalTime horaDevolucion, String sedeRecogida, String sedeDevolucion)
+	{
+		//TO-DO MAÑANA
 	}
 }
