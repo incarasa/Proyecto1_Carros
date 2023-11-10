@@ -24,10 +24,12 @@ public class InterfazCliente extends JFrame
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
 		
+		//Acá tengo que crear los arrays para los JBox de el panel.
 		String[] arrayCategorias =  aplicacion.darCategorias();
-		//le paso las categorias para el JBox
-		panelOpciones = new icPanelOpciones(arrayCategorias);
-		add(panelOpciones, BorderLayout.CENTER);
+		String[] arraySedes = aplicacion.darSedes();
+		
+		panelOpciones = new icPanelOpciones(arrayCategorias , arraySedes);
+		add(panelOpciones, BorderLayout.EAST);
 		
 		
 	}

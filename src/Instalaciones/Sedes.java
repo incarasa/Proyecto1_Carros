@@ -87,6 +87,25 @@ public class Sedes
 		return mapaSedes;
 	
 	}
+	
+	public int numeroSedes()
+	{
+		return mapaSedes.size();
+	}
+	
+	public String[] darSedes()
+	{
+		int numeroSedes = numeroSedes();
+		String[] sedesArray = new String[numeroSedes];
+		List<String> listaSedes = new ArrayList<String>(mapaSedes.keySet());
+		int i = 0;
+		for(String sede : listaSedes)
+		{
+			sedesArray[i] = sede;
+			i++;
+		}
+		return sedesArray;
+	}
 
 	
 	

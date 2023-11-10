@@ -49,8 +49,7 @@ public class InterfazPrincipal extends JFrame
 		else if(tipoUsuario == 10)
 		{
 			panelCentral.setTextEstado("Contraseña incorrecta");
-		}
-		
+		}	
 		
 	}
 	

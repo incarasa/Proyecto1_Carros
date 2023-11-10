@@ -79,6 +79,10 @@ public class RentACar
 		return categorias.darCategorias();
 	}
 	
+	public String[] darSedes()
+	{
+		return sedes.darSedes();
+	}
 	
 	public void reservarCarro(String placa, LocalDate diaInicio, LocalDate diaFin)
 	{
