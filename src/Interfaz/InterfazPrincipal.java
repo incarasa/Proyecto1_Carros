@@ -6,9 +6,12 @@ import javax.swing.*;
 
 import Proyecto.RentACar;
 
+@SuppressWarnings("serial")
 public class InterfazPrincipal extends JFrame
 {
+	
 	private RentACar aplicacion;
+	
 	private ipPanelCentral panelCentral;
 	
 	private JFrame interfazCliente;
@@ -31,6 +34,7 @@ public class InterfazPrincipal extends JFrame
 		
 		this.panelCentral = new ipPanelCentral(this);
 		add(panelCentral, BorderLayout.CENTER);
+		
 		
 	}
 	
