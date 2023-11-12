@@ -23,20 +23,16 @@ import com.formdev.flatlaf.FlatLightLaf;
 
 @SuppressWarnings("serial")
 
-public class InterfazRegistrarse extends JFrame{
+public class InterfazSedesAdmin extends JFrame{
 	
-		private String title = "Registrarse";
+		private String title = "Administrador | Sedes";
 		
-		private Color backgroundColor = Color.WHITE;
-		
-		private int currentPage;
-		
-		private int previousPage;
+		private Color backgroundColor = new Color(33,33,33);
 		
 		private List<JPanel> panels = new ArrayList<>();
 	  
 	
-		public InterfazRegistrarse() {
+		public InterfazSedesAdmin() {
 			
 			// properties
 
@@ -49,45 +45,26 @@ public class InterfazRegistrarse extends JFrame{
 			// panels
 			setLayout(null);
 			
-			JLabel registrarseLabel = new JLabel("Registrarse");
-			registrarseLabel.setFont(new Font("Arial", Font.BOLD, 40));
-			registrarseLabel.setBounds(48, 80, 890, 50);
-			add(registrarseLabel);
+			JLabel sedeLabel = new JLabel("Sedes");
+			sedeLabel.setFont(new Font("Arial", Font.BOLD, 40));
+			sedeLabel.setForeground(Color.WHITE);
+			sedeLabel.setBounds(48, 80, 890, 50);
+			add(sedeLabel);
 			
-			JPanel pagina1 = crearPagina1(this, Color.WHITE, Color.BLACK);
-			JPanel pagina2 = crearPagina2(this, Color.WHITE, Color.BLACK);
-			JPanel pagina3 = crearPagina3(this, Color.WHITE, Color.BLACK);
+			
+			JPanel pagina1 = crearPaginaConsultar(this, backgroundColor, Color.WHITE);
+			JPanel pagina2 = crearPaginaAgregar(this, backgroundColor, Color.WHITE);
+		
 			
 			pagina1.setVisible(true);
 			pagina2.setVisible(false);
-			pagina3.setVisible(false);
 			
 			panels.add(pagina1);
 			panels.add(pagina2);
-			panels.add(pagina3);
-			
-			
 			
 			setVisible(true);
 		}
 		
-		private void setCurrentPage(int i) {
-			this.currentPage = i;
-		}
-
-		private void setPreviousPage() {
-		
-			if (currentPage == 0 ) {
-			previousPage = 0;
-			}
-			else {
-			previousPage = currentPage-1;
-			}
-		}
-		
-		private int getCurrentPage() {
-		    return currentPage;
-		}
 
 		private JPanel crearPanelCentral(JLabel subtitle, JFrame currentFrame, Color backgroundColor, Color textColor, List<Component> elementosFormulario1) {
 			
@@ -95,8 +72,9 @@ public class InterfazRegistrarse extends JFrame{
 			pnlCentral.setBackground(backgroundColor);
 			pnlCentral.setPreferredSize(new Dimension(890,10));
 			pnlCentral.setLayout(new FlowLayout(FlowLayout.LEADING, 6, 12));
-			pnlCentral.setBounds(34, 140, 890, 440);
-			
+			pnlCentral.setBounds(34, 130, 890, 440);
+		
+			// subtitle
 			pnlCentral.add(subtitle);
 			
 		    PanelFormulario pnlFormulario = new PanelFormulario(backgroundColor, textColor, elementosFormulario1, 876, 270);
@@ -108,68 +86,59 @@ public class InterfazRegistrarse extends JFrame{
 		}
 		
 		
-		private JPanel crearPagina1(JFrame currentFrame, Color backgroundColor, Color textColor) {
+		private JPanel crearDisplayCentral(JLabel subtitle, JFrame currentFrame, Color backgroundColor, Color textColor, List<Component> elementosFormulario1) {
+			
+			JPanel pnlCentral = new JPanel();
+			pnlCentral.setBackground(backgroundColor);
+			pnlCentral.setPreferredSize(new Dimension(890,10));
+			pnlCentral.setLayout(new FlowLayout(FlowLayout.LEADING, 6, 12));
+			pnlCentral.setBounds(34, 130, 890, 440);
+		
+			// subtitle
+			pnlCentral.add(subtitle);
+		    currentFrame.add(pnlCentral, BorderLayout.CENTER);
+		    return pnlCentral;
+		}
+		
+		
+		private JPanel crearPaginaConsultar(JFrame currentFrame, Color backgroundColor, Color textColor) {
+			
+			List<Component> lst = new ArrayList<>();
+			
+			String txtSubtitle = "  Sedes disponibles" ;
+			JLabel subtitle = new JLabel(txtSubtitle);
+			subtitle.setFont(new Font("Arial", Font.BOLD, 16));
+			subtitle.setForeground(textColor);
+			subtitle.setBounds(48, 0, 890, 45);
+			
+			JPanel pnlDisplay1 = crearDisplayCentral(subtitle, currentFrame, backgroundColor, textColor, lst);
+			crearPanelBotones(pnlDisplay1, currentFrame, "Volver", "Agregar");
+			
+			return pnlDisplay1;
+		}
+		
+		
+		private JPanel crearPaginaAgregar(JFrame currentFrame, Color backgroundColor, Color textColor) {
 						
 			List<Component> lst = new ArrayList<>();
 			
-			String txtSubtitle = "  Datos personales" ;
+			String txtSubtitle = "  Información de la sede" ;
 			JLabel subtitle = new JLabel(txtSubtitle);
 			subtitle.setFont(new Font("Arial", Font.BOLD, 16));
-			subtitle.setBounds(48, 130, 890, 45);
+			subtitle.setForeground(Color.WHITE);
+			subtitle.setBounds(48, 0, 890, 60);
 			   
-			lst.add(new TextField("Nombre completo", 350, 50, textColor, backgroundColor));
-			lst.add(new TextField("Correo electrónico", 350, 50, textColor, backgroundColor));
-			lst.add(new TextField("Fecha de nacimiento (DD-MM-YYYY)", 350, 50, textColor, backgroundColor));
-			lst.add(new TextField("Número de teléfono", 350, 50, textColor, backgroundColor));
-			lst.add(new TextField("Documento de identidad", 350, 50, textColor, backgroundColor));
-			lst.add(new TextField("Contraseña", 350, 50, textColor, backgroundColor));
+			lst.add(new TextField("Nombre de la Sede", 350, 50, textColor, backgroundColor));
+			lst.add(new TextField("Dirección", 350, 50, textColor, backgroundColor));
+			lst.add(new TextField("Hora de apertura (hh:mm)", 350, 50, textColor, backgroundColor));
+			lst.add(new TextField("Hora de cierre (hh:mm)", 350, 50, textColor, backgroundColor));
 			
 			JPanel pnlCentral1 = crearPanelCentral(subtitle, currentFrame, backgroundColor, textColor, lst);
-			crearPanelBotones(pnlCentral1, currentFrame, "Cancelar", "Continuar");
+			crearPanelBotones(pnlCentral1, currentFrame, "Cancelar", "Guardar");
 			
 			return pnlCentral1;
 		}
-		
-		
-		private JPanel crearPagina2(JFrame currentFrame, Color backgroundColor, Color textColor) {
-			
-			List<Component> lst = new ArrayList<>();
-			
-			String txtSubtitle = "  Información de la licencia de conducción" ;
-			JLabel subtitle = new JLabel(txtSubtitle);
-			subtitle.setFont(new Font("Arial", Font.BOLD, 16));
-			subtitle.setBounds(48, 130, 890, 45);
-			   
-			lst.add(new TextField("Número de licencia", 350, 50, textColor, backgroundColor));
-			lst.add(new TextField("País de expedición", 350, 50, textColor, backgroundColor));
-			lst.add(new TextField("Fecha de vencimiento de la licencia (DD-MM-YYYY)", 350, 50, textColor, backgroundColor)); 
-			
-			JPanel pnlCentral1 = crearPanelCentral(subtitle, currentFrame, backgroundColor, textColor, lst);
-			crearPanelBotones(pnlCentral1, currentFrame, "Volver", "Continuar");
-			
-			return pnlCentral1;
-		}
-		
-		
-		private JPanel crearPagina3(JFrame currentFrame, Color backgroundColor, Color textColor) {
-			
-			List<Component> lst = new ArrayList<>();
-			
-			String txtSubtitle = "  Información del método de pago" ;
-			JLabel subtitle = new JLabel(txtSubtitle);
-			subtitle.setFont(new Font("Arial", Font.BOLD, 16));
-			subtitle.setBounds(48, 130, 890, 45);
-			   
-			lst.add(new TextField("Nombre del titular", 350, 50, textColor, backgroundColor));
-			lst.add(new TextField("Número de la tarjeta", 350, 50, textColor, backgroundColor));
-			lst.add(new TextField("Fecha de vencimiento (DD-MM-YYYY)", 350, 50, textColor, backgroundColor)); 
-			lst.add(new TextField("CVV", 100, 50, textColor, backgroundColor)); 
-			
-			JPanel pnlCentral1 = crearPanelCentral(subtitle, currentFrame, backgroundColor, textColor, lst);
-			crearPanelBotones(pnlCentral1, currentFrame, "Volver", "Guardar");
-			
-			return pnlCentral1;
-		}
+	
 		
 		public void crearPanelBotones(JPanel containerPanel, JFrame currentFrame,String btnIzq, String btnDer) {
 			
@@ -188,8 +157,8 @@ public class InterfazRegistrarse extends JFrame{
 		        panelBotones.add(btnRegistrarse);
 		    }
 		    
-		    if (btnDer.equals("Continuar")) {
-		        JButton btnRegistrarse = crearBotonContinuar(currentFrame);
+		    if (btnDer.equals("Agregar")) {
+		        JButton btnRegistrarse = crearBotonAgregar(currentFrame);
 		        panelBotones.add(btnRegistrarse);
 		    }
 		    
@@ -201,14 +170,14 @@ public class InterfazRegistrarse extends JFrame{
 			containerPanel.add(panelBotones);			
 		}
 
-		private JButton crearBotonContinuar(JFrame currentFrame) {
+		private JButton crearBotonAgregar(JFrame currentFrame) {
 			
 			JButton btn = new JButton();
-			Color buttonColor = Color.BLACK;
-			Color borderColor = Color.BLACK;
+			Color buttonColor = new Color(42, 42, 42);
+			Color borderColor = new Color(73, 73, 73);
 			Color textColor = Color.WHITE;
 			
-			btn.setText("Continuar");
+			btn.setText("Agregar Sede");
 			btn.setPreferredSize(new Dimension(150, 40));
 			btn.setFont(new Font("Arial", Font.PLAIN, 14));
 			btn.setBackground(buttonColor);
@@ -217,10 +186,7 @@ public class InterfazRegistrarse extends JFrame{
 			
 			btn.addActionListener(new ActionListener() {
 		        public void actionPerformed(ActionEvent e) {
-		        	currentPage = getCurrentPage();
-		        	setCurrentPage(currentPage + 1);
-		        	setPreviousPage();
-		        	paginaVisible(panels, previousPage, currentPage);
+		        	paginaVisible(panels, 0, 1);
 		        	
 		        		;}
 			}); 
@@ -229,14 +195,14 @@ public class InterfazRegistrarse extends JFrame{
 		    return btn;
 		}
 		
-		private JButton crearBotonVolver(JFrame currentFrame) {
+		private JButton crearBotonCancelar(JFrame currentFrame) {
 			
 			JButton btn = new JButton();
-			Color buttonColor = new Color(228, 228, 228);
-			Color borderColor = new Color(205, 205, 205);
-			Color textColor = Color.BLACK;
+			Color buttonColor = new Color(42, 42, 42);
+			Color borderColor = new Color(73, 73, 73);
+			Color textColor = Color.WHITE;
 			
-			btn.setText("Volver");
+			btn.setText("Cancelar");
 			btn.setPreferredSize(new Dimension(150, 40));
 			btn.setFont(new Font("Arial", Font.PLAIN, 14));
 			btn.setBackground(buttonColor);
@@ -245,10 +211,7 @@ public class InterfazRegistrarse extends JFrame{
 			
 			btn.addActionListener(new ActionListener() {
 		        public void actionPerformed(ActionEvent e) {
-		        	currentPage = getCurrentPage();
-		        	setCurrentPage(currentPage - 1);
-	        		paginaVisible(panels, previousPage, currentPage);
-	        		;}
+	        		paginaVisible(panels, 1, 0);}
 			}); 
 			
 			btn.setVisible(true);
@@ -282,14 +245,14 @@ public class InterfazRegistrarse extends JFrame{
 		}
 		
 		
-		private JButton crearBotonCancelar(JFrame currentFrame) {
+		private JButton crearBotonVolver(JFrame currentFrame) {
 			
 			JButton btn = new JButton();
-			Color buttonColor = new Color(228, 228, 228);
-			Color borderColor = new Color(205, 205, 205);
-			Color textColor = Color.BLACK;
+			Color buttonColor = new Color(42, 42, 42);
+			Color borderColor = new Color(73, 73, 73);
+			Color textColor = Color.WHITE;
 			
-			btn.setText("Cancelar");
+			btn.setText("Volver");
 			btn.setPreferredSize(new Dimension(150, 40));
 			btn.setFont(new Font("Arial", Font.PLAIN, 14));
 			btn.setBackground(buttonColor);
@@ -298,7 +261,7 @@ public class InterfazRegistrarse extends JFrame{
 			
 			btn.addActionListener(new ActionListener() {
 		        public void actionPerformed(ActionEvent e) {
-		        	new InterfazInicio();
+		        	new InterfazAdmin();
 		            currentFrame.dispose();}
 			}); 
 			
@@ -331,7 +294,7 @@ public class InterfazRegistrarse extends JFrame{
 			catch (UnsupportedLookAndFeelException e) {
 	            e.printStackTrace();
 	        }
-			new InterfazRegistrarse();
+			new InterfazSedesAdmin();
 		}
 
 		
