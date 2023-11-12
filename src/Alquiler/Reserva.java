@@ -10,11 +10,11 @@ public class Reserva
 	private LocalDate diaFin;
 	
 	private String documentoCliente;
-	private int Precio;
+	private double Precio;
 	private String categoria;
 	private String placaVehiculo;
 	
-	public Reserva(LocalTime horaLlegada, LocalDate diaInicio, LocalDate diaFin, String documentoCliente, int precio,
+	public Reserva(LocalTime horaLlegada, LocalDate diaInicio, LocalDate diaFin, String documentoCliente, double precio,
 			String categoria, String placaVehiculo) 
 	{
 		this.horaLlegada = horaLlegada;
@@ -45,7 +45,7 @@ public class Reserva
 		return documentoCliente;
 	}
 
-	public int getPrecio() {
+	public double getPrecio() {
 		return Precio;
 	}
 

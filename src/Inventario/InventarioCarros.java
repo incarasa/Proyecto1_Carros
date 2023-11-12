@@ -11,13 +11,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.print.attribute.standard.Media;
+import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
+
 import Instalaciones.Sede;
+import Tarifas.Categorias;
 
 public class InventarioCarros {
 	
 	//atributos
     private Map<String, Carro> inventario;
     private String rutaCSV;
+    private char[] categorias = {'N', 'M', 'L', 'K', 'J', 'I', 'H', 'G', 'F', 'E', 'D', 'C', 'B', 'A'};
 
     
     //constructor
@@ -39,7 +44,7 @@ public class InventarioCarros {
      * @param categoría
      * @param sede
      */
-    public void agregarCarro(String placa, String marca, int modelo, String transmision, String categoría, String sede) 
+    public void agregarCarro(String placa, String marca, int modelo, String transmision, char categoría, String sede) 
     {
     	//agrega un carro
         Carro carro = new Carro(placa,  marca,  modelo,  transmision,  categoría, sede);
@@ -50,6 +55,7 @@ public class InventarioCarros {
     	carro.guardarEnArchivo(ruta_carro); //guarda el carro en archivo
     	System.out.println("Carro creado");
         
+    	
     }
     
     public void eliminarCarro(String placa) 
@@ -70,12 +76,38 @@ public class InventarioCarros {
     }
     
     
-    //REVISAR
+    public List<Carro> carrosDisponibles(String sede, LocalDate fechaInicio, LocalDate fechaFin,
+    		char categoria)
+    {
+    	//filtrar por sede
+    	List<Carro> listaDisponibles = carrosDisponiblesEnSede(sede);
+    	
+    	//filtrar por dias disponibles
+    	listaDisponibles = DisponiblesEnFechas(listaDisponibles, fechaInicio,
+    			fechaFin);
+    	
+    	listaDisponibles = DisponiblesCategoriaOSuperior(listaDisponibles, categoria);
+
+    		
+    	
+    	return listaDisponibles;
+    }
+    
+    /**
+     * Esta funcion retorna los carros que no estan alquilados ni en mantenimiento ni lavando
+     * en una sede.
+     * @param sede
+     * @return
+     */
     public List<Carro> carrosDisponiblesEnSede(String sede) {
         List<Carro> carrosDisponibles = new ArrayList<>();
 
         for (Carro carro : inventario.values()) {
-            if (!carro.isAlquilado() && carro.getSede().equals(sede)) {
+        	//Que el carro no esté alquilado y que esté disponible (mantenimiento o aseo).
+        	
+            if ((!carro.isAlquilado()) && (carro.isDisponible()) &&
+            		((carro.getSede()).equals(sede)) ) 
+            {
                 carrosDisponibles.add(carro);
             }
         }
@@ -84,7 +116,50 @@ public class InventarioCarros {
 
     // Otros métodos para listar carros, alquilar, devolver y cambiar sede, etc.
 }
+    /**
+     * Este metodo recibe una lista de carros y escoge los que puedan estar disponibles
+     * para reservar en las fechas seleccionadas.
+     * @param carros
+     * @param fechaInicio
+     * @param fechaFin
+     * @return lista carros disponibles
+     */
+    public List<Carro> DisponiblesEnFechas(List<Carro> carros , LocalDate fechaInicio, LocalDate fechaFin)
+    {
+
+    	List<Carro> carrosDisponibles = new ArrayList<Carro>();
+    	
+    	//se recorre para mirar que carros estan disponibles.
+    	for(Carro carro : carros)
+		{
+    		if(carro.esReservable(fechaInicio, fechaFin))
+    		{
+
+    			carrosDisponibles.add(carro);
+    		}		
+		}
+    	return carrosDisponibles;
+	}
     
+    public List<Carro> DisponiblesCategoriaOSuperior(List<Carro> carros , char categoria)
+    {
+    	List<Carro> carrosCategoriaoSup = new ArrayList<Carro>();
+    	
+    	while((carrosCategoriaoSup.size() == 0) && (categoria >= "A".charAt(0)))
+    	{
+    		for(Carro carro : carros)
+        	{
+        		char categoriaSTR = carro.getCategoría();
+        		if(categoria == categoriaSTR)
+        		{
+        			carrosCategoriaoSup.add(carro);
+        		}
+        	}
+    	categoria--;
+    	}
+    	
+    	return carrosCategoriaoSup;
+    }
     
     /**
      * Este metodo carga los datos de los vehiculos.

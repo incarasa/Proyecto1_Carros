@@ -26,7 +26,7 @@ public class GestorReservas
 	}
 	
 	public void crearReserva (LocalTime horaLlegada, LocalDate diaInicio, LocalDate diaFin, String documentoCliente,
-			int precio, String categoria, String placaVehiculo)
+			double precio, String categoria, String placaVehiculo)
 	{
 		Reserva reserva = new Reserva(horaLlegada, diaInicio, diaFin, documentoCliente, precio, 
 				categoria, placaVehiculo);

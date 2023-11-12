@@ -5,6 +5,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Month;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -15,12 +16,15 @@ import Alquiler.Alquiler;
 import Alquiler.GestorAlquileres;
 import Alquiler.GestorReservas;
 import Alquiler.Reserva;
+import Instalaciones.Sede;
 import Instalaciones.Sedes;
 import Interfaz.InterfazPrincipal;
 import Inventario.Carro;
 import Inventario.InventarioCarros;
 import Tarifas.Categorias;
 import Tarifas.Conductor;
+import Tarifas.cambioSede;
+import Usuarios.Cliente;
 import Usuarios.Usuarios;
 
 
@@ -32,6 +36,7 @@ public class RentACar
 	private GestorAlquileres gestorAlquileres;
 	private Categorias categorias;  //tiene a las categorias y sus precios
 	private Usuarios usuarios;
+	private cambioSede tarifaCambioSede = new cambioSede();
 	
 	public RentACar()
 	{
@@ -54,7 +59,7 @@ public class RentACar
 		return usuarios.getTipoUsuario();
 	}
 	
-	public void agregarCarro(String placa, String marca, int modelo, String transmision, String categoría, String sede)
+	public void agregarCarro(String placa, String marca, int modelo, String transmision, char categoría, String sede)
 	{
 		inventario.agregarCarro(placa, marca, modelo, transmision, categoría, sede);
 	}
@@ -69,11 +74,19 @@ public class RentACar
 		usuarios.cargarUsuarios();
 	}
 	
+	
 	//metodos para el CLIENTE
+	public Cliente darCliente(String usuario)
+	{
+		return usuarios.retornarCliente(usuario);
+	}
+	
+	
 	/**
 	 * Devuelve en una lista de strings las categorías que existan.
 	 * @return
 	 */
+	
 	public String[] darCategorias()
 	{
 		return categorias.darCategorias();
@@ -84,10 +97,125 @@ public class RentACar
 		return sedes.darSedes();
 	}
 	
-	public void reservarCarro(String placa, LocalDate diaInicio, LocalDate diaFin)
+	public Object[] reservarCarro(String nombreSedeRecogida, String nombreSedeDevolucion,
+			LocalDate diaRecogida, LocalDate diaDevolucion,
+			LocalTime horaRecogida, LocalTime horaDevolucion , char categoria)
 	{
-		inventario.reservarCarro(placa, diaInicio, diaFin);
+		int retVar = 10; //arranca en estado de que funcionó bien
+		double[] precios = null;
+		Carro carroSeleccionado = null;
+		
+		//primero mirar
+		
+		//TO DO LIST
+		//problemas a manejar - que la sede esté cerrada, que no haya carro disponible
+		//que la sede sea igual o diferente
+		//calcular el precio.
+		
+		//Errores importantes:
+		//	-> 0 la SEDE RECOGIDA no esta abierta en el horario seleccionado.
+		//  -> 1 la SEDE DEVOLUCIÓN no esta abierta en el horario seleccionado.
+		//  -> 2 no hay carros en la sede con las caracteristicas seleccionadas
+		//  -> 10 todo funcionó a la perfección.
+		
+		//1.Mirar si la sede esta abierta
+		
+		Sede sedeRecogida = sedes.getSede(nombreSedeRecogida);
+		Sede sedeDevolucion = sedes.getSede(nombreSedeDevolucion);
+		
+		boolean sede1IsAbierta = sedeRecogida.estaAbierta(diaRecogida.getDayOfWeek(), horaRecogida);
+		boolean sede2IsAbierta = sedeDevolucion.estaAbierta(diaDevolucion.getDayOfWeek(), horaDevolucion);
+		
+		if(!sede1IsAbierta)
+		{
+			//La sede 1 no esta abierta en el horario seleccionado.
+			System.out.println("SEDE RECOGIDA NO ESTA ABIERTA");			
+			retVar = 0;
+		}
+		
+		if(!sede2IsAbierta)
+		{
+			//La sede 2 no esta abierta en el horario seleccionado.
+			System.out.println("SEDE DEVOLUCION NO ESTA ABIERTA");			
+			retVar = 1;
+		}
+		
+		
+		if(sede1IsAbierta && sede2IsAbierta)
+			
+		//2. Mirar si hay un carro disponible en los días seleccionados.
+		
+		{
+			//Que carros hay en la sede disponibles para reservar?
+			List<Carro> carrosDisponibles = inventario.carrosDisponibles(nombreSedeRecogida,
+					diaRecogida, diaDevolucion , categoria);
+			
+			//LOOP PARA SABER CUANTOS CARROS HAY
+			for(Carro carro: carrosDisponibles)
+			{
+				System.out.println(carro.getPlaca());
+			}
+			
+			if(carrosDisponibles.size() != 0) //hay carros disponibles
+			{
+				carroSeleccionado = carrosDisponibles.get(0);
+				//se calcula el precio de la reserva
+				precios = calcularPrecioReserva(nombreSedeRecogida, nombreSedeDevolucion, 
+						diaRecogida, diaDevolucion, categoria);
+				
+			}
+			
+			else
+			{
+				retVar = 2; //error no hay carros disponibles
+			}
+		}
+		
+		//aca va la funcion de pago y por ulitmo reservar :)
+		
+		Object[] returnation = {retVar, precios, carroSeleccionado};
+		return returnation;
 	}
+
+	public double[] calcularPrecioReserva(String nombreSedeRecogida, String nombreSedeDevolucion,
+			LocalDate diaRecogida, LocalDate diaDevolucion , char categoria)
+	{
+		double precioTotal;
+		double precio30percent;
+		
+		//calcular el bruto por días
+		
+		//le paso la categoria en forma dse str
+		int precioPorDia = categorias.precioCategoría(String.valueOf(categoria)); 
+		
+		//dias a calcular el precio
+		int diasTranscurridos = (int)(ChronoUnit.DAYS.between(diaRecogida , diaDevolucion));
+		
+		precioTotal = diasTranscurridos * precioPorDia;
+		
+		if(!(nombreSedeRecogida.equals(nombreSedeDevolucion)) )
+		{
+			precioTotal = precioTotal + tarifaCambioSede.getTarifa();
+		}
+		
+		precio30percent = precioTotal*0.3;
+		
+		double[] precios = {precioTotal , precio30percent};
+		
+		return precios;
+		
+	}
+	
+	//crea una reserva y cambia la disponibilidad del vehiculo
+	public void reservarDefinitivo(Cliente cliente, double precio30,Carro carroSelecionado, 
+			LocalDate fechaRecogida, LocalDate fechaDevolucion, 
+			LocalTime horaRecogida, LocalTime horaDevolucion, 
+			String sedeRecogida, String sedeDevolucion, char categoria)
+	{
+		gestorReservas.crearReserva(horaRecogida, fechaRecogida, fechaDevolucion, cliente.getNumeroDocumento(), precio30, String.valueOf(categoria), carroSelecionado.getPlaca());
+		inventario.reservarCarro(carroSelecionado.getPlaca(), fechaRecogida, fechaDevolucion);
+	}
+	
 	public InventarioCarros getInventario()
 	{
 		return inventario;

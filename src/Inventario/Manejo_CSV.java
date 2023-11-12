@@ -34,7 +34,7 @@ public class Manejo_CSV
 	    String marca = partes[1];
 	    int modelo = Integer.parseInt(partes[2]);
 	    String transmision = partes[3];
-	    String categoria = partes[4];
+	    char categoria = partes[4].charAt(0);
 	    boolean alquilado = Boolean.parseBoolean(partes[5]);
 	    boolean disponible = Boolean.parseBoolean(partes[6]);
 	    String sede = partes[7];

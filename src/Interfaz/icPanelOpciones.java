@@ -164,9 +164,12 @@ public class icPanelOpciones extends JPanel implements ActionListener
 		String sedeRecogida = (String)boxSedeRecogida.getSelectedItem();
 		String sedeDevolucion = (String)boxSedeDevolucion.getSelectedItem();
 		
+		//Categoria
+		char categoria = ((String)boxCategorias.getSelectedItem()).charAt(0);
+		
 		//envia la información para reservar.
 		ventanaCliente.reservar(fechaRecogida, fechaDevolucion, horaRecogida, 
-				horaDevolucion, sedeRecogida, sedeDevolucion);
+				horaDevolucion, sedeRecogida, sedeDevolucion , categoria);
 	}
 	
 	

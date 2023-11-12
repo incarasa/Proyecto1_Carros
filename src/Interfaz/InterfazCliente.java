@@ -8,16 +8,20 @@ import java.util.List;
 
 import javax.swing.*;
 
+import Inventario.Carro;
 import Proyecto.RentACar;
+import Usuarios.Cliente;
 
 public class InterfazCliente extends JFrame
 {
 	private RentACar aplicacion;
 	private icPanelOpciones panelOpciones;
+	private Cliente cliente;
 	
-	public InterfazCliente(RentACar aplicacion)
+	public InterfazCliente(RentACar aplicacion, Cliente cliente)
 	{
 		this.aplicacion = aplicacion;
+		this.cliente = cliente;
 		
 		setLayout(new BorderLayout());
 		
@@ -42,8 +46,45 @@ public class InterfazCliente extends JFrame
 	}
 	
 	public void reservar(LocalDate fechaRecogida, LocalDate fechaDevolucion, LocalTime horaRecogida,
-			LocalTime horaDevolucion, String sedeRecogida, String sedeDevolucion)
+			LocalTime horaDevolucion, String sedeRecogida, String sedeDevolucion , char categoria)
 	{
 		//TO-DO MAÑANA
+		
+		//problemas a manejar - que la sede esté cerrada, que no haya carro disponible. CHECK
+		//que la sede sea igual o diferente
+		//calcular el precio.
+		
+		Object[] returnation = aplicacion.reservarCarro(sedeRecogida, sedeDevolucion, fechaRecogida, fechaDevolucion, 
+				horaRecogida, horaDevolucion, categoria);
+		
+		//RETURNATION ES UN INT (0) Y UN ARREGLO DE DOUBLE CON PRECIOS (1)
+		
+		int comandoError = (int)returnation[0];
+		double[] precios = (double[])returnation[1];
+		Carro carroSeleccionado = (Carro)returnation[2];
+		
+		if(comandoError == 0)
+		{
+			panelOpciones.actualizarEstado("La sede de entrega no está abierta en la hora seleccionada");
+		}
+		
+		else if(comandoError == 1)
+		{
+			panelOpciones.actualizarEstado("La sede de devolucion no está abierta en la hora seleccionada");
+		}
+		
+		else if(comandoError == 2)
+		{
+			panelOpciones.actualizarEstado("No hay carros disponibles con las características seleccionadas");
+		}
+		else
+		{
+			System.out.println("Reserva bien");
+			
+			
+			VentanaReservar ventanaReservar = new VentanaReservar(cliente, aplicacion , precios , carroSeleccionado, fechaRecogida, fechaDevolucion, horaRecogida,
+					horaDevolucion, sedeRecogida, sedeDevolucion , categoria);
+			ventanaReservar.setVisible(true);
+		}
 	}
 }

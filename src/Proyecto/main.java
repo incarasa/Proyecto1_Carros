@@ -109,6 +109,9 @@ public class main
 		InterfazPrincipal ventanaPrincipal = new InterfazPrincipal();
 		ventanaPrincipal.setVisible(true);
 		
+		//app.reservarCarro("NORMANDIA", "NORMANDIA", LocalDate.of(2023, 11, 03), 
+				//LocalDate.of(2023, 11, 07), LocalTime.of(12,0), LocalTime.of(12, 0), "C".charAt(0));
+		
 		
 		
 	}

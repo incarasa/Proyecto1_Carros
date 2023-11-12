@@ -5,6 +5,8 @@ import java.awt.BorderLayout;
 import javax.swing.*;
 
 import Proyecto.RentACar;
+import Usuarios.Cliente;
+import Usuarios.Usuarios;
 
 public class InterfazPrincipal extends JFrame
 {
@@ -39,7 +41,8 @@ public class InterfazPrincipal extends JFrame
 		int tipoUsuario = aplicacion.autenticar(usuario, contraseña);
 		if(tipoUsuario == 1)
 		{
-			interfazCliente = new InterfazCliente(aplicacion);
+			Cliente cliente = aplicacion.darCliente(usuario);
+			interfazCliente = new InterfazCliente(aplicacion , cliente);
 			interfazCliente.setVisible(true);
 		}
 		else if(tipoUsuario == 0)

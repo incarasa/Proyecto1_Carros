@@ -82,10 +82,21 @@ public class Sedes
 		}
 		
 	}
-	//GETTER
-	public Map<String, Sede> getMapaSedes() {
+	//GETTERS
+	public Map<String, Sede> getMapaSedes() 
+	{
 		return mapaSedes;
+	}
 	
+	/**
+	 * Retorna una sede dado su nombre
+	 * @param nombreSede
+	 * @return
+	 */
+	public Sede getSede(String nombreSede)
+	{
+		Sede sede = mapaSedes.get(nombreSede);
+		return sede;
 	}
 	
 	public int numeroSedes()

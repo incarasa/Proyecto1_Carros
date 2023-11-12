@@ -17,18 +17,18 @@ public class Carro
     private String marca;
     private int modelo;
     private String transmision;
-    private String categoría;
+    private char categoría;
     private String sede;
     
     private boolean alquilado;
     private boolean disponible;
     
-    private List<LocalDate> diasReservado;  //lista de días que el vehiculo esta reservado
+    private List<LocalDate> diasNoDisponible;  //lista de días que el vehiculo esta reservado
 
     
     //constructor
 
-    public Carro(String placa, String marca, int modelo, String transmision, String categoría,
+    public Carro(String placa, String marca, int modelo, String transmision, char categoría,
     		String sede) {
 		super();
 		this.placa = placa;
@@ -40,15 +40,29 @@ public class Carro
 		this.disponible = true;
 		this.sede = sede;
 		
-		diasReservado = new ArrayList<LocalDate>();
+		diasNoDisponible = new ArrayList<LocalDate>();
 	}
 
-	// Métodos para cambiar el estado del carro
-    public void alquilarCarro(String cliente) {
+	// Métodos para cambiar ALQUILAR CARRO
+    
+    
+    public void alquilarCarro(String cliente , LocalDate diaInicio, LocalDate diaFin) 
+    {
         if (!alquilado) 
         {
             alquilado = true;
             sede = "Cliente: " + cliente;
+            
+            diaFin.plusDays(3); //por temas de limieza se añaden tres días.
+            
+            //añadir los días del alquiler a días no disponibles
+            while((diaInicio.isBefore(diaFin) || diaInicio.isEqual(diaFin)))
+        	{
+        		diasNoDisponible.add(diaInicio);
+        		diaInicio = diaInicio.plusDays(1);
+        		
+        		guardarEnArchivo("data/carros/" + placa + ".txt");
+        	}
         }
     }
 
@@ -70,14 +84,15 @@ public class Carro
      *  hace un loop y mira si alguno de los días esta en la lista de dias reservados
      *  y de ser así devuelve false.
      */
-    public boolean esReservable(LocalDate diaInicio, LocalDate diaFin)
+    public boolean esReservable(LocalDate diaInicio, LocalDate diaFin) // O ALQUILABLE?
     {
     	boolean reservable = true;
     	//Mira cada dia del intervalo y revisa si esta disponible
     	while((diaInicio.isBefore(diaFin) || diaInicio.isEqual(diaFin))&&(reservable))
     	{
-    		if(diasReservado.contains(diaInicio)) 
+    		if(diasNoDisponible.contains(diaInicio)) 
     		{
+    			System.out.println("DIA NO DISPONIBLE " + diaInicio);
     			reservable = false;
     		}
     		diaInicio = diaInicio.plusDays(1);
@@ -96,7 +111,7 @@ public class Carro
     {
     	while((diaInicio.isBefore(diaFin) || diaInicio.isEqual(diaFin)))
     	{
-    		diasReservado.add(diaInicio);
+    		diasNoDisponible.add(diaInicio);
     		diaInicio = diaInicio.plusDays(1);
     		
     		guardarEnArchivo("data/carros/" + placa + ".txt");
@@ -111,7 +126,7 @@ public class Carro
     {
     	while((diaInicio.isBefore(diaFin) || diaInicio.isEqual(diaFin)))
     	{
-    		diasReservado.remove(diaInicio);
+    		diasNoDisponible.remove(diaInicio);
     		diaInicio = diaInicio.plusDays(1);
     	}
     }
@@ -127,7 +142,7 @@ public class Carro
         try (FileWriter writer = new FileWriter(nombreArchivo)) 
         {
             writer.write(Manejo_CSV.toCSV(this) + "\n");
-            for (LocalDate diaReservado : diasReservado) 
+            for (LocalDate diaReservado : diasNoDisponible) 
             {
                 writer.write(diaReservado.getYear() + "/" + diaReservado.getMonth() + "/" + diaReservado.getDayOfMonth() + "\n");
             }
@@ -138,11 +153,11 @@ public class Carro
     
     
     //GETTERS Y SETTERS
-	public String getCategoría() {
+	public char getCategoría() {
 		return categoría;
 	}
 
-	public void setCategoría(String categoría) {
+	public void setCategoría(char categoría) {
 		this.categoría = categoría;
 	}
 
