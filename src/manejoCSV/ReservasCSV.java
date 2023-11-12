@@ -60,7 +60,7 @@ public class ReservasCSV
 	    LocalDate diaFin = LocalDate.of(Integer.parseInt(diaFinSTR[0]), Integer.parseInt(diaFinSTR[1]), Integer.parseInt(diaFinSTR[2]));
 	    
 	    String documentoCliente = partes[3];
-	    int precio = Integer.parseInt(partes[4]);
+	    double precio = Double.parseDouble(partes[4]);
 	    String categoria = partes[5];
 	    String placaVehiculo = partes[6];
 	    
