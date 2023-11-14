@@ -64,7 +64,8 @@ public class PanelSeguros extends JPanel implements ActionListener
 		}
 		else if (e.getSource() == btnContinuar)
 		{
-			ventanaSeguros.continuar();
+			String seguroSeleccionadoString = (String)boxSeguros.getSelectedItem();
+			ventanaSeguros.continuar(seguroSeleccionadoString);
 		}
 		
 	}

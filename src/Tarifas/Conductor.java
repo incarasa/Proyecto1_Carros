@@ -2,6 +2,8 @@ package Tarifas;
 
 public class Conductor 
 {
+	private static int precioConductorAdicional = 20000;
+	
 	private String nombre;
 	private String numeroLicencia; //8
 	private String paisExpedición; //9
@@ -47,5 +49,9 @@ public class Conductor
 		this.fechaVencimientoLicencia = fechaVencimientoLicencia;
 	}
 	
+	public static int getPrecioCondAdicional()
+	{
+		return precioConductorAdicional;
+	}
 	
 }

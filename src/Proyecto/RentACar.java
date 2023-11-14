@@ -249,17 +249,35 @@ public class RentACar
 		usuarios.crearCliente(usuario, contraseña, tipoUsuario, nombre, numeroDocumento, telefono, correo, fecha_nacimiento, numeroLicencia, paisExpedición, fechaVencimientoLicencia, numeroTarjeta, codigoSeguridad, fechaVencimientoTarjeta);
 	}
 	
-	public double calcularPrecioAlquiler(int dias, int precioSeguro, int numeroDeConductores,
-			String sedeEntrega, double precio)
+	public double calcularPrecioAlquiler(int dias, String categoriaSeleccionada, 
+			int numeroDeConductores, String sedeEntrega,
+			String sedeDevolucion, String seguroSeleccionado)
+	
+	//precio se refiere al costo por categoría.
+	//precio seguro tambien es por días.
 	{
-		return (precio*dias)+(precioSeguro*dias)+(numeroDeConductores*20000);
+		
+		//se saca el precio de la categoria y el seguro seleccionados.
+		int precioCategoria = categorias.precioCategoría(categoriaSeleccionada);
+		int precioSeguro = seguros.precioSeguro(seguroSeleccionado);
+		
+		int precioFinal = (precioCategoria*dias)+(precioSeguro*dias)+
+				(numeroDeConductores * Conductor.getPrecioCondAdicional());
+		
+		if(!(sedeEntrega.equals(sedeEntrega)))
+		{
+			precioFinal = precioFinal + tarifaCambioSede.getTarifa();
+		}
+		
+		return precioFinal;
 	}
 	
 	public void alquilarVehiculo(String placaAuto, String cedulaCliente, LocalDate fechaRecogida, LocalDate fechaEntrega,
 			String sedeRecogida, String sedeEntrega , List<Conductor> listaConductores)
 	{
-		
+		//se crea el alquiler y el carro se hace no disponible en los días de alquiler
 		gestorAlquileres.crearAlquiler(placaAuto, cedulaCliente, fechaRecogida, fechaEntrega, sedeRecogida, sedeEntrega, listaConductores);
+		inventario.alquilarCarro(placaAuto, fechaRecogida, fechaEntrega);
 	}
 	
 	

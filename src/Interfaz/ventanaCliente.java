@@ -12,10 +12,12 @@ public class ventanaCliente extends JFrame
 {
 	private RentACar aplicacion;
 	private PanelCrearCliente panelCrearCliente; 
+	private Empleado empleado;
 
-	public ventanaCliente(RentACar aplicacion)
+	public ventanaCliente(RentACar aplicacion, Empleado empleado)
 	{
 		this.aplicacion = aplicacion;
+		this.empleado = empleado;
 		
 		setLayout(new BorderLayout());
 		

@@ -1,5 +1,6 @@
 package Inventario;
 
+import java.awt.Robot;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -180,7 +181,7 @@ public class InventarioCarros {
     			
     			String linea;
     			linea = br.readLine();
-    			while (linea != null) 
+    			while (linea != null && (linea != "")) 
     			{
     				//aca debe añadirse al mapa de reservas un día particular
     				carro.reservar(Manejo_CSV.lineaCSVaDate(linea), Manejo_CSV.lineaCSVaDate(linea));
@@ -204,6 +205,12 @@ public class InventarioCarros {
     {
     	Carro carro = buscarCarroPorPlaca(placa);
     	carro.reservar(diaInicio, diaFin);
+    }
+    
+    public void alquilarCarro(String placa, LocalDate diaInicio, LocalDate diaFin)
+    {
+    	Carro carro = buscarCarroPorPlaca(placa);
+    	carro.alquilarCarro(placa, diaInicio, diaFin);
     }
 
 	public Map<String, Carro> getInventario() {

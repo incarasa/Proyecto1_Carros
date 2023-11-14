@@ -20,12 +20,16 @@ public class VentanaSeguros extends JFrame
 	private RentACar aplicacion;
 	private Reserva reserva;
 	private Cliente cliente;
+	private Empleado empleado;
 	private List<Conductor> listaConductores;
 	
 	private LocalDate fechaEntregaAjustada;
 	private String sedeEntregaAjustada;
 	
-	public VentanaSeguros(RentACar aplicacion, Cliente cliente, Reserva reserva,
+	//ventanas
+	VentanaConfirmarAlquiler ventanaConfirmarAlquiler;
+	
+	public VentanaSeguros(RentACar aplicacion, Cliente cliente, Reserva reserva, Empleado empleado,
 			LocalDate fechaEntregaAjustada, String sedeEntregaAjustada)
 	{
 		setTitle("Seguros");
@@ -39,6 +43,8 @@ public class VentanaSeguros extends JFrame
 		this.aplicacion = aplicacion;
 		this.panelSeguros = new PanelSeguros(aplicacion, this);
 		this.listaConductores = new ArrayList<Conductor>();
+		this.reserva = reserva;
+		this.empleado = empleado;
 		
 		this.fechaEntregaAjustada = fechaEntregaAjustada;
 		this.sedeEntregaAjustada = sedeEntregaAjustada;
@@ -60,7 +66,7 @@ public class VentanaSeguros extends JFrame
 		ventanaAñadirConductor.setVisible(true);
 	}
 	
-	public void continuar()
+	public void continuar(String seguroSeleccionado)
 	{
 		LocalDate diaInicioDate = reserva.getDiaInicio();
 		LocalDate diaFinDate = fechaEntregaAjustada;
@@ -69,12 +75,20 @@ public class VentanaSeguros extends JFrame
 		int numeroConductores = listaConductores.size();
 		String sedeEntregaString = sedeEntregaAjustada;
 		
+		//extraigo la categoria de la reserva
+		String categoria =  reserva.getCategoria();
 		
-		//CORREGIR VALORES QUE LE PASO
-		double precio = aplicacion.calcularPrecioAlquiler(dias, 10000, numeroConductores, sedeEntregaAjustada, 50000);
+		
+		//La funcion me da el precio del alquiler.
+		
+		double precio = aplicacion.calcularPrecioAlquiler(dias, categoria, 
+				numeroConductores, empleado.getNombreSede(),sedeEntregaAjustada, seguroSeleccionado);
 		
 		
-		VentanaConfirmarAlquiler ventanaConfirmarAlquiler = new VentanaConfirmarAlquiler(aplicacion, precio);
-		setVisible(true);
+		
+		ventanaConfirmarAlquiler = new VentanaConfirmarAlquiler(aplicacion, precio, empleado,
+				reserva, listaConductores, fechaEntregaAjustada, sedeEntregaAjustada);
+		
+		ventanaConfirmarAlquiler.setVisible(true);
 	}
 }

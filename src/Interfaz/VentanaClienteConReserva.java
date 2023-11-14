@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import Alquiler.Reserva;
 import Proyecto.RentACar;
 import Usuarios.Cliente;
+import Usuarios.Empleado;
 
 public class VentanaClienteConReserva extends JFrame
 {
@@ -15,12 +16,17 @@ public class VentanaClienteConReserva extends JFrame
 	private PanelOpcionesAlquiler panelOpcionesAlquiler; //crear
 	private Cliente cliente;
 	private Reserva reserva;
+	private Empleado empleado;
+	
+	//VENTANAS
+	private VentanaSeguros ventanaSeguros;
 	
 	private LocalDate fechaEntregaAjustada;
 	private String sedeEntregaAjustada;
 	
 	
-	public VentanaClienteConReserva(RentACar aplicacion,Cliente cliente, Reserva reserva)
+	public VentanaClienteConReserva(RentACar aplicacion,Cliente cliente, Reserva reserva,
+			Empleado empleado)
 	{
 		setLayout(new BorderLayout());
 		
@@ -31,6 +37,8 @@ public class VentanaClienteConReserva extends JFrame
 		setLocationRelativeTo(null);
 		
 		this.aplicacion = aplicacion;
+		this.reserva = reserva;
+		this.empleado = empleado;
 		
 		String[] arraySedes = aplicacion.darSedes();
 		
@@ -42,8 +50,9 @@ public class VentanaClienteConReserva extends JFrame
 
 	public void continuarASeguros()
 	{
-		VentanaSeguros ventanaSeguros = new VentanaSeguros(aplicacion , cliente, reserva,
+		ventanaSeguros = new VentanaSeguros(aplicacion , cliente, reserva, empleado,
 				fechaEntregaAjustada, sedeEntregaAjustada);
+		
 		ventanaSeguros.setVisible(true);
 		cerrarVentana();
 	}

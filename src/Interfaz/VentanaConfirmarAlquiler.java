@@ -11,6 +11,7 @@ import Inventario.Carro;
 import Proyecto.RentACar;
 import Tarifas.Conductor;
 import Usuarios.Cliente;
+import Usuarios.Empleado;
 
 public class VentanaConfirmarAlquiler extends JFrame
 {
@@ -18,15 +19,23 @@ public class VentanaConfirmarAlquiler extends JFrame
 	private PanelConfirmarAlquiler panelConfirmarAlquiler;
 	private Reserva reserva;
 	private Cliente cliente;
+	private Empleado empleado;
 	
 	private LocalDate fechaEntregaAjustada;
 	private String sedeEntregaAjustada;
 	
 	private List<Conductor> listaConductores;
 	
-	public VentanaConfirmarAlquiler(RentACar aplicacion, double precio)
+	public VentanaConfirmarAlquiler(RentACar aplicacion, double precio, Empleado empleado, 
+			Reserva reserva, List<Conductor> listaConductores, LocalDate fechaEntregaAjustada,
+			String sedeEntregaAjustada)
 	{
 		this.aplicacion = aplicacion;
+		this.empleado = empleado;
+		this.listaConductores = listaConductores;
+		this.reserva = reserva;
+		this.fechaEntregaAjustada = fechaEntregaAjustada;
+		this.sedeEntregaAjustada = sedeEntregaAjustada;
 		
 		setTitle("Confirmar alquiler");
 		setSize(1000,700);
@@ -41,11 +50,17 @@ public class VentanaConfirmarAlquiler extends JFrame
 		add(panelConfirmarAlquiler, BorderLayout.CENTER);
 		
 		
+		
 	}
+	
+	//funcion para alquilar un vehículo.
 	
 	public void alquilar(double precioFinal)
 	{
-		aplicacion.alquilarVehiculo(reserva.getPlacaVehiculo(), reserva.getDocumentoCliente(), reserva.getDiaInicio(), fechaEntregaAjustada, "NORMANDIA", sedeEntregaAjustada, listaConductores);
+		aplicacion.alquilarVehiculo(reserva.getPlacaVehiculo(), reserva.getDocumentoCliente(), 
+				reserva.getDiaInicio(), fechaEntregaAjustada, empleado.getNombreSede(),
+				sedeEntregaAjustada, 
+				listaConductores);
 	}
 	
 }

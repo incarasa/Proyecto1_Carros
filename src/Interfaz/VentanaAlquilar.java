@@ -13,11 +13,22 @@ import Usuarios.Empleado;
 
 public class VentanaAlquilar extends JFrame
 {
+	/*
+	 * El flujo es el siguiente, si no existe el cliente se abre la ventana del cliente.
+	 * Esta ventana se cierra apenas se crea el cliente
+	 * Si el cliente existe entonces, se pasa a otra ventana (ventanaCliente con reserva)
+	 * 
+	 */
+	
 	private RentACar aplicacion;
 	private PanelAlquiler panelAlquiler; 
 	private PanelAlquilerBotones panelBotones;
 	private Empleado empleado;
 	private boolean alquilo = false; 
+	
+	//VENTANAS
+	private VentanaClienteConReserva ventanaReserva;
+	private ventanaCliente ventanaCliente;
 	
 	public VentanaAlquilar(RentACar aplicacion, Empleado empleado)
 	{
@@ -68,9 +79,11 @@ public class VentanaAlquilar extends JFrame
 				panelAlquiler.setEstado("El cliente ha reservado un vehiculo para hoy");
 				panelBotones.estadoBtnAlquilarVehiculo(true);
 				alquilo = true;
-				VentanaClienteConReserva ventanaReserva = 
-						new VentanaClienteConReserva(aplicacion,cliente, reserva);
-				ventanaReserva.setVisible(true);
+				
+				//NUEVA VENTANA
+				ventanaReserva = 
+					new VentanaClienteConReserva(aplicacion, cliente, reserva , empleado);
+					ventanaReserva.setVisible(true);
 				
 			}
 		}
@@ -84,7 +97,8 @@ public class VentanaAlquilar extends JFrame
 	
 	public void ventanaCliente()
 	{
-		ventanaCliente ventanaCliente =  new ventanaCliente(aplicacion);
+		
+		ventanaCliente =  new ventanaCliente(aplicacion, empleado);
 		ventanaCliente.setVisible(true);
 	}
 	

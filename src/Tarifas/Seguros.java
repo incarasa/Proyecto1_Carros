@@ -27,7 +27,7 @@ public class Seguros
 	
 	public int precioSeguro(String seguro)
 	{
-		String precio = mapaSeguros.get(seguro);
+		String precio = mapaSeguros.get(seguro).trim();
 		int precio_int = Integer.parseInt(precio);
 		return precio_int;
 	}
