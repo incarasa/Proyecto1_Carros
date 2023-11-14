@@ -21,8 +21,11 @@ public class PanelSeguros extends JPanel implements ActionListener
 {
 	private Map<String, String> mapaSeguros;
 	private JComboBox boxSeguros;
+	private JButton btnAgregarConductor;
+	private JButton btnContinuar;
+	private VentanaSeguros ventanaSeguros;
 	
-	public PanelSeguros(RentACar aplicacion)
+	public PanelSeguros(RentACar aplicacion, VentanaSeguros ventanaSeguros)
 	{
 		setLayout(new GridLayout(20,1));
 		
@@ -35,8 +38,10 @@ public class PanelSeguros extends JPanel implements ActionListener
 		
 		boxSeguros = new JComboBox(segurosArray);
 		
-		JButton btnAgregarConductor = new JButton("Agregar Conductor");
-		JButton btnContinuar = new JButton("Continuar");
+		btnAgregarConductor = new JButton("Agregar Conductor");
+		btnContinuar = new JButton("Continuar");
+		
+		this.ventanaSeguros = ventanaSeguros;
 		
 		//action listeners
 		btnAgregarConductor.addActionListener(this);
@@ -45,6 +50,7 @@ public class PanelSeguros extends JPanel implements ActionListener
 		add(labTitulo);
 		add(new JLabel(""));
 		add(boxSeguros);
+		add(btnAgregarConductor);
 		add(new JLabel(""));
 		add(btnContinuar);
 	}
@@ -52,7 +58,14 @@ public class PanelSeguros extends JPanel implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e) 
 	{
-		// TODO Auto-generated method stub
+		if(e.getSource() == btnAgregarConductor)
+		{
+			ventanaSeguros.abrirVentanaConductor();
+		}
+		else if (e.getSource() == btnContinuar)
+		{
+			ventanaSeguros.continuar();
+		}
 		
 	}
 }

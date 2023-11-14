@@ -249,6 +249,20 @@ public class RentACar
 		usuarios.crearCliente(usuario, contraseña, tipoUsuario, nombre, numeroDocumento, telefono, correo, fecha_nacimiento, numeroLicencia, paisExpedición, fechaVencimientoLicencia, numeroTarjeta, codigoSeguridad, fechaVencimientoTarjeta);
 	}
 	
+	public double calcularPrecioAlquiler(int dias, int precioSeguro, int numeroDeConductores,
+			String sedeEntrega, double precio)
+	{
+		return (precio*dias)+(precioSeguro*dias)+(numeroDeConductores*20000);
+	}
+	
+	public void alquilarVehiculo(String placaAuto, String cedulaCliente, LocalDate fechaRecogida, LocalDate fechaEntrega,
+			String sedeRecogida, String sedeEntrega , List<Conductor> listaConductores)
+	{
+		
+		gestorAlquileres.crearAlquiler(placaAuto, cedulaCliente, fechaRecogida, fechaEntrega, sedeRecogida, sedeEntrega, listaConductores);
+	}
+	
+	
 	public Map<String, String> darMapaSeguros()
 	{
 		return seguros.darMapaSeguros();

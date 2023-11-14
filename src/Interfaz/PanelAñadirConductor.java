@@ -63,14 +63,19 @@ public class PanelAñadirConductor extends JPanel implements ActionListener
 	{
 		if(e.getSource() == btnAñadirConductor)
 		{
-			
+			añadirConductor();
 		}
 		
 	}
 	
 	public void añadirConductor()
 	{
+		String nombre = txtNombre.getText();
+		String numerolicencia = txtNumeroLicencia.getText();
+		String paisExpedicion = txtPaisExpedicion.getText();
+		String fechaVencimientoLicencia = txtFechaVencimientoLicencia.getText();
 		
+		ventanaAñadirConductor.añadirConductor(nombre, numerolicencia, paisExpedicion, fechaVencimientoLicencia);
 	}
 	
 }
