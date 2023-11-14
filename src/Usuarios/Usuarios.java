@@ -21,6 +21,7 @@ public class Usuarios
 {
 	private Administrador_Principal admin_princ;
 	private Map<String, Cliente> mapaClientes;
+	private Map<String, Cliente> mapaClientesCedula;
 	private Map<String, Empleado> mapaEmpleados;
 	private Map<String, Administrador_Sede> mapaAdministradores_Sede;
 	
@@ -43,6 +44,7 @@ public class Usuarios
 	public Usuarios()
 	{
 		mapaClientes = new HashMap<>();
+		mapaClientesCedula = new HashMap<>();
 		mapaEmpleados = new HashMap<>();
 		mapaAdministradores_Sede = new HashMap<>();
 			
@@ -64,6 +66,7 @@ public class Usuarios
 				fechaVencimientoTarjeta);
 		
 		mapaClientes.put(usuario, cliente);
+		mapaClientesCedula.put(numeroDocumento, cliente);
 		ClientesCSV.actualizarCSV(mapaClientes, rutaClientesCSV);
 	}
 	
@@ -92,6 +95,7 @@ public class Usuarios
 	public void cargarUsuarios()
 	{
 		cargarClientesDesdeCSV();
+		cargarClientesCedulaDesdeCSV();
 		cargarEmpleadosDesdeCSV();
 		cargarAdminsDesdeCSV();
 		cargarPrincipalDesdeCSV();
@@ -100,7 +104,7 @@ public class Usuarios
 	
 	
 	private void cargarClientesDesdeCSV() 
-    {;
+    {
         try (BufferedReader reader = new BufferedReader(new FileReader(rutaClientesCSV))) 
         {
             String linea;
@@ -116,6 +120,22 @@ public class Usuarios
         }
     }
 	
+	private void cargarClientesCedulaDesdeCSV() 
+    {
+        try (BufferedReader reader = new BufferedReader(new FileReader(rutaClientesCSV))) 
+        {
+            String linea;
+            while ((linea = reader.readLine()) != null) 
+            {
+                Cliente cliente = ClientesCSV.fromCSV(linea);
+                mapaClientesCedula.put(cliente.getNumeroDocumento(), cliente);
+            }
+        } 
+        catch (IOException e) 
+        {
+            e.printStackTrace();
+        }
+    }
 	
 	private void cargarEmpleadosDesdeCSV() 
     {
@@ -284,6 +304,12 @@ public class Usuarios
 	public Cliente retornarCliente(String usuario)
 	{
 		Cliente cliente = mapaClientes.get(usuario);
+		return cliente;
+		
+	}
+	public Cliente retornarClienteCedula(String cedula)
+	{
+		Cliente cliente = mapaClientesCedula.get(cedula);
 		return cliente;
 		
 	}

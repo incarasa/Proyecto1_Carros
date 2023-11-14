@@ -1,6 +1,7 @@
 package Proyecto;
 
 import java.io.ObjectInputStream.GetField;
+import java.lang.reflect.AnnotatedArrayType;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -9,6 +10,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import javax.print.attribute.standard.Media;
 
 import com.formdev.flatlaf.FlatLightLaf;
 
@@ -23,8 +26,10 @@ import Inventario.Carro;
 import Inventario.InventarioCarros;
 import Tarifas.Categorias;
 import Tarifas.Conductor;
+import Tarifas.Seguros;
 import Tarifas.cambioSede;
 import Usuarios.Cliente;
+import Usuarios.Empleado;
 import Usuarios.Usuarios;
 
 
@@ -35,6 +40,7 @@ public class RentACar
 	private GestorReservas gestorReservas;
 	private GestorAlquileres gestorAlquileres;
 	private Categorias categorias;  //tiene a las categorias y sus precios
+	private Seguros seguros;
 	private Usuarios usuarios;
 	private cambioSede tarifaCambioSede = new cambioSede();
 	
@@ -46,6 +52,7 @@ public class RentACar
 		this.gestorAlquileres = new GestorAlquileres();
 		this.categorias = new Categorias();
 		this.usuarios = new Usuarios();
+		this.seguros = new Seguros();
 		
 	}
 	
@@ -72,6 +79,7 @@ public class RentACar
 		gestorAlquileres.cargarAlquileresDesdeCarpeta();
 		categorias.cargarCategoríasDesdeCSV();
 		usuarios.cargarUsuarios();
+		seguros.cargarSegurosDesdeCSV();
 	}
 	
 	
@@ -81,6 +89,10 @@ public class RentACar
 		return usuarios.retornarCliente(usuario);
 	}
 	
+	public Cliente darClienteCedula(String cedula)
+	{
+		return usuarios.retornarClienteCedula(cedula);
+	}
 	
 	/**
 	 * Devuelve en una lista de strings las categorías que existan.
@@ -215,6 +227,33 @@ public class RentACar
 		gestorReservas.crearReserva(horaRecogida, fechaRecogida, fechaDevolucion, cliente.getNumeroDocumento(), precio30, String.valueOf(categoria), carroSelecionado.getPlaca());
 		inventario.reservarCarro(carroSelecionado.getPlaca(), fechaRecogida, fechaDevolucion);
 	}
+	
+	
+	//METODOS PARA EL EMPLEADO
+	public Empleado darEmpleado(String usuario)
+	{
+		return usuarios.retornarEmpleado(usuario);
+	}
+	
+	public Reserva consultarReserva(String cedula, LocalDate dia)
+	{
+		Reserva reserva = gestorReservas.darReserva(cedula, dia);
+		return reserva;
+	}
+	
+	public void crearCliente(String usuario, String contraseña, String tipoUsuario, String nombre, String numeroDocumento, 
+			String telefono, String correo, String fecha_nacimiento, String numeroLicencia, 
+			String paisExpedición, String fechaVencimientoLicencia, 
+			String numeroTarjeta, String codigoSeguridad, String fechaVencimientoTarjeta)
+	{
+		usuarios.crearCliente(usuario, contraseña, tipoUsuario, nombre, numeroDocumento, telefono, correo, fecha_nacimiento, numeroLicencia, paisExpedición, fechaVencimientoLicencia, numeroTarjeta, codigoSeguridad, fechaVencimientoTarjeta);
+	}
+	
+	public Map<String, String> darMapaSeguros()
+	{
+		return seguros.darMapaSeguros();
+	}
+	
 	
 	public InventarioCarros getInventario()
 	{

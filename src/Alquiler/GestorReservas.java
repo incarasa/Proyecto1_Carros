@@ -3,6 +3,7 @@ package Alquiler;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.AnnotatedArrayType;
 import java.security.PublicKey;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -83,6 +84,37 @@ public class GestorReservas
 	public Map<String, List<Reserva>> getMap()
 	{
 		return mapaReservas;
+	}
+	
+	/**
+	 * Retorna la reserva de un cliente en un día, si no tiene retorna null.
+	 * @param documento
+	 * @param fecha
+	 * @return reserva
+	 */
+	public Reserva darReserva(String documento, LocalDate fecha)
+	{
+		
+		List<Reserva> listaReservasCliente = mapaReservas.get(documento);
+		Reserva reservaFinal = null;
+		
+		try 
+		{
+			for(Reserva reserva : listaReservasCliente)
+			{
+				LocalDate diaInicio = reserva.getDiaInicio();
+				if(diaInicio.equals(fecha))
+				{
+					reservaFinal = reserva; //se asume que no se prestan dos carros el mismo dia.
+				}
+			}
+		} 
+		catch (NullPointerException e) 
+		{
+			System.out.println("No tiene reservas el cliente");
+		}
+		
+		return reservaFinal;
 	}
 	
 }

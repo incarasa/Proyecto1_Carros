@@ -6,6 +6,7 @@ import javax.swing.*;
 
 import Proyecto.RentACar;
 import Usuarios.Cliente;
+import Usuarios.Empleado;
 import Usuarios.Usuarios;
 
 public class InterfazPrincipal extends JFrame
@@ -14,6 +15,10 @@ public class InterfazPrincipal extends JFrame
 	private ipPanelCentral panelCentral;
 	
 	private JFrame interfazCliente;
+	private JFrame interfazEmpleado;
+	private JFrame interfazAdmin;
+	private JFrame interfazPrincipal;
+	
 	
 	
 	public InterfazPrincipal()
@@ -38,12 +43,26 @@ public class InterfazPrincipal extends JFrame
 	
 	public void validarInicioSesion(String usuario, String contraseña)
 	{
+		//Este artributo sera 
+		// 1 - cliente
+		// 2 - empleado
+		// 3 - admin
+		// 4 - principal
+		// 0 - usuario no existe
+		// 10 - contraseña errada
+		
 		int tipoUsuario = aplicacion.autenticar(usuario, contraseña);
 		if(tipoUsuario == 1)
 		{
 			Cliente cliente = aplicacion.darCliente(usuario);
 			interfazCliente = new InterfazCliente(aplicacion , cliente);
 			interfazCliente.setVisible(true);
+		}
+		else if(tipoUsuario == 2)
+		{
+			Empleado empleado = aplicacion.darEmpleado(usuario);
+			interfazEmpleado = new InterfazEmpleado(aplicacion , empleado);
+			interfazEmpleado.setVisible(true);
 		}
 		else if(tipoUsuario == 0)
 		{

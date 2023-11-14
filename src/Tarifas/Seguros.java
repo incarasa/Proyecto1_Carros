@@ -32,6 +32,11 @@ public class Seguros
 		return precio_int;
 	}
 	
+	public Map<String, String> darMapaSeguros()
+	{
+		return mapaSeguros;
+	}
+	
 	//CARGAR DATOS
 	public void cargarSegurosDesdeCSV() 
     {
