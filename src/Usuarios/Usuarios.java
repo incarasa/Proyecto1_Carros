@@ -79,6 +79,13 @@ public class Usuarios
 		EmpleadosCSV.actualizarCSV(mapaEmpleados, rutaEmpleadosCSV);
 	}
 	
+	public void eliminarEmpleado(String usuario)
+	{
+		mapaEmpleados.remove(usuario);
+		EmpleadosCSV.actualizarCSV(mapaEmpleados, rutaEmpleadosCSV);
+	}
+	
+	
 	public void crearAdminSede(String usuario, String contraseña, String tipoUsuario, String nombre,
 			String nombreSede)
 	{

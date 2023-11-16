@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import javax.swing.*;
 
 import Proyecto.RentACar;
+import Usuarios.Administrador_Sede;
 import Usuarios.Cliente;
 import Usuarios.Empleado;
 import Usuarios.Usuarios;
@@ -16,7 +17,7 @@ public class InterfazPrincipal extends JFrame
 	
 	private JFrame interfazCliente;
 	private JFrame interfazEmpleado;
-	private JFrame interfazAdmin;
+	private JFrame interfazAdminSede;
 	private JFrame interfazPrincipal;
 	
 	
@@ -63,6 +64,12 @@ public class InterfazPrincipal extends JFrame
 			Empleado empleado = aplicacion.darEmpleado(usuario);
 			interfazEmpleado = new InterfazEmpleado(aplicacion , empleado);
 			interfazEmpleado.setVisible(true);
+		}
+		else if(tipoUsuario == 3)
+		{
+			Administrador_Sede administrador_Sede = aplicacion.darAdministrador_Sede(usuario);
+			interfazAdminSede = new InterfazAdministrador(aplicacion, administrador_Sede);
+			interfazAdminSede.setVisible(true);
 		}
 		else if(tipoUsuario == 0)
 		{

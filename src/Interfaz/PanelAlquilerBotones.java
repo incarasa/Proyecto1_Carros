@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 public class PanelAlquilerBotones extends JPanel implements ActionListener
 {
 	private JButton btnCrearCliente = new JButton("Crear Cliente");
-	private JButton btnAlquilarVehiculo = new JButton("Alquilar vehículo");
+	private JButton btnAlquilarVehiculo = new JButton("Alquilar Vehiculo");
 	private JButton btnCancelar = new JButton("Cancelar");
 	
 	private VentanaAlquilar ventanaAlquilar;

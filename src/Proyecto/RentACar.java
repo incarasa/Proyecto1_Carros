@@ -28,6 +28,7 @@ import Tarifas.Categorias;
 import Tarifas.Conductor;
 import Tarifas.Seguros;
 import Tarifas.cambioSede;
+import Usuarios.Administrador_Sede;
 import Usuarios.Cliente;
 import Usuarios.Empleado;
 import Usuarios.Usuarios;
@@ -249,6 +250,17 @@ public class RentACar
 		usuarios.crearCliente(usuario, contraseña, tipoUsuario, nombre, numeroDocumento, telefono, correo, fecha_nacimiento, numeroLicencia, paisExpedición, fechaVencimientoLicencia, numeroTarjeta, codigoSeguridad, fechaVencimientoTarjeta);
 	}
 	
+	public void crearEmpleado(String usuario, String contraseña, String tipoUsuario, String nombre,
+			String nombreSede)
+	{
+		usuarios.crearEmpleado(usuario, contraseña, tipoUsuario, nombre, nombreSede);
+	}
+	
+	public void eliminarEmpleado(String usuario)
+	{
+		usuarios.eliminarEmpleado(usuario);
+	}
+	
 	public double calcularPrecioAlquiler(int dias, String categoriaSeleccionada, 
 			int numeroDeConductores, String sedeEntrega,
 			String sedeDevolucion, String seguroSeleccionado)
@@ -280,6 +292,11 @@ public class RentACar
 		inventario.alquilarCarro(placaAuto, fechaRecogida, fechaEntrega);
 	}
 	
+	//METODOS ADMIN SEDE
+	public Administrador_Sede darAdministrador_Sede(String usuario)
+	{
+		return usuarios.retornarAdminSede(usuario);
+	}
 	
 	public Map<String, String> darMapaSeguros()
 	{
