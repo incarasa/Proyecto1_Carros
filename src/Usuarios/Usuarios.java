@@ -94,6 +94,11 @@ public class Usuarios
 		AdminSedeCSV.actualizarCSV(mapaAdministradores_Sede, rutaAdminsCSV);
 	}
 	
+	public void eliminarAdminSede(String usuario)
+	{
+		mapaAdministradores_Sede.remove(usuario);
+		AdminSedeCSV.actualizarCSV(mapaAdministradores_Sede, rutaAdminsCSV);
+	}
 	
 	/**
 	 * Este metodo carga a los todos usuarios desde sus archivos CSV 

@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,11 +58,28 @@ public class Sedes
 		
 		mapaSedes.put(nombreSede, sede); //la mete al mapa
 		
+		//horarios por defecto
+		definirHorarioSede(nombreSede, DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(17, 0));
+		definirHorarioSede(nombreSede, DayOfWeek.TUESDAY, LocalTime.of(9, 0), LocalTime.of(17, 0));
+		definirHorarioSede(nombreSede, DayOfWeek.WEDNESDAY, LocalTime.of(9, 0), LocalTime.of(17, 0));
+		definirHorarioSede(nombreSede, DayOfWeek.THURSDAY, LocalTime.of(9, 0), LocalTime.of(17, 0));
+		definirHorarioSede(nombreSede, DayOfWeek.FRIDAY, LocalTime.of(9, 0), LocalTime.of(17, 0));
+		definirHorarioSede(nombreSede, DayOfWeek.SATURDAY, LocalTime.of(9, 0), LocalTime.of(17, 0));
+		
 		//persistencia
 		
 		String ruta_sede = "data/sedes/" + nombreSede + ".txt";
 		sede.guardarEnArchivo(ruta_sede); //guarda la sede en archivo
 		
+	}
+	
+	public void eliminarSede(String nombreSede)
+	{
+		mapaSedes.remove(nombreSede); //remueve la sede del mapa
+		
+		String ruta_sede = "data/sedes/" + nombreSede + ".txt";
+		File archivoSede =  new File(ruta_sede);
+		archivoSede.delete(); //se borra el archivo del computador
 	}
 	
 	public void definirHorarioSede(String nombreSede, DayOfWeek dia, LocalTime horaApertura, LocalTime horaCierre)
