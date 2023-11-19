@@ -68,9 +68,16 @@ public class RentACar
 		return usuarios.getTipoUsuario();
 	}
 	
-	public void agregarCarro(String placa, String marca, int modelo, String transmision, char categoría, String sede)
+	public void agregarCarro(String placa, String marca, int modelo, String transmision, 
+			char categoría, String sede, String rutaImagen)
 	{
-		inventario.agregarCarro(placa, marca, modelo, transmision, categoría, sede);
+		inventario.agregarCarro(placa, marca, modelo, transmision, categoría, false, true,
+				sede, false, false, "", rutaImagen);
+	}
+	
+	public void eliminarCarro(String placa)
+	{
+		inventario.eliminarCarro(placa);
 	}
 	
 	public void cargarInformacion()
@@ -109,6 +116,10 @@ public class RentACar
 	public String[] darSedes()
 	{
 		return sedes.darSedes();
+	}
+	public Carro darCarro(String placa)
+	{
+		return inventario.buscarCarroPorPlaca(placa);
 	}
 	
 	public Object[] reservarCarro(String nombreSedeRecogida, String nombreSedeDevolucion,
@@ -310,7 +321,13 @@ public class RentACar
 	{
 		//se crea el alquiler y el carro se hace no disponible en los días de alquiler
 		gestorAlquileres.crearAlquiler(placaAuto, cedulaCliente, fechaRecogida, fechaEntrega, sedeRecogida, sedeEntrega, listaConductores);
-		inventario.alquilarCarro(placaAuto, fechaRecogida, fechaEntrega);
+		inventario.alquilarCarro(placaAuto, cedulaCliente,fechaRecogida, fechaEntrega);
+	}
+	
+	public void devolverVehiculo(String placa, boolean lavar, boolean 
+			mantenimiento, String fechaDisponibleNuevamente)
+	{
+		inventario.devolverCarro(placa, lavar, lavar, fechaDisponibleNuevamente);
 	}
 	
 	//METODOS ADMIN SEDE

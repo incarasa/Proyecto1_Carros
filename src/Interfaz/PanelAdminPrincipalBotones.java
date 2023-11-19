@@ -14,6 +14,7 @@ public class PanelAdminPrincipalBotones extends JPanel implements ActionListener
 	private JButton btnEliminarAdmin = new JButton("Eliminar administrador");
 	private JButton btnCrearSede = new JButton("Crear sede");
 	private JButton btnEliminarSede = new JButton("Eliminar sede");
+	private JButton btnInventario = new JButton("Inventario");
 	
 	
 	private InterfazAdminPrincipal interfazAdminPrincipal;
@@ -35,11 +36,13 @@ public class PanelAdminPrincipalBotones extends JPanel implements ActionListener
 		btnEliminarAdmin.addActionListener(this);
 		btnCrearSede.addActionListener(this);
 		btnEliminarSede.addActionListener(this);
+		btnInventario.addActionListener(this);
 		
 		add(btnCrearAdmin);
 		add(btnEliminarAdmin);
 		add(btnCrearSede);
 		add(btnEliminarSede);
+		add(btnInventario);
 		
 	}
 
@@ -65,6 +68,10 @@ public class PanelAdminPrincipalBotones extends JPanel implements ActionListener
 		{
 			interfazAdminPrincipal.eliminarSede();
 			btnCrearSede.setEnabled(false);
+		}
+		else if(e.getSource() == btnInventario)
+		{
+			interfazAdminPrincipal.ventanaInventario();
 		}
 	}
 	

@@ -48,7 +48,10 @@ public class PanelAlquilerBotones extends JPanel implements ActionListener
 		{
 			cerrarVentanaAlquilar();
 		}
-		
+		else if (e.getSource()==btnAlquilarVehiculo)
+		{
+			ventanaAlquilar.crearReserva();
+		}
 	}
 	
 	public void estadoBtnCrearCliente(boolean estado)

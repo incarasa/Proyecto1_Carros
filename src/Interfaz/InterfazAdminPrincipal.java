@@ -148,5 +148,11 @@ public class InterfazAdminPrincipal extends JFrame
 				JOptionPane.INFORMATION_MESSAGE );
 		
 	}
+	public void ventanaInventario()
+	{
+		VentanaAdminCarros ventanaAdminCarros = new VentanaAdminCarros(aplicacion);
+		ventanaAdminCarros.setVisible(true);
+	}
+	
 
 }

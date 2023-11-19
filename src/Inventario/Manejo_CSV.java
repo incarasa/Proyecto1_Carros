@@ -19,14 +19,16 @@ public class Manejo_CSV
 	{
 	    return carro.getPlaca() + "," + carro.getMarca() + "," + carro.getModelo() + "," 
 	    		+ carro.getTransmision() + "," + carro.getCategoría() + "," 
-	    		+ carro.isAlquilado() + "," + carro.isDisponible() + "," + carro.getSede();
+	    		+ carro.isAlquilado() + "," + carro.isDisponible() + "," + carro.getSede() + 
+	    		"," + carro.getLavandose() +  "," + carro.getEnMantenimiento() 
+	    		+ "," + carro.getFechaDisponibleNuevamente() + "," + carro.getRutaImagen();
 	}
 	
 	//Retorna un carro desde una linea de CSV
 	public static Carro fromCSV(String lineaCSV) 
 	{
 	    String[] partes = lineaCSV.split(",");
-	    if (partes.length != 8) {
+	    if (partes.length != 12) {
 	        throw new IllegalArgumentException("Formato CSV no válido");
 	    }
 
@@ -38,8 +40,14 @@ public class Manejo_CSV
 	    boolean alquilado = Boolean.parseBoolean(partes[5]);
 	    boolean disponible = Boolean.parseBoolean(partes[6]);
 	    String sede = partes[7];
+	    boolean lavandose = Boolean.parseBoolean(partes[8]);
+	    boolean enMantenimiento = Boolean.parseBoolean(partes[9]);
+	    String fechaDisponibleNuevamente = partes[10];
+	    String rutaImagen = partes[11];
 	    
-	    Carro carro = new Carro(placa, marca, modelo, transmision, categoria, sede);
+	    Carro carro = new Carro(placa, marca, modelo, transmision, categoria, alquilado, 
+	    		disponible, sede, lavandose,
+	    		enMantenimiento, fechaDisponibleNuevamente, rutaImagen);
 	    return carro;
 	}
 	
@@ -53,6 +61,19 @@ public class Manejo_CSV
 		String elementos[] = linea.split("/");
 		int año = Integer.parseInt(elementos[0]);
 		Month mes = Month.valueOf(elementos[1]);
+		int dia = Integer.parseInt(elementos[2]);
+		
+		LocalDate fecha = LocalDate.of(año, mes, dia);
+		return fecha;
+		
+		
+	}
+	
+	public static LocalDate lineaCSVaDateMesNumero(String linea) //con mes número
+	{
+		String elementos[] = linea.split("/");
+		int año = Integer.parseInt(elementos[0]);
+		int mes = Integer.parseInt(elementos[1]);
 		int dia = Integer.parseInt(elementos[2]);
 		
 		LocalDate fecha = LocalDate.of(año, mes, dia);

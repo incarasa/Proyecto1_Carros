@@ -45,4 +45,11 @@ public class InterfazEmpleado extends JFrame
 	{
 		dispose();
 	}
+	
+	public void devolverCarro(String placa, boolean lavar, boolean mantenimiento,
+			String fechaDisponibleNuevamente)
+	{
+		aplicacion.devolverVehiculo(placa, lavar, mantenimiento, fechaDisponibleNuevamente);
+		
+	}
 }

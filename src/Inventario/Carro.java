@@ -23,22 +23,34 @@ public class Carro
     private boolean alquilado;
     private boolean disponible;
     
+    private boolean lavandose;
+    private boolean enMantenimiento;
+    private String fechaDispnibleNuevamente;
+    private String rutaImagen; 
+    
     private List<LocalDate> diasNoDisponible;  //lista de días que el vehiculo esta reservado
 
     
     //constructor
 
     public Carro(String placa, String marca, int modelo, String transmision, char categoría,
-    		String sede) {
+    		boolean alquilado, boolean disponible, String sede, boolean lavandose,
+    		boolean enMantenimiento, String fechaDisponibleNuevamente, String rutaImagen) {
 		super();
 		this.placa = placa;
 		this.marca = marca;
 		this.modelo = modelo;
 		this.transmision = transmision;
 		this.categoría = categoría;
-		this.alquilado = false;
-		this.disponible = true;
+		this.alquilado = alquilado;
+		this.disponible = disponible;
 		this.sede = sede;
+		
+		
+		this.lavandose = lavandose;
+		this.enMantenimiento = enMantenimiento;
+		this.fechaDispnibleNuevamente = fechaDisponibleNuevamente;
+		this.rutaImagen = rutaImagen;
 		
 		diasNoDisponible = new ArrayList<LocalDate>();
 	}
@@ -67,10 +79,32 @@ public class Carro
     }
 
     public void devolverCarro() {
-        if (alquilado) {
-            alquilado = false;
+        if (!alquilado) 
+        {
+            System.out.println("El carro no estaba alquilado");
+        }
+        else
+        {
+        	alquilado = false;
         }
     }
+    
+    public void lavarCarro()
+    {
+    	lavandose = true;
+    }
+    
+    public void manteniemiento()
+    {
+    	enMantenimiento = true;
+    }
+    
+    public void fechaDisponible(String fecha)
+    {
+    	fechaDispnibleNuevamente = fecha;
+    }
+    
+    
 
     public void cambiarSede(String nuevaSede) {
         sede = nuevaSede;
@@ -200,10 +234,29 @@ public class Carro
 	public String getTransmision() {
 		return transmision;
 	}
-
+	
+	public boolean getLavandose() {
+		return lavandose;
+	}
     
-
-
+	public boolean getEnMantenimiento() {
+		return enMantenimiento;
+	}
+	public String getFechaDisponibleNuevamente() 
+	{
+		return fechaDispnibleNuevamente;
+	}
+	
+	
+	public String getRutaImagen() 
+	{
+		return rutaImagen;
+	}
+	
+	public List<LocalDate> getDiasNoDisponible() 
+	{
+		return diasNoDisponible;
+	}
     
     
     

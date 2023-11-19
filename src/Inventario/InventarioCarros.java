@@ -45,10 +45,14 @@ public class InventarioCarros {
      * @param categoría
      * @param sede
      */
-    public void agregarCarro(String placa, String marca, int modelo, String transmision, char categoría, String sede) 
+    public void agregarCarro(String placa, String marca, int modelo, String transmision, 
+    		char categoría, boolean alquilado, boolean disponible, String sede,
+    		boolean lavandose, boolean enMantenimiento, String fechaDisponibleNuevamente,
+    		String rutaImagen) 
     {
     	//agrega un carro
-        Carro carro = new Carro(placa,  marca,  modelo,  transmision,  categoría, sede);
+        Carro carro = new Carro(placa,  marca,  modelo,  transmision,  categoría, alquilado,
+        		disponible, sede, lavandose, enMantenimiento, fechaDisponibleNuevamente, rutaImagen);
         inventario.put(placa, carro);
         
         //persistencia
@@ -68,6 +72,11 @@ public class InventarioCarros {
         String ruta_carro = "data/carros/" + placa + ".txt";
         File archivoCarro = new File(ruta_carro);
         archivoCarro.delete();
+        
+        String ruta_carro_imagen = "data/fotosCarros/" + placa + ".jpg";
+        File carro_imagen = new File(ruta_carro_imagen);
+        carro_imagen.delete();
+        
         System.out.println("Carro eliminado");
             
     }
@@ -207,16 +216,37 @@ public class InventarioCarros {
     	carro.reservar(diaInicio, diaFin);
     }
     
-    public void alquilarCarro(String placa, LocalDate diaInicio, LocalDate diaFin)
+    public void alquilarCarro(String placa, String cedulaCliente, LocalDate diaInicio, 
+    		LocalDate diaFin)
     {
     	Carro carro = buscarCarroPorPlaca(placa);
-    	carro.alquilarCarro(placa, diaInicio, diaFin);
+    	carro.alquilarCarro(cedulaCliente, diaInicio, diaFin);
     }
 
-	public Map<String, Carro> getInventario() {
+	public Map<String, Carro> getInventario() 
+	{
 		return inventario;
 	}
     
+	public void devolverCarro(String placa, boolean lavar, boolean 
+			mantenimiento, String fechaDisponibleNuevamente)
+	{
+		Carro carro = inventario.get(placa);
+		carro.devolverCarro();
+		if(lavar)
+		{
+			carro.lavarCarro();
+		}
+		if(mantenimiento)
+		{
+			carro.manteniemiento();
+		}
+		
+		if(lavar || mantenimiento)
+		{
+			carro.fechaDisponible(fechaDisponibleNuevamente);
+		}
+	}
     
 }
 

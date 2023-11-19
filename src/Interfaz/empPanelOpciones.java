@@ -21,6 +21,16 @@ public class empPanelOpciones extends JPanel implements ActionListener
 	private JButton btnRecibirVehiculo = new JButton("Recibir Vehiculo");
 	private JButton btnCancelar = new JButton("Cancelar");
 	
+	private JRadioButton btnLavar = new JRadioButton("Lavar");
+	private JRadioButton btnMantenimiento = new JRadioButton("Mantenimiento");
+	private JLabel labFechaDisponibleNuevamente = new JLabel("Fecha disponible nuevamente");
+	private JTextField txtFechaDisponibleNuevamente = new JTextField("");
+	private JButton btnDevolver = new JButton("Devolver");
+	
+	//elementos recibir
+	private JLabel labIngresePlaca = new JLabel("Ingrese la placa del vehículo: ");
+	private JTextField txtPlaca = new JTextField("");
+	
 	private InterfazEmpleado ventanaEmpleado;
 	
 	public empPanelOpciones(InterfazEmpleado ventanaEmpleado, Empleado empleado)
@@ -46,7 +56,16 @@ public class empPanelOpciones extends JPanel implements ActionListener
 		add(btnRecibirVehiculo);
 		add(btnCancelar);
 		
+		//elementos recibir
+		add(labIngresePlaca);
+		add(txtPlaca);
+		add(btnLavar);
+		add(btnMantenimiento);
+		add(labFechaDisponibleNuevamente);
+		add(txtFechaDisponibleNuevamente);
+		add(btnDevolver);
 		
+		mostrarRecibirVehiculo(false);
 	}
 	
 	
@@ -59,16 +78,44 @@ public class empPanelOpciones extends JPanel implements ActionListener
 		{
 			ventanaEmpleado.alquilarVehiculo();
 		}
+		else if(e.getSource()==btnRecibirVehiculo)
+		{
+			mostrarRecibirVehiculo(true);
+		}
 		else if(e.getSource()==btnCancelar)
 		{
 			cerrarVentana();
 		}
-		
+		else if(e.getSource()==btnDevolver)
+		{
+			devolverCarro();
+		}
 	}
 	
 	public void cerrarVentana()
 	{
 		ventanaEmpleado.cerrarVentana();
+	}
+	
+	public void mostrarRecibirVehiculo(boolean estado)
+	{
+		labIngresePlaca.setVisible(estado);
+		txtPlaca.setVisible(estado);
+		btnLavar.setVisible(estado);
+		btnMantenimiento.setVisible(estado);
+		labFechaDisponibleNuevamente.setVisible(estado);
+		txtFechaDisponibleNuevamente.setVisible(estado);
+		btnDevolver.setVisible(estado);
+	}
+	
+	public void devolverCarro()
+	{
+		boolean lavar = btnLavar.isSelected();
+		boolean mantenimiento = btnMantenimiento.isSelected();
+		String fechaDisponibleNuevamente = txtFechaDisponibleNuevamente.getText();
+		
+		ventanaEmpleado.devolverCarro(fechaDisponibleNuevamente, lavar, mantenimiento, 
+				fechaDisponibleNuevamente);
 	}
 	
 }

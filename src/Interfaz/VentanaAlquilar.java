@@ -25,6 +25,7 @@ public class VentanaAlquilar extends JFrame
 	private PanelAlquilerBotones panelBotones;
 	private Empleado empleado;
 	private boolean alquilo = false; 
+	private Cliente cliente;
 	
 	//VENTANAS
 	private VentanaClienteConReserva ventanaReserva;
@@ -55,7 +56,7 @@ public class VentanaAlquilar extends JFrame
 	public void consultarReserva(String cedula)
 	{
 		//primero mirar si el cliente existe
-		Cliente cliente = aplicacion.darClienteCedula(cedula);
+		cliente = aplicacion.darClienteCedula(cedula);
 		
 		if(cliente == null)
 		{
@@ -105,6 +106,12 @@ public class VentanaAlquilar extends JFrame
 	public boolean alquilo()
 	{
 		return alquilo;
+	}
+	
+	public void crearReserva()
+	{
+		InterfazCliente ventanaReserva = new InterfazCliente(aplicacion, cliente);
+		ventanaReserva.setVisible(true);
 	}
 }
 
