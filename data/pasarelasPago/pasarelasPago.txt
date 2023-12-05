@@ -1,0 +1,3 @@
+pasarelasPago.PayPal
+pasarelasPago.PayU
+pasarelasPago.Sire
