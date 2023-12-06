@@ -1,20 +1,33 @@
 package pasarelasPago;
 
-import java.lang.reflect.InvocationTargetException;
+import pasarelasPago.exceptions.TarjetaBloqueadaException;
+import pasarelasPago.exceptions.TarjetaSinCupoException;
 
 public class testCreacionClase {
 	
+	private GestorPasarelasPago gestor = GestorPasarelasPago.getInstance();
+	
+	public void pagar() {
+		try {
+			gestor.SeleccionarPasarela("PayPal");
+			if(gestor.pagar(null, 0)) {
+				System.out.println("Pago hecho");
+			}
+			
+			
+		} catch (TarjetaBloqueadaException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		} catch (TarjetaSinCupoException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		} catch (NullPointerException e) {
+			System.out.println("No has elegido una pasarela");
+		}
+	}
 	
 	public static void main(String[] args) {
-		try {
-			Class pago = Class.forName("pasarelasPago.PayU");
-			PasarelaPago pasarela = (PasarelaPago) pago.getDeclaredConstructor(null).newInstance(null);
-			
-			pasarela.hacerPago(null, 2);
-			
-		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-			// TODO Auto-generated catch block
-			System.out.println("No existe la clase");
-		}
+		testCreacionClase main = new testCreacionClase();
+		main.pagar();
 	}
 }

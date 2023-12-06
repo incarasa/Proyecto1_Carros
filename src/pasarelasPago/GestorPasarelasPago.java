@@ -6,17 +6,23 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import Usuarios.Cliente;
+import pasarelasPago.exceptions.TarjetaBloqueadaException;
+import pasarelasPago.exceptions.TarjetaSinCupoException;
+
 public class GestorPasarelasPago {
 	
 	private static GestorPasarelasPago instancia;
 	
 	private ArrayList<String> pasarelas = new ArrayList<>();
 	
+	private PasarelaPago pasarela = null;
+	
 	private GestorPasarelasPago() {
 		cargarPasarelas();
 	}
 	
-	public GestorPasarelasPago getInstance() {
+	public static GestorPasarelasPago getInstance() {
 		if (instancia == null) {
 			instancia = new GestorPasarelasPago();
 		} 
@@ -43,6 +49,31 @@ public class GestorPasarelasPago {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public ArrayList<String> getPasarelas(){
+		return pasarelas;
+	}
+	
+	public boolean SeleccionarPasarela(String name) {
+		
+		name = "pasarelasPago." + name;
+		try {
+			Class elegida = Class.forName(name);
+			this.pasarela = (PasarelaPago) elegida.getDeclaredConstructor(null).newInstance(null);
+			
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			return false;
+		} catch (Exception e) {
+			return false;
+		}
+		
+		return true;
+	}
+	
+	public boolean pagar(Cliente cliente, int monto) throws TarjetaBloqueadaException, TarjetaSinCupoException{
+		return pasarela.hacerPago(null, monto);
 	}
 	
 
