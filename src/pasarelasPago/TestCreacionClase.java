@@ -3,7 +3,7 @@ package pasarelasPago;
 import pasarelasPago.exceptions.TarjetaBloqueadaException;
 import pasarelasPago.exceptions.TarjetaSinCupoException;
 
-public class testCreacionClase {
+public class TestCreacionClase {
 	
 	private GestorPasarelasPago gestor = GestorPasarelasPago.getInstance();
 	
@@ -27,7 +27,7 @@ public class testCreacionClase {
 	}
 	
 	public static void main(String[] args) {
-		testCreacionClase main = new testCreacionClase();
+		TestCreacionClase main = new TestCreacionClase();
 		main.pagar();
 	}
 }
