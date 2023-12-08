@@ -24,6 +24,7 @@ import Instalaciones.Sedes;
 import Interfaz.InterfazPrincipal;
 import Inventario.Carro;
 import Inventario.InventarioCarros;
+import PDFGenerator.PDFGenerator;
 import Tarifas.Categorias;
 import Tarifas.Conductor;
 import Tarifas.Seguros;
@@ -317,11 +318,37 @@ public class RentACar
 	}
 	
 	public void alquilarVehiculo(String placaAuto, String cedulaCliente, LocalDate fechaRecogida, LocalDate fechaEntrega,
-			String sedeRecogida, String sedeEntrega , List<Conductor> listaConductores)
+			String sedeRecogida, String sedeEntrega , List<Conductor> listaConductores, 
+			String seguroSeleccionado)
 	{
 		//se crea el alquiler y el carro se hace no disponible en los días de alquiler
 		gestorAlquileres.crearAlquiler(placaAuto, cedulaCliente, fechaRecogida, fechaEntrega, sedeRecogida, sedeEntrega, listaConductores);
 		inventario.alquilarCarro(placaAuto, cedulaCliente,fechaRecogida, fechaEntrega);
+		
+		//se empieza a sacar la info para la factura
+		Cliente cliente = usuarios.retornarCliente(cedulaCliente);
+		Carro carro = inventario.buscarCarroPorPlaca(placaAuto);
+		char categoriaCarro = carro.getCategoría();
+		int precioDiaCategoria = categorias.precioCategoría(categoriaCarro+"");
+		int numeroDeDias = (int)(ChronoUnit.DAYS.between(fechaRecogida, fechaEntrega));
+		
+		int precioSeguro = seguros.precioSeguro(seguroSeleccionado);
+		
+		int numeroConductores = listaConductores.size();
+		int precioCondAdicional = Conductor.getPrecioCondAdicional();
+		
+		boolean diferenteSede = sedeRecogida.equals(sedeEntrega);
+		int tarifaCambioSede1 = tarifaCambioSede.getTarifa();
+		
+		//se genera la factura y se guarda en el pdf
+		
+		PDFGenerator.generarFactura(placaAuto, fechaRecogida, cliente.getNombre(), 
+				cliente.getNumeroDocumento(), 
+				cliente.getTelefono(), cliente.getCorreo(), categoriaCarro, 
+				precioDiaCategoria, numeroDeDias, seguroSeleccionado, precioSeguro, 
+				numeroConductores, precioCondAdicional, diferenteSede, tarifaCambioSede1);
+		
+		
 	}
 	
 	public void devolverVehiculo(String placa, boolean lavar, boolean 

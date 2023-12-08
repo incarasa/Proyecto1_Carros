@@ -68,6 +68,7 @@ public class VentanaSeguros extends JFrame
 	
 	public void continuar(String seguroSeleccionado)
 	{
+		
 		LocalDate diaInicioDate = reserva.getDiaInicio();
 		LocalDate diaFinDate = fechaEntregaAjustada;
 		
@@ -87,7 +88,8 @@ public class VentanaSeguros extends JFrame
 		
 		
 		ventanaConfirmarAlquiler = new VentanaConfirmarAlquiler(aplicacion, precio, empleado,
-				reserva, listaConductores, fechaEntregaAjustada, sedeEntregaAjustada);
+				reserva, listaConductores, fechaEntregaAjustada, sedeEntregaAjustada, 
+				seguroSeleccionado);
 		
 		ventanaConfirmarAlquiler.setVisible(true);
 	}
