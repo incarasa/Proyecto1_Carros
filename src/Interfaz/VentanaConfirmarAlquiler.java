@@ -1,10 +1,12 @@
 package Interfaz;
 
 import java.awt.BorderLayout;
+import java.awt.Window;
 import java.time.LocalDate;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import Alquiler.Reserva;
 import Inventario.Carro;
@@ -63,6 +65,11 @@ public class VentanaConfirmarAlquiler extends JFrame
 				reserva.getDiaInicio(), fechaEntregaAjustada, empleado.getNombreSede(),
 				sedeEntregaAjustada, 
 				listaConductores, seguroSeleccionado);
+		
+		JOptionPane.showMessageDialog(this, "Alquiler realizado con éxito",
+				"Reserva exitosa", JOptionPane.INFORMATION_MESSAGE);
+		
+		dispose();
 	}
 	
 }

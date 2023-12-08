@@ -19,6 +19,7 @@ import Inventario.Carro;
 import Inventario.InventarioCarros;
 import Tarifas.Categorias;
 import Tarifas.Conductor;
+import Usuarios.Cliente;
 import Usuarios.Usuarios;
 
 public class main 
@@ -111,7 +112,6 @@ public class main
 		
 		//app.reservarCarro("NORMANDIA", "NORMANDIA", LocalDate.of(2023, 11, 03), 
 				//LocalDate.of(2023, 11, 07), LocalTime.of(12,0), LocalTime.of(12, 0), "C".charAt(0));
-		
 		
 		
 	}

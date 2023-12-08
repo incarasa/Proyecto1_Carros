@@ -228,6 +228,29 @@ public class PDFGenerator
                 tablaProductos.addCell(cellPrecio4);
             }
             
+            //precio 5 total
+            int intPrecio5 = intPrecio1 + intPrecio2 + intPrecio3;
+            if(diferenteSede)
+            {
+            	intPrecio5 = intPrecio5+tarifaCambioSede;
+            }
+            
+            PdfPCell cellTotal = new PdfPCell();
+            PdfPCell cellValorTotal = new PdfPCell();
+            
+            String labTotal = "TOTAL";
+            String precio5 = String.valueOf(intPrecio5);
+            
+            cellTotal.addElement(new Paragraph(labTotal, fuenteLabInfo));
+            cellValorTotal.addElement(new Paragraph(precio5, fuenteLabInfo));
+            
+            cellTotal.setBorder(PdfPCell.NO_BORDER);
+            cellValorTotal.setBorder(PdfPCell.NO_BORDER);
+            
+            tablaProductos.addCell(cellDiasNull);
+            tablaProductos.addCell(cellTotal);
+            tablaProductos.addCell(cellValorTotal);
+            
             document.add(tablaProductos);
             
             // Cerrar el documento

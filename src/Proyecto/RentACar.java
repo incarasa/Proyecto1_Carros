@@ -326,7 +326,8 @@ public class RentACar
 		inventario.alquilarCarro(placaAuto, cedulaCliente,fechaRecogida, fechaEntrega);
 		
 		//se empieza a sacar la info para la factura
-		Cliente cliente = usuarios.retornarCliente(cedulaCliente);
+
+		Cliente cliente = darClienteCedula(cedulaCliente);
 		Carro carro = inventario.buscarCarroPorPlaca(placaAuto);
 		char categoriaCarro = carro.getCategoría();
 		int precioDiaCategoria = categorias.precioCategoría(categoriaCarro+"");

@@ -2,7 +2,7 @@ package Tarifas;
 
 public class Conductor 
 {
-	private static int precioConductorAdicional = 20000;
+	private static int precioConductorAdicional = 50000;
 	
 	private String nombre;
 	private String numeroLicencia; //8
