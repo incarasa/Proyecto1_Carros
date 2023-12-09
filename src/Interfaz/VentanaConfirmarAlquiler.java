@@ -1,10 +1,12 @@
 package Interfaz;
 
 import java.awt.BorderLayout;
+import java.awt.Window;
 import java.time.LocalDate;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import Alquiler.Reserva;
 import Inventario.Carro;
@@ -20,6 +22,7 @@ public class VentanaConfirmarAlquiler extends JFrame
 	private Reserva reserva;
 	private Cliente cliente;
 	private Empleado empleado;
+	private String seguroSeleccionado;
 	
 	private LocalDate fechaEntregaAjustada;
 	private String sedeEntregaAjustada;
@@ -28,7 +31,7 @@ public class VentanaConfirmarAlquiler extends JFrame
 	
 	public VentanaConfirmarAlquiler(RentACar aplicacion, double precio, Empleado empleado, 
 			Reserva reserva, List<Conductor> listaConductores, LocalDate fechaEntregaAjustada,
-			String sedeEntregaAjustada)
+			String sedeEntregaAjustada, String seguroSeleccionado)
 	{
 		this.aplicacion = aplicacion;
 		this.empleado = empleado;
@@ -36,6 +39,7 @@ public class VentanaConfirmarAlquiler extends JFrame
 		this.reserva = reserva;
 		this.fechaEntregaAjustada = fechaEntregaAjustada;
 		this.sedeEntregaAjustada = sedeEntregaAjustada;
+		this.seguroSeleccionado = seguroSeleccionado;
 		
 		setTitle("Confirmar alquiler");
 		setSize(1000,700);
@@ -60,7 +64,12 @@ public class VentanaConfirmarAlquiler extends JFrame
 		aplicacion.alquilarVehiculo(reserva.getPlacaVehiculo(), reserva.getDocumentoCliente(), 
 				reserva.getDiaInicio(), fechaEntregaAjustada, empleado.getNombreSede(),
 				sedeEntregaAjustada, 
-				listaConductores);
+				listaConductores, seguroSeleccionado);
+		
+		JOptionPane.showMessageDialog(this, "Alquiler realizado con éxito",
+				"Reserva exitosa", JOptionPane.INFORMATION_MESSAGE);
+		
+		dispose();
 	}
 	
 }
