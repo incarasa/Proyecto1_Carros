@@ -62,9 +62,10 @@ public class VentanaAdminCarros extends JFrame
 		{
 			VehiculoBase carro = aplicacion.darCarro(placa);
 			
+			String transmision = carro.getCaracteristicas().get(0);
 			
 			panelAdminCarrosInfo.actualizarCamposdeTexto(carro.getPlaca(), carro.getMarca(), 
-					carro.getModelo(), carro.getTransmision(), carro.getCategoría(), 
+					carro.getModelo(), transmision, carro.getCategoría(), 
 					carro.isAlquilado(), carro.isDisponible(), carro.getSede(), 
 					carro.getLavandose(), carro.getEnMantenimiento(), 
 					carro.getFechaDisponibleNuevamente(), carro.getDiasNoDisponible(), carro.getRutaImagen());
