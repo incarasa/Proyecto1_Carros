@@ -7,7 +7,7 @@ import java.util.List;
 import javax.swing.JFrame;
 
 import Alquiler.Reserva;
-import Inventario.Carro;
+import Inventario.VehiculoBase;
 import Proyecto.RentACar;
 import Tarifas.Conductor;
 import Usuarios.Cliente;

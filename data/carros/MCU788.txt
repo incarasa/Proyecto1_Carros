@@ -1,4 +1,4 @@
-MCU788,KIA,2008,MECANICA,A,true,true,Cliente: 1000271188,false,false,,C:\Users\incar\eclipse-workspace\Proyecto1_AlquilerCarros\data\fotosCarros\MCU788.jpg
+MCU788,KIA,2008,MECANICA,A,true,true,Cliente: 1000271188,false,false,,C:\Users\incar\eclipse-workspace\Proyecto1_AlquilerCarros\data\fotosCarros\MCU788.jpg,Carro
 2023/NOVEMBER/2
 2023/NOVEMBER/3
 2023/NOVEMBER/4

@@ -22,7 +22,7 @@ import Alquiler.Reserva;
 import Instalaciones.Sede;
 import Instalaciones.Sedes;
 import Interfaz.InterfazPrincipal;
-import Inventario.Carro;
+import Inventario.VehiculoBase;
 import Inventario.InventarioCarros;
 import Tarifas.Categorias;
 import Tarifas.Conductor;
@@ -68,11 +68,11 @@ public class RentACar
 		return usuarios.getTipoUsuario();
 	}
 	
-	public void agregarCarro(String placa, String marca, int modelo, String transmision, 
-			char categoría, String sede, String rutaImagen)
+	public void agregarCarro(String placa, String marca, int modelo, ArrayList<String> transmision, 
+			char categoría, String sede, String rutaImagen, String tipo)
 	{
-		inventario.agregarCarro(placa, marca, modelo, transmision, categoría, false, true,
-				sede, false, false, "", rutaImagen);
+		inventario.agregarVehiculo(placa, marca, modelo, transmision, categoría, false, true,
+				sede, false, false, "", rutaImagen, tipo);
 	}
 	
 	public void eliminarCarro(String placa)
@@ -117,7 +117,7 @@ public class RentACar
 	{
 		return sedes.darSedes();
 	}
-	public Carro darCarro(String placa)
+	public VehiculoBase darCarro(String placa)
 	{
 		return inventario.buscarCarroPorPlaca(placa);
 	}
@@ -128,7 +128,7 @@ public class RentACar
 	{
 		int retVar = 10; //arranca en estado de que funcionó bien
 		double[] precios = null;
-		Carro carroSeleccionado = null;
+		VehiculoBase carroSeleccionado = null;
 		
 		//primero mirar
 		
@@ -172,11 +172,11 @@ public class RentACar
 		
 		{
 			//Que carros hay en la sede disponibles para reservar?
-			List<Carro> carrosDisponibles = inventario.carrosDisponibles(nombreSedeRecogida,
+			List<VehiculoBase> carrosDisponibles = inventario.carrosDisponibles(nombreSedeRecogida,
 					diaRecogida, diaDevolucion , categoria);
 			
 			//LOOP PARA SABER CUANTOS CARROS HAY
-			for(Carro carro: carrosDisponibles)
+			for(VehiculoBase carro: carrosDisponibles)
 			{
 				System.out.println(carro.getPlaca());
 			}
@@ -232,7 +232,7 @@ public class RentACar
 	}
 	
 	//crea una reserva y cambia la disponibilidad del vehiculo
-	public void reservarDefinitivo(Cliente cliente, double precio30,Carro carroSelecionado, 
+	public void reservarDefinitivo(Cliente cliente, double precio30,VehiculoBase carroSelecionado, 
 			LocalDate fechaRecogida, LocalDate fechaDevolucion, 
 			LocalTime horaRecogida, LocalTime horaDevolucion, 
 			String sedeRecogida, String sedeDevolucion, char categoria)

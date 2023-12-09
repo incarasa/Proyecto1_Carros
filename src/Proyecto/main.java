@@ -15,7 +15,7 @@ import Alquiler.GestorReservas;
 import Alquiler.Reserva;
 import Instalaciones.Sedes;
 import Interfaz.InterfazPrincipal;
-import Inventario.Carro;
+import Inventario.VehiculoBase;
 import Inventario.InventarioCarros;
 import Tarifas.Categorias;
 import Tarifas.Conductor;
@@ -41,7 +41,7 @@ public class main
 		
 		//app.reservarCarro("MCU788", fecha1, fecha2);
 		
-		Carro carro1 = inventario.buscarCarroPorPlaca("MCU788");
+		VehiculoBase carro1 = inventario.buscarCarroPorPlaca("MCU788");
 		System.out.println(carro1.esReservable(fecha1, fecha2));
 		
 		//borrar un carro

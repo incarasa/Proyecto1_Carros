@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.Month;
 
 import Alquiler.Alquiler;
-import Inventario.Carro;
+import Inventario.VehiculoBase;
 import Inventario.Manejo_CSV;
 import Tarifas.Conductor;
 

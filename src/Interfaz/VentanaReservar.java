@@ -7,7 +7,7 @@ import java.time.LocalTime;
 
 import javax.swing.*;
 
-import Inventario.Carro;
+import Inventario.VehiculoBase;
 import Proyecto.RentACar;
 import Usuarios.Cliente;
 
@@ -15,7 +15,7 @@ public class VentanaReservar extends JFrame
 {
 	private RentACar aplicacion;
 	private icPanelOpciones reservarPanelInformacion;
-	private Carro carroSeleccionado;
+	private VehiculoBase carroSeleccionado;
 	
 	private LocalDate fechaRecogida;
 	private LocalDate fechaDevolucion;
@@ -32,7 +32,7 @@ public class VentanaReservar extends JFrame
 	//lleva en 0 el precio total y en 1 el 30%
 	private double[] precios;
 	
-	public VentanaReservar(Cliente cliente, RentACar aplicacion , double[] precios , Carro carroSeleccionado,
+	public VentanaReservar(Cliente cliente, RentACar aplicacion , double[] precios , VehiculoBase carroSeleccionado,
 			LocalDate fechaRecogida, LocalDate fechaDevolucion, LocalTime horaRecogida,
 			LocalTime horaDevolucion, String sedeRecogida, String sedeDevolucion , char categoria)
 	{
@@ -80,7 +80,7 @@ public class VentanaReservar extends JFrame
 		reservarCompleta(cliente, precios[1], carroSeleccionado,fechaRecogida, fechaDevolucion, horaRecogida, horaDevolucion, sedeRecogida, sedeDevolucion, categoria);
 	}
 	
-	public void reservarCompleta(Cliente cliente, double precio30,Carro carroSelecionado, 
+	public void reservarCompleta(Cliente cliente, double precio30,VehiculoBase carroSelecionado, 
 			LocalDate fechaRecogida, LocalDate fechaDevolucion, 
 			LocalTime horaRecogida, LocalTime horaDevolucion, 
 			String sedeRecogida, String sedeDevolucion, char categoria)

@@ -21,7 +21,9 @@ import Tarifas.Categorias;
 public class InventarioCarros {
 	
 	//atributos
-    private Map<String, Carro> inventario;
+	
+	private FactoryVehiculos factory = FactoryVehiculos.getInstance();
+    private Map<String, VehiculoBase> inventario;
     private String rutaCSV;
     private char[] categorias = {'N', 'M', 'L', 'K', 'J', 'I', 'H', 'G', 'F', 'E', 'D', 'C', 'B', 'A'};
 
@@ -45,19 +47,33 @@ public class InventarioCarros {
      * @param categoría
      * @param sede
      */
-    public void agregarCarro(String placa, String marca, int modelo, String transmision, 
+    public void agregarVehiculo(String placa, String marca, int modelo, ArrayList<String> carac, 
     		char categoría, boolean alquilado, boolean disponible, String sede,
     		boolean lavandose, boolean enMantenimiento, String fechaDisponibleNuevamente,
-    		String rutaImagen) 
+    		String rutaImagen, String tipo) 
     {
     	//agrega un carro
-        Carro carro = new Carro(placa,  marca,  modelo,  transmision,  categoría, alquilado,
-        		disponible, sede, lavandose, enMantenimiento, fechaDisponibleNuevamente, rutaImagen);
-        inventario.put(placa, carro);
+    	DTOInfoVehiculo datos = new DTOInfoVehiculo();
+    	
+    	datos.setTipo(tipo);
+    	datos.setPlaca(placa);
+    	datos.setMarca(marca);
+    	datos.setModelo(modelo);
+    	datos.setCaracteristicas(carac);
+    	datos.setCategoría(categoría);
+    	datos.setAlquilado(alquilado);
+    	datos.setDisponible(disponible);
+    	datos.setSede(sede);
+    	datos.setLavandose(lavandose);
+    	datos.setEnMantenimiento(enMantenimiento);
+    	datos.setFechaDisponibleNuevamente(fechaDisponibleNuevamente);
+    	datos.setRutaImagen(rutaImagen);
+    	
+        VehiculoBase vehiculo = factory.crearVehiculo(datos);
         
         //persistencia
         String ruta_carro = "data/carros/" + placa + ".txt";
-    	carro.guardarEnArchivo(ruta_carro); //guarda el carro en archivo
+    	vehiculo.guardarEnArchivo(ruta_carro); //guarda el carro en archivo
     	System.out.println("Carro creado");
         
     	
@@ -81,16 +97,16 @@ public class InventarioCarros {
             
     }
 
-    public Carro buscarCarroPorPlaca(String placa) {
+    public VehiculoBase buscarCarroPorPlaca(String placa) {
         return inventario.get(placa);
     }
     
     
-    public List<Carro> carrosDisponibles(String sede, LocalDate fechaInicio, LocalDate fechaFin,
+    public List<VehiculoBase> carrosDisponibles(String sede, LocalDate fechaInicio, LocalDate fechaFin,
     		char categoria)
     {
     	//filtrar por sede
-    	List<Carro> listaDisponibles = carrosDisponiblesEnSede(sede);
+    	List<VehiculoBase> listaDisponibles = carrosDisponiblesEnSede(sede);
     	
     	//filtrar por dias disponibles
     	listaDisponibles = DisponiblesEnFechas(listaDisponibles, fechaInicio,
@@ -109,10 +125,10 @@ public class InventarioCarros {
      * @param sede
      * @return
      */
-    public List<Carro> carrosDisponiblesEnSede(String sede) {
-        List<Carro> carrosDisponibles = new ArrayList<>();
+    public List<VehiculoBase> carrosDisponiblesEnSede(String sede) {
+        List<VehiculoBase> carrosDisponibles = new ArrayList<>();
 
-        for (Carro carro : inventario.values()) {
+        for (VehiculoBase carro : inventario.values()) {
         	//Que el carro no esté alquilado y que esté disponible (mantenimiento o aseo).
         	
             if ((!carro.isAlquilado()) && (carro.isDisponible()) &&
@@ -134,13 +150,13 @@ public class InventarioCarros {
      * @param fechaFin
      * @return lista carros disponibles
      */
-    public List<Carro> DisponiblesEnFechas(List<Carro> carros , LocalDate fechaInicio, LocalDate fechaFin)
+    public List<VehiculoBase> DisponiblesEnFechas(List<VehiculoBase> carros , LocalDate fechaInicio, LocalDate fechaFin)
     {
 
-    	List<Carro> carrosDisponibles = new ArrayList<Carro>();
+    	List<VehiculoBase> carrosDisponibles = new ArrayList<VehiculoBase>();
     	
     	//se recorre para mirar que carros estan disponibles.
-    	for(Carro carro : carros)
+    	for(VehiculoBase carro : carros)
 		{
     		if(carro.esReservable(fechaInicio, fechaFin))
     		{
@@ -151,13 +167,13 @@ public class InventarioCarros {
     	return carrosDisponibles;
 	}
     
-    public List<Carro> DisponiblesCategoriaOSuperior(List<Carro> carros , char categoria)
+    public List<VehiculoBase> DisponiblesCategoriaOSuperior(List<VehiculoBase> carros , char categoria)
     {
-    	List<Carro> carrosCategoriaoSup = new ArrayList<Carro>();
+    	List<VehiculoBase> carrosCategoriaoSup = new ArrayList<VehiculoBase>();
     	
     	while((carrosCategoriaoSup.size() == 0) && (categoria >= "A".charAt(0)))
     	{
-    		for(Carro carro : carros)
+    		for(VehiculoBase carro : carros)
         	{
         		char categoriaSTR = carro.getCategoría();
         		if(categoria == categoriaSTR)
@@ -186,7 +202,7 @@ public class InventarioCarros {
     		try (BufferedReader br = new BufferedReader(new FileReader(carroArchivo))) 
     		{
     			String primeraLinea = br.readLine();
-    			Carro carro = Manejo_CSV.fromCSV(primeraLinea); //retorna un carro
+    			VehiculoBase carro = Manejo_CSV.fromCSV(primeraLinea); //retorna un carro
     			
     			String linea;
     			linea = br.readLine();
@@ -212,18 +228,18 @@ public class InventarioCarros {
     
     public void reservarCarro(String placa, LocalDate diaInicio, LocalDate diaFin)
     {
-    	Carro carro = buscarCarroPorPlaca(placa);
+    	VehiculoBase carro = buscarCarroPorPlaca(placa);
     	carro.reservar(diaInicio, diaFin);
     }
     
     public void alquilarCarro(String placa, String cedulaCliente, LocalDate diaInicio, 
     		LocalDate diaFin)
     {
-    	Carro carro = buscarCarroPorPlaca(placa);
+    	VehiculoBase carro = buscarCarroPorPlaca(placa);
     	carro.alquilarCarro(cedulaCliente, diaInicio, diaFin);
     }
 
-	public Map<String, Carro> getInventario() 
+	public Map<String, VehiculoBase> getInventario() 
 	{
 		return inventario;
 	}
@@ -231,7 +247,7 @@ public class InventarioCarros {
 	public void devolverCarro(String placa, boolean lavar, boolean 
 			mantenimiento, String fechaDisponibleNuevamente)
 	{
-		Carro carro = inventario.get(placa);
+		VehiculoBase carro = inventario.get(placa);
 		carro.devolverCarro();
 		if(lavar)
 		{

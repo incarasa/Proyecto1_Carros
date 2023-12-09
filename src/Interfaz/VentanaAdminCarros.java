@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import Inventario.Carro;
+import Inventario.VehiculoBase;
 import Proyecto.RentACar;
 
 public class VentanaAdminCarros extends JFrame
@@ -58,7 +58,7 @@ public class VentanaAdminCarros extends JFrame
 		panelAdminCarrosInfo.setVisibleElementos(true);
 		try 
 		{
-			Carro carro = aplicacion.darCarro(placa);
+			VehiculoBase carro = aplicacion.darCarro(placa);
 			
 			
 			panelAdminCarrosInfo.actualizarCamposdeTexto(carro.getPlaca(), carro.getMarca(), 

@@ -5,50 +5,72 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.Map;
 
 public class Manejo_CSV 
 
 {
+	
+	private static FactoryVehiculos factory = FactoryVehiculos.getInstance();
+	
 	/**
 	 * Paso un carro y me devuelve un string con CSV
 	 * @param carro
 	 * @return String (linea CSV)
 	 */
-	public static String toCSV(Carro carro) 
+	public static String toCSV(VehiculoBase carro) 
 	{
+		ArrayList<String> caracteristicas = carro.getCaracteristicas();
+		
+		String agregar = "";
+		
+		for (String dato: caracteristicas) {
+			agregar = agregar + ";" + dato;
+		}
+		
 	    return carro.getPlaca() + "," + carro.getMarca() + "," + carro.getModelo() + "," 
-	    		+ carro.getTransmision() + "," + carro.getCategoría() + "," 
+	    		+ agregar + "," + carro.getCategoría() + "," 
 	    		+ carro.isAlquilado() + "," + carro.isDisponible() + "," + carro.getSede() + 
 	    		"," + carro.getLavandose() +  "," + carro.getEnMantenimiento() 
 	    		+ "," + carro.getFechaDisponibleNuevamente() + "," + carro.getRutaImagen();
 	}
 	
 	//Retorna un carro desde una linea de CSV
-	public static Carro fromCSV(String lineaCSV) 
+	public static VehiculoBase fromCSV(String lineaCSV) 
 	{
 	    String[] partes = lineaCSV.split(",");
-	    if (partes.length != 12) {
+	    if (partes.length != 13) {
 	        throw new IllegalArgumentException("Formato CSV no válido");
 	    }
-
-	    String placa = partes[0];
-	    String marca = partes[1];
-	    int modelo = Integer.parseInt(partes[2]);
-	    String transmision = partes[3];
-	    char categoria = partes[4].charAt(0);
-	    boolean alquilado = Boolean.parseBoolean(partes[5]);
-	    boolean disponible = Boolean.parseBoolean(partes[6]);
-	    String sede = partes[7];
-	    boolean lavandose = Boolean.parseBoolean(partes[8]);
-	    boolean enMantenimiento = Boolean.parseBoolean(partes[9]);
-	    String fechaDisponibleNuevamente = partes[10];
-	    String rutaImagen = partes[11];
 	    
-	    Carro carro = new Carro(placa, marca, modelo, transmision, categoria, alquilado, 
-	    		disponible, sede, lavandose,
-	    		enMantenimiento, fechaDisponibleNuevamente, rutaImagen);
-	    return carro;
+	    DTOInfoVehiculo datosCrear = new DTOInfoVehiculo();
+	    
+	    datosCrear.setPlaca(partes[0]);
+	    datosCrear.setMarca(partes[1]);
+	    datosCrear.setModelo(Integer.parseInt(partes[2]));
+	    
+	    String[] caracteristicas = partes[3].split(";");
+	    ArrayList<String> caracAgregar = new ArrayList<>();
+	    
+	    for (String carac: caracteristicas) {
+	    	caracAgregar.add(carac);
+	    }
+	    
+	    datosCrear.setCaracteristicas(caracAgregar);
+	    datosCrear.setCategoría(partes[4].charAt(0));
+	    datosCrear.setAlquilado(Boolean.parseBoolean(partes[5]));
+	    datosCrear.setDisponible(Boolean.parseBoolean(partes[6]));
+	    datosCrear.setSede(partes[7]);
+	    datosCrear.setLavandose(Boolean.parseBoolean(partes[8]));
+	    datosCrear.setEnMantenimiento(Boolean.parseBoolean(partes[9]));
+	    datosCrear.setFechaDisponibleNuevamente(partes[10]);
+	    datosCrear.setRutaImagen(partes[11]);
+	    datosCrear.setTipo(partes[12]);
+	  
+	    VehiculoBase retorno = factory.crearVehiculo(datosCrear);
+	    
+	    return retorno;
 	}
 	
 	/**

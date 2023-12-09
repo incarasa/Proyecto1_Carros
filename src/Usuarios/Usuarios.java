@@ -8,7 +8,7 @@ import java.util.Map;
 
 
 
-import Inventario.Carro;
+import Inventario.VehiculoBase;
 import Inventario.Manejo_CSV;
 import manejoCSV.AdminSedeCSV;
 import manejoCSV.ClientesCSV;

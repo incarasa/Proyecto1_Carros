@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import Inventario.Carro;
+import Inventario.VehiculoBase;
 import Inventario.Manejo_CSV;
 import Tarifas.Conductor;
 import manejoCSV.AlquilerCSV;
