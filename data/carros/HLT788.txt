@@ -1,4 +1,4 @@
-HLT788,FORD,2015,MECANICA,A,false,true,MODELIA,false,false,,C:\Users\incar\eclipse-workspace\Proyecto1_AlquilerCarros\data\fotosCarros\HLT788.jpg
+HLT788,FORD,2015,MECANICA,A,false,true,MODELIA,false,false,,C:\Users\incar\eclipse-workspace\Proyecto1_AlquilerCarros\data\fotosCarros\HLT788.jpg,Carro
 2023/NOVEMBER/17
 2023/NOVEMBER/18
 2023/NOVEMBER/19
