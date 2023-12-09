@@ -24,6 +24,7 @@ import Instalaciones.Sedes;
 import Interfaz.InterfazPrincipal;
 import Inventario.Carro;
 import Inventario.InventarioCarros;
+import Inventario.VehiculoBase;
 import PDFGenerator.PDFGenerator;
 import Tarifas.Categorias;
 import Tarifas.Conductor;
@@ -118,7 +119,7 @@ public class RentACar
 	{
 		return sedes.darSedes();
 	}
-	public Carro darCarro(String placa)
+	public VehiculoBase darCarro(String placa)
 	{
 		return inventario.buscarCarroPorPlaca(placa);
 	}
@@ -129,7 +130,7 @@ public class RentACar
 	{
 		int retVar = 10; //arranca en estado de que funcionó bien
 		double[] precios = null;
-		Carro carroSeleccionado = null;
+		VehiculoBase carroSeleccionado = null;
 		
 		//primero mirar
 		
@@ -173,11 +174,11 @@ public class RentACar
 		
 		{
 			//Que carros hay en la sede disponibles para reservar?
-			List<Carro> carrosDisponibles = inventario.carrosDisponibles(nombreSedeRecogida,
+			List<VehiculoBase> carrosDisponibles = inventario.carrosDisponibles(nombreSedeRecogida,
 					diaRecogida, diaDevolucion , categoria);
 			
 			//LOOP PARA SABER CUANTOS CARROS HAY
-			for(Carro carro: carrosDisponibles)
+			for(VehiculoBase carro: carrosDisponibles)
 			{
 				System.out.println(carro.getPlaca());
 			}
