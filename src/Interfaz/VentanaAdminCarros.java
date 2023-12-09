@@ -3,6 +3,7 @@ package Interfaz;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Image;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -95,8 +96,11 @@ public class VentanaAdminCarros extends JFrame
 		char categoría = panelAdminCarrosInfo.getCategoria();
 		String sede = panelAdminCarrosInfo.getSede();
 		String rutaImagen = panelAdminCarrosInfo.getRutaImagen();
+		String tipo = "a"; //TODO aqui deben agregar el nuevo panel para tomar los datos del tipo de vehiculo
+		ArrayList<String> carac = new ArrayList<String>();
+		carac.add(transmision);
 		
-		aplicacion.agregarCarro(placa, marca, modelo, transmision, categoría, sede, rutaImagen);
+		aplicacion.agregarCarro(placa, marca, modelo, carac, categoría, sede, rutaImagen, tipo);
 		panelAdminCarrosInfo.setEstado("");
 		
 		JOptionPane.showMessageDialog( this , "Carro creado con éxito" ,"Agregar carro" , 
