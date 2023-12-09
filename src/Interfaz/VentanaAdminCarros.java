@@ -3,6 +3,7 @@ package Interfaz;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Image;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -60,9 +61,10 @@ public class VentanaAdminCarros extends JFrame
 		{
 			VehiculoBase carro = aplicacion.darCarro(placa);
 			
+			String transmision = carro.getCaracteristicas().get(0);
 			
 			panelAdminCarrosInfo.actualizarCamposdeTexto(carro.getPlaca(), carro.getMarca(), 
-					carro.getModelo(), carro.getTransmision(), carro.getCategoría(), 
+					carro.getModelo(), transmision, carro.getCategoría(), 
 					carro.isAlquilado(), carro.isDisponible(), carro.getSede(), 
 					carro.getLavandose(), carro.getEnMantenimiento(), 
 					carro.getFechaDisponibleNuevamente(), carro.getDiasNoDisponible(), carro.getRutaImagen());
@@ -94,8 +96,10 @@ public class VentanaAdminCarros extends JFrame
 		char categoría = panelAdminCarrosInfo.getCategoria();
 		String sede = panelAdminCarrosInfo.getSede();
 		String rutaImagen = panelAdminCarrosInfo.getRutaImagen();
+		ArrayList<String> carac = new ArrayList<String>();
+		carac.add(transmision);
 		
-		aplicacion.agregarCarro(placa, marca, modelo, transmision, categoría, sede, rutaImagen);
+		aplicacion.agregarCarro(placa, marca, modelo, carac, categoría, sede, rutaImagen, rutaImagen);
 		panelAdminCarrosInfo.setEstado("");
 		
 		JOptionPane.showMessageDialog( this , "Carro creado con éxito" ,"Agregar carro" , 

@@ -24,16 +24,22 @@ public class Manejo_CSV
 		ArrayList<String> caracteristicas = carro.getCaracteristicas();
 		
 		String agregar = "";
-		
+		int i = 0;
 		for (String dato: caracteristicas) {
+			if (i > 0) {
 			agregar = agregar + ";" + dato;
+			} else {
+				agregar = dato;
+			}
+			
+			i++;
 		}
 		
 	    return carro.getPlaca() + "," + carro.getMarca() + "," + carro.getModelo() + "," 
 	    		+ agregar + "," + carro.getCategoría() + "," 
 	    		+ carro.isAlquilado() + "," + carro.isDisponible() + "," + carro.getSede() + 
 	    		"," + carro.getLavandose() +  "," + carro.getEnMantenimiento() 
-	    		+ "," + carro.getFechaDisponibleNuevamente() + "," + carro.getRutaImagen();
+	    		+ "," + carro.getFechaDisponibleNuevamente() + "," + carro.getRutaImagen() + "," + carro.getTipo();
 	}
 	
 	//Retorna un carro desde una linea de CSV
@@ -50,12 +56,12 @@ public class Manejo_CSV
 	    datosCrear.setMarca(partes[1]);
 	    datosCrear.setModelo(Integer.parseInt(partes[2]));
 	    
-	    String[] caracteristicas = partes[3].split(";");
-	    ArrayList<String> caracAgregar = new ArrayList<>();
 	    
-	    for (String carac: caracteristicas) {
-	    	caracAgregar.add(carac);
-	    }
+	    ArrayList<String> caracAgregar = new ArrayList<>();
+	    String[] caracteristicas = partes[3].split(";");
+		for (String carac: caracteristicas) {
+		    caracAgregar.add(carac);
+		 }
 	    
 	    datosCrear.setCaracteristicas(caracAgregar);
 	    datosCrear.setCategoría(partes[4].charAt(0));

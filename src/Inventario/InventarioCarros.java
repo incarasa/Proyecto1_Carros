@@ -206,7 +206,7 @@ public class InventarioCarros {
     			
     			String linea;
     			linea = br.readLine();
-    			while (linea != null && (linea != "")) 
+    			while (linea != null && (!linea.equals(""))) 
     			{
     				//aca debe añadirse al mapa de reservas un día particular
     				carro.reservar(Manejo_CSV.lineaCSVaDate(linea), Manejo_CSV.lineaCSVaDate(linea));
