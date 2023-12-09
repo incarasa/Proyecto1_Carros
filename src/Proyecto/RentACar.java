@@ -70,11 +70,11 @@ public class RentACar
 		return usuarios.getTipoUsuario();
 	}
 	
-	public void agregarCarro(String placa, String marca, int modelo, String transmision, 
-			char categoría, String sede, String rutaImagen)
+	public void agregarCarro(String placa, String marca, int modelo, ArrayList<String> transmision, 
+			char categoría, String sede, String rutaImagen, String tipo)
 	{
 		inventario.agregarVehiculo(placa, marca, modelo, transmision, categoría, false, true,
-				sede, false, false, "", rutaImagen);
+				sede, false, false, "", rutaImagen, tipo);
 	}
 	
 	public void eliminarCarro(String placa)
