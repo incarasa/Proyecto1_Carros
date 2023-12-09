@@ -329,7 +329,7 @@ public class RentACar
 		//se empieza a sacar la info para la factura
 
 		Cliente cliente = darClienteCedula(cedulaCliente);
-		Carro carro = inventario.buscarCarroPorPlaca(placaAuto);
+		VehiculoBase carro = inventario.buscarCarroPorPlaca(placaAuto);
 		char categoriaCarro = carro.getCategoría();
 		int precioDiaCategoria = categorias.precioCategoría(categoriaCarro+"");
 		int numeroDeDias = (int)(ChronoUnit.DAYS.between(fechaRecogida, fechaEntrega));
