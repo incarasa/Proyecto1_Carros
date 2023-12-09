@@ -3,12 +3,12 @@ package Inventario;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Carro extends VehiculoBase{
+public class Moto extends VehiculoBase{
 	
+	private String cilindraje;
 	private String transmision;
 	
-	public Carro(DTOInfoVehiculo datos) {
-		
+	public Moto(DTOInfoVehiculo datos) {
 		this.tipo = datos.getTipo();
 		this.placa = datos.getPlaca();
 		this.marca = datos.getMarca();
@@ -23,35 +23,30 @@ public class Carro extends VehiculoBase{
 		this.rutaImagen = datos.getRutaImagen();
 		this.diasNoDisponible = datos.getDiasNoDisponible();
 		
-		this.transmision = datos.getCaracteristicas().get(0);
+		this.cilindraje = datos.getCaracteristicas().get(0);
+		this.transmision = datos.getCaracteristicas().get(1);
 		this.diasNoDisponible = new ArrayList<LocalDate>();
 	}
-
-	public String getTransmision() {
-		return transmision;
-	}
-
-	public void setTransmision(String transmision) {
-		this.transmision = transmision;
-	}
 	
+	@Override
 	public ArrayList<String> getCaracteristicas() {
-		ArrayList<String> datos = new ArrayList<>();
+		ArrayList<String> datos = new ArrayList<String>();
+		datos.add(cilindraje);
 		datos.add(transmision);
+		
 		return datos;
 	}
 
 	@Override
 	public void setCaracterísticas(ArrayList<String> datos) {
-		if (datos.size() == 1) {
-			this.transmision = datos.get(0);
-		}
-		
+		this.cilindraje = datos.get(0);
+		this.transmision = datos.get(1);
 	}
 
 	@Override
 	public String getTipo() {
+		// TODO Auto-generated method stub
 		return tipo;
 	}
-	
+
 }

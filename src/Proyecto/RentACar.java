@@ -71,7 +71,7 @@ public class RentACar
 	public void agregarCarro(String placa, String marca, int modelo, String transmision, 
 			char categoría, String sede, String rutaImagen)
 	{
-		inventario.agregarCarro(placa, marca, modelo, transmision, categoría, false, true,
+		inventario.agregarVehiculo(placa, marca, modelo, transmision, categoría, false, true,
 				sede, false, false, "", rutaImagen);
 	}
 	
