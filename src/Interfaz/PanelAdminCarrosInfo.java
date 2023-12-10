@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -17,6 +18,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListModel;
 import javax.swing.ScrollPaneConstants;
+
+import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
 
 import Proyecto.RentACar;
 
@@ -27,6 +30,10 @@ public class PanelAdminCarrosInfo extends JPanel
 	private JScrollPane scroller;
 	
 	private JLabel labtitulo = new JLabel("Panel Carros");
+	
+	//tipo de vehículo
+	private JLabel labTipoVehiculo = new JLabel("Tipo vehículo:");
+	private JComboBox<String> boxTipoVehiculo;
 	
 	private JLabel labPlaca = new JLabel("Placa: ");
 	private JTextField txtPlaca = new JTextField("");
@@ -70,15 +77,19 @@ public class PanelAdminCarrosInfo extends JPanel
 	
 	private JLabel labEstado = new JLabel("");
 	
-	public PanelAdminCarrosInfo(VentanaAdminCarros ventanaAdminCarros)
+	public PanelAdminCarrosInfo(VentanaAdminCarros ventanaAdminCarros, String[] tiposArray)
 	{
 		this.ventanaAdminCarros = ventanaAdminCarros;
 		
 		setLayout(new GridLayout(20,2));
 		
+		this.boxTipoVehiculo = new JComboBox<String>(tiposArray);
+		
 		add(labtitulo);
 		add(new JLabel("."));
 		
+		add(labTipoVehiculo);
+		add(boxTipoVehiculo);
 		add(labPlaca);
 		add(txtPlaca);
 		add(labMarca);
@@ -243,6 +254,10 @@ public class PanelAdminCarrosInfo extends JPanel
 	public String getRutaImagen()
 	{
 		return txtRutaFoto.getText();
+	}
+	public String getTipo()
+	{
+		return (String)boxTipoVehiculo.getSelectedItem();
 	}
 
 	

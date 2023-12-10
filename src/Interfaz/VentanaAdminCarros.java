@@ -11,6 +11,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
+
 import Inventario.Carro;
 import Inventario.VehiculoBase;
 import Proyecto.RentACar;
@@ -28,8 +30,6 @@ public class VentanaAdminCarros extends JFrame
 	public VentanaAdminCarros(RentACar aplicacion)
 	{
 		this.aplicacion = aplicacion;
-		this.panelAdminCarrosInfo = panelAdminCarrosInfo;
-		this.panelAdminCarrosBotones = panelAdminCarrosBotones;
 		
 		setLayout(new BorderLayout());
 		
@@ -39,7 +39,9 @@ public class VentanaAdminCarros extends JFrame
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
 		
-		panelAdminCarrosInfo = new PanelAdminCarrosInfo(this);
+		String[] tiposArray = getTipos();
+		
+		panelAdminCarrosInfo = new PanelAdminCarrosInfo(this, tiposArray);
 		panelAdminCarrosBotones = new PanelAdminCarrosBotones(this);
 		
 		add(panelAdminCarrosInfo, BorderLayout.CENTER);
@@ -97,7 +99,7 @@ public class VentanaAdminCarros extends JFrame
 		char categoría = panelAdminCarrosInfo.getCategoria();
 		String sede = panelAdminCarrosInfo.getSede();
 		String rutaImagen = panelAdminCarrosInfo.getRutaImagen();
-		String tipo = "a"; //TODO aqui deben agregar el nuevo panel para tomar los datos del tipo de vehiculo
+		String tipo = panelAdminCarrosInfo.getTipo();
 		ArrayList<String> carac = new ArrayList<String>();
 		carac.add(transmision);
 		
@@ -115,5 +117,12 @@ public class VentanaAdminCarros extends JFrame
 		
 		JOptionPane.showMessageDialog( this , "Carro eliminado con éxito" ,"Eliminar carro" , 
 				JOptionPane.INFORMATION_MESSAGE );
+	}
+	
+	public String[] getTipos()
+	{
+		ArrayList<String> tiposList = aplicacion.getTipos();
+		String[] tiposArray = tiposList.toArray(new String[0]);
+		return tiposArray;
 	}
 }

@@ -79,7 +79,8 @@ public class RentACar
 	
 	//aca va una funcion
 	
-	public ArrayList<String> getTipos(){
+	public ArrayList<String> getTipos()
+	{
 		return inventario.getTipos();
 	}
 	
