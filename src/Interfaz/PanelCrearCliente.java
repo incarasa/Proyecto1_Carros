@@ -59,6 +59,9 @@ public class PanelCrearCliente extends JPanel implements ActionListener
 	private JLabel labFechaVencimientoTarjeta = new JLabel("Fecha vencimiento tarjeta:");
 	private JTextField txtFechaVencimientoTarjeta = new JTextField();
 	
+	private JLabel labCupoTarjeta = new JLabel("Cupo tarjeta:");
+	private JTextField txtCupoTarjeta = new JTextField();
+	
 	private JLabel labEstado = new JLabel("");
 	private JButton btnCrearCliente = new JButton("CREAR CLIENTE");
 	
@@ -108,6 +111,8 @@ public class PanelCrearCliente extends JPanel implements ActionListener
 		add(txtCodigoSeguridad);
 		add(labFechaVencimientoTarjeta);
 		add(txtFechaVencimientoTarjeta);
+		add(labCupoTarjeta);
+		add(txtCupoTarjeta);
 		add(labEstado);
 		add(btnCrearCliente);
 		
@@ -131,7 +136,8 @@ public class PanelCrearCliente extends JPanel implements ActionListener
 				txtCorreo.getText(), txtFechaNacimiento.getText(), txtNumeroLicencia.getText(), 
 				txtPaisExpedicion.getText(), txtFechaVencimientoLicencia.getText(), 
 				txtNumeroTarjeta.getText(), txtCodigoSeguridad.getText(), 
-				txtFechaVencimientoTarjeta.getText());
+				txtFechaVencimientoTarjeta.getText(), false, 
+				Integer.valueOf(txtCupoTarjeta.getText()));
 		
 		JOptionPane.showMessageDialog(this, "Cliente creado con éxito",
 				"Nuevo cliente", JOptionPane.INFORMATION_MESSAGE);
