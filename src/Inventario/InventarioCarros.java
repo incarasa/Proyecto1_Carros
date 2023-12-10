@@ -101,6 +101,19 @@ public class InventarioCarros {
         return inventario.get(placa);
     }
     
+    public List<VehiculoBase> filtroPorTipos(List<VehiculoBase> datos, String tipo){
+    	List<VehiculoBase> retorno = new ArrayList<>();
+    	
+    	for (VehiculoBase data: datos) {
+    		if (data.getTipo().equals(tipo)) {
+    			retorno.add(data);
+    		}
+    	}
+    	
+    	return retorno;
+    	
+    }
+    
     
     public List<VehiculoBase> carrosDisponibles(String sede, LocalDate fechaInicio, LocalDate fechaFin,
     		char categoria, String tipoDeVehiculo)
@@ -114,10 +127,10 @@ public class InventarioCarros {
     	
     	//filtrar por tipo de vehiculo
     	
+    	listaDisponibles = filtroPorTipos(listaDisponibles, tipoDeVehiculo);
+    	
     	//______
     	listaDisponibles = DisponiblesCategoriaOSuperior(listaDisponibles, categoria);
-
-    		
     	
     	return listaDisponibles;
     }
