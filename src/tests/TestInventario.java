@@ -26,7 +26,9 @@ public class TestInventario {
 	}
 
 	@Test
-	//Verifica que se cree un carro de forma adecuada
+	/**
+	 * Verifica que se cree un carro de forma adecuada 
+	 */
 	public void testCreacionCarro() {
 		
 		ArrayList<String> carac = new ArrayList<>();
@@ -41,6 +43,9 @@ public class TestInventario {
 	}
 	
 	@Test
+	/**
+	 * Verifica que se cree una moto de forma adecuada
+	 */
 	public void testCreacionMoto() {
 		ArrayList<String> carac = new ArrayList<>();
 		
@@ -56,7 +61,9 @@ public class TestInventario {
 	}
 	
 	@Test
-	//Verifica que no se arroje la excepcion adecuada al crear instancias de subclases inexistentes de VehiculoBase en factory
+	/**
+	 * Verifica que no se arroje la excepcion adecuada al crear instancias de subclases inexistentes de VehiculoBase en factory
+	 */
 	public void testCreacionTipoInexistente() {
 		assertThrows(ClassNotFoundException.class, ()->{
 			DTOInfoVehiculo datos = new DTOInfoVehiculo();
