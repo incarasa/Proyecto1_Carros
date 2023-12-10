@@ -131,7 +131,7 @@ public class PanelCrearCliente extends JPanel implements ActionListener
 				txtCorreo.getText(), txtFechaNacimiento.getText(), txtNumeroLicencia.getText(), 
 				txtPaisExpedicion.getText(), txtFechaVencimientoLicencia.getText(), 
 				txtNumeroTarjeta.getText(), txtCodigoSeguridad.getText(), 
-				txtFechaVencimientoTarjeta.getText());
+				txtFechaVencimientoTarjeta.getText(), false, 20000);
 		
 		JOptionPane.showMessageDialog(this, "Cliente creado con éxito",
 				"Nuevo cliente", JOptionPane.INFORMATION_MESSAGE);

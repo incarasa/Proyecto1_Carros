@@ -9,6 +9,7 @@ import java.util.List;
 import javax.swing.*;
 
 import Inventario.Carro;
+import Inventario.VehiculoBase;
 import Proyecto.RentACar;
 import Usuarios.Cliente;
 
@@ -61,7 +62,7 @@ public class InterfazCliente extends JFrame
 		
 		int comandoError = (int)returnation[0];
 		double[] precios = (double[])returnation[1];
-		Carro carroSeleccionado = (Carro)returnation[2];
+		VehiculoBase carroSeleccionado = (VehiculoBase)returnation[2];
 		
 		if(comandoError == 0)
 		{

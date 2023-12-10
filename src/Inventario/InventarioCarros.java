@@ -103,7 +103,7 @@ public class InventarioCarros {
     
     
     public List<VehiculoBase> carrosDisponibles(String sede, LocalDate fechaInicio, LocalDate fechaFin,
-    		char categoria)
+    		char categoria, String tipoDeVehiculo)
     {
     	//filtrar por sede
     	List<VehiculoBase> listaDisponibles = carrosDisponiblesEnSede(sede);
@@ -112,6 +112,9 @@ public class InventarioCarros {
     	listaDisponibles = DisponiblesEnFechas(listaDisponibles, fechaInicio,
     			fechaFin);
     	
+    	//filtrar por tipo de vehiculo
+    	
+    	//______
     	listaDisponibles = DisponiblesCategoriaOSuperior(listaDisponibles, categoria);
 
     		
