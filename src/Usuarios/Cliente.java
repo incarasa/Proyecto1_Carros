@@ -25,6 +25,8 @@ public class Cliente extends Usuario
 	private String numeroTarjeta; //11
 	private String codigoSeguridad; //12
 	private String fechaVencimientoTarjeta; //13
+	private boolean tarjetaBloqueada;//14
+	private int cupoTarjeta;//15
 	
 	
 	
@@ -33,7 +35,7 @@ public class Cliente extends Usuario
 	public Cliente(String usuario, String contraseña, String tipoUsuario, String nombre, String numeroDocumento,
 			String telefono, String correo, String fecha_nacimiento, String numeroLicencia, String paisExpedición,
 			String fechaVencimientoLicencia, String numeroTarjeta, String codigoSeguridad,
-			String fechaVencimientoTarjeta) {
+			String fechaVencimientoTarjeta,boolean tarjetaBloqueada, int cupoTarjeta) {
 		super(usuario, contraseña, tipoUsuario);
 		this.nombre = nombre;
 		this.numeroDocumento = numeroDocumento;
@@ -46,6 +48,8 @@ public class Cliente extends Usuario
 		this.numeroTarjeta = numeroTarjeta;
 		this.codigoSeguridad = codigoSeguridad;
 		this.fechaVencimientoTarjeta = fechaVencimientoTarjeta;
+		this.tarjetaBloqueada = tarjetaBloqueada;
+		this.cupoTarjeta = cupoTarjeta;
 	}
 
 

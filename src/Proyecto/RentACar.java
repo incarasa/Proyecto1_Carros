@@ -265,9 +265,9 @@ public class RentACar
 	public void crearCliente(String usuario, String contraseña, String tipoUsuario, String nombre, String numeroDocumento, 
 			String telefono, String correo, String fecha_nacimiento, String numeroLicencia, 
 			String paisExpedición, String fechaVencimientoLicencia, 
-			String numeroTarjeta, String codigoSeguridad, String fechaVencimientoTarjeta)
+			String numeroTarjeta, String codigoSeguridad, String fechaVencimientoTarjeta, boolean tarjetaBloqueada, int cupoTarjeta)
 	{
-		usuarios.crearCliente(usuario, contraseña, tipoUsuario, nombre, numeroDocumento, telefono, correo, fecha_nacimiento, numeroLicencia, paisExpedición, fechaVencimientoLicencia, numeroTarjeta, codigoSeguridad, fechaVencimientoTarjeta);
+		usuarios.crearCliente(usuario, contraseña, tipoUsuario, nombre, numeroDocumento, telefono, correo, fecha_nacimiento, numeroLicencia, paisExpedición, fechaVencimientoLicencia, numeroTarjeta, codigoSeguridad, fechaVencimientoTarjeta, tarjetaBloqueada, cupoTarjeta);
 	}
 	
 	public void crearEmpleado(String usuario, String contraseña, String tipoUsuario, String nombre,

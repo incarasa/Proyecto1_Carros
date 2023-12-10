@@ -59,11 +59,11 @@ public class Usuarios
 	public void crearCliente(String usuario, String contraseña, String tipoUsuario, String nombre, String numeroDocumento, 
 			String telefono, String correo, String fecha_nacimiento, String numeroLicencia, 
 			String paisExpedición, String fechaVencimientoLicencia, 
-			String numeroTarjeta, String codigoSeguridad, String fechaVencimientoTarjeta)
+			String numeroTarjeta, String codigoSeguridad, String fechaVencimientoTarjeta, boolean tarjetaBloqueada, int cupoTarjeta)
 	{
 		Cliente cliente = new Cliente(usuario, contraseña, tipoUsuario, nombre, numeroDocumento, telefono, correo, fecha_nacimiento,
 				numeroLicencia, paisExpedición, fechaVencimientoLicencia, numeroTarjeta, codigoSeguridad,
-				fechaVencimientoTarjeta);
+				fechaVencimientoTarjeta, tarjetaBloqueada, cupoTarjeta);
 		
 		mapaClientes.put(usuario, cliente);
 		mapaClientesCedula.put(numeroDocumento, cliente);
