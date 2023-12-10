@@ -77,6 +77,8 @@ public class RentACar
 				sede, false, false, "", rutaImagen, tipo);
 	}
 	
+	//aca va una funcion
+	
 	public void eliminarCarro(String placa)
 	{
 		inventario.eliminarCarro(placa);
