@@ -232,13 +232,36 @@ public abstract class VehiculoBase
 		return diasNoDisponible;
 	}
     
+	//Por cada subclase se deben concretar estas funciones para que la carga y guardado de datos funcionen bien
+	
+	/**
+	 * Retorna una lista con las caracteristicas del tipo concreto de objeto
+	 * Por ejemplo, si es un Carro, retorna una lista con un elemento que representa su transmision
+	 * @return
+	 */
 	public abstract ArrayList<String> getCaracteristicas();
     
+	/**
+	 * Agrega las caracteristicas concretas a la instancia concreta de vehiculo
+	 * Por ejemplo, si es un Carro, se le pasa una lista cuyo primer elemento sea la transmision del vehiculo
+	 * @param datos
+	 */
 	public abstract void setCaracterísticas(ArrayList<String> datos);
 	
+	/**
+	 * Devuelve el nombre del tipo y clase concreto del objeto
+	 * Por ejemplo, si es un Carro, retorna "Carro"
+	 * @return
+	 */
 	public abstract String getTipo();
     
-    
+	/**
+	 * Retorna una lista con la cantidad y nombre en orden de las caracteristicas de la clase concreta
+	 * Por ejemplo, si es un Carro, retorna una lista con el String "Carro"
+	 * Si es moto, retorna una lista con dos elementos, el primero es "Cilindraje" y el segundo es "Transmision"
+	 * @return
+	 */
+    public abstract ArrayList<String> getCamposNecesarios();
     
 
 }

@@ -48,5 +48,13 @@ public class Moto extends VehiculoBase{
 		// TODO Auto-generated method stub
 		return tipo;
 	}
+	
+	@Override
+	public ArrayList<String> getCamposNecesarios() {
+		ArrayList<String> datos = new ArrayList<>();
+		datos.add("Cilindraje");
+		datos.add("Transmision");
+		return datos;
+	}
 
 }
