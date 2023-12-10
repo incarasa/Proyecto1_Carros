@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.security.PublicKey;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.*;
@@ -35,8 +36,9 @@ public class InterfazCliente extends JFrame
 		//Acá tengo que crear los arrays para los JBox de el panel.
 		String[] arrayCategorias =  aplicacion.darCategorias();
 		String[] arraySedes = aplicacion.darSedes();
+		String [] arrayTipos = getTipos();
 		
-		panelOpciones = new icPanelOpciones(arrayCategorias , arraySedes , this);
+		panelOpciones = new icPanelOpciones(arrayCategorias , arraySedes , this, arrayTipos);
 		add(panelOpciones, BorderLayout.EAST);
 		
 	}
@@ -47,7 +49,8 @@ public class InterfazCliente extends JFrame
 	}
 	
 	public void reservar(LocalDate fechaRecogida, LocalDate fechaDevolucion, LocalTime horaRecogida,
-			LocalTime horaDevolucion, String sedeRecogida, String sedeDevolucion , char categoria)
+			LocalTime horaDevolucion, String sedeRecogida, String sedeDevolucion , 
+			char categoria, String tipoDeVehiculo)
 	{
 		//TO-DO MAÑANA
 		
@@ -56,7 +59,7 @@ public class InterfazCliente extends JFrame
 		//calcular el precio.
 		
 		Object[] returnation = aplicacion.reservarCarro(sedeRecogida, sedeDevolucion, fechaRecogida, fechaDevolucion, 
-				horaRecogida, horaDevolucion, categoria);
+				horaRecogida, horaDevolucion, categoria, tipoDeVehiculo);
 		
 		//RETURNATION ES UN INT (0) Y UN ARREGLO DE DOUBLE CON PRECIOS (1)
 		
@@ -76,16 +79,25 @@ public class InterfazCliente extends JFrame
 		
 		else if(comandoError == 2)
 		{
-			panelOpciones.actualizarEstado("No hay carros disponibles con las características seleccionadas");
+			panelOpciones.actualizarEstado("No hay vehículos disponibles con las características seleccionadas");
 		}
 		else
 		{
 			System.out.println("Reserva bien");
 			
 			
-			VentanaReservar ventanaReservar = new VentanaReservar(cliente, aplicacion , precios , carroSeleccionado, fechaRecogida, fechaDevolucion, horaRecogida,
+			VentanaReservar ventanaReservar = new VentanaReservar(cliente, aplicacion , 
+					precios , carroSeleccionado, fechaRecogida, fechaDevolucion, horaRecogida,
 					horaDevolucion, sedeRecogida, sedeDevolucion , categoria);
+			
 			ventanaReservar.setVisible(true);
 		}
+	}
+	
+	public String[] getTipos()
+	{
+		ArrayList<String> tiposList = aplicacion.getTipos();
+		String[] tiposArray = tiposList.toArray(new String[0]);
+		return tiposArray;
 	}
 }
