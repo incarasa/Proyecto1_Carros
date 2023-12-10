@@ -55,25 +55,22 @@ public class GestorPasarelasPago {
 		return pasarelas;
 	}
 	
-	public boolean SeleccionarPasarela(String name) {
+	public boolean SeleccionarPasarela(String name) throws ClassNotFoundException, Exception{
 		
 		name = "pasarelasPago." + name;
-		try {
+		
 			Class elegida = Class.forName(name);
 			this.pasarela = (PasarelaPago) elegida.getDeclaredConstructor(null).newInstance(null);
-			
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			return false;
-		} catch (Exception e) {
-			return false;
-		}
 		
 		return true;
 	}
 	
 	public boolean pagar(Cliente cliente, int monto) throws TarjetaBloqueadaException, TarjetaSinCupoException{
-		return pasarela.hacerPago(null, monto);
+		return pasarela.hacerPago(cliente, monto);
+	}
+	
+	public void reiniciarPasarela() {
+		pasarela = null;
 	}
 	
 
