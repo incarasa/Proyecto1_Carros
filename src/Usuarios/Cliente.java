@@ -185,6 +185,21 @@ public class Cliente extends Usuario
 		this.fechaVencimientoTarjeta = fechaVencimientoTarjeta;
 	}
 	
+	public boolean isBloqueada() {
+		return this.tarjetaBloqueada;
+	}
+	
+	public void setBloqueada(boolean bloqueo) {
+		this.tarjetaBloqueada = bloqueo;
+	}
+	
+	public int getCupoTarjeta() {
+		return this.cupoTarjeta;
+	}
+	
+	public void setCupoTarjeta(int cupoTarjeta) {
+		this.cupoTarjeta = cupoTarjeta;
+	}
 	//metodos
 	
 	

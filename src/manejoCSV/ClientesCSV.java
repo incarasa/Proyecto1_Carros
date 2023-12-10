@@ -16,7 +16,7 @@ public class ClientesCSV
 	    		+ cliente.getNombre() + "," + cliente.getNumeroDocumento() + "," + cliente.getTelefono() + "," + cliente.getCorreo() + "," 
 	    		+ cliente.getFecha_nacimiento() + "," + cliente.getNumeroLicencia() + "," + cliente.getPaisExpedición()+","+
 	    		cliente.getFechaVencimientoLicencia()+","+ cliente.getNumeroTarjeta()+","+cliente.getCodigoSeguridad()
-	    		+","+cliente.getFechaVencimientoTarjeta();
+	    		+","+cliente.getFechaVencimientoTarjeta() + "," + cliente.isBloqueada() + "," + cliente.getCupoTarjeta();
 	}
 	public static void actualizarCSV(Map<String, Cliente> mapaClientes, String nombreArchivo)
 	//toma los elementos del mapa y actualiza el CSV.
@@ -40,7 +40,7 @@ public class ClientesCSV
 	
 	{
 	    String[] partes = lineaCSV.split(",");
-	    if (partes.length != 14) {
+	    if (partes.length != 16) {
 	        throw new IllegalArgumentException("Formato CSV no válido");
 	    }
 
@@ -58,10 +58,12 @@ public class ClientesCSV
 	    String numeroTarjeta = partes[11];
 	    String codigoSeguridad = partes[12];
 	    String fechaVencimientoTarjeta = partes[13];
+	    boolean tarjetaBloqueada = Boolean.parseBoolean(partes[14]);
+	    int cupoTarjeta = Integer.parseInt(partes[15]);
 	    
 	    Cliente cliente = new Cliente(usuario, contraseña, tipoUsuario, nombre, numeroDocumento, 
 	    		telefono, correo, fecha_nacimiento, numeroLicencia, paisExpedicion, 
-	    		fechaVencimientoLicencia, numeroTarjeta, codigoSeguridad, fechaVencimientoTarjeta);
+	    		fechaVencimientoLicencia, numeroTarjeta, codigoSeguridad, fechaVencimientoTarjeta, tarjetaBloqueada, cupoTarjeta);
 	    return cliente;
 	}
 	
