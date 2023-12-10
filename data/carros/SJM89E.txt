@@ -1,0 +1,1 @@
+SJM89E,Kawasaki,2023,MECANICA;b,A,false,true,MODELIA,false,false,,data/fotosCarros/SJM89E.jpg,Moto

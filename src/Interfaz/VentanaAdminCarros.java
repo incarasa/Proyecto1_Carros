@@ -70,7 +70,8 @@ public class VentanaAdminCarros extends JFrame
 					carro.getModelo(), transmision, carro.getCategoría(), 
 					carro.isAlquilado(), carro.isDisponible(), carro.getSede(), 
 					carro.getLavandose(), carro.getEnMantenimiento(), 
-					carro.getFechaDisponibleNuevamente(), carro.getDiasNoDisponible(), carro.getRutaImagen());
+					carro.getFechaDisponibleNuevamente(), carro.getDiasNoDisponible(), carro.getRutaImagen(),
+					carro.getTipo());
 			
 			ImageIcon imagenCarro = new ImageIcon(carro.getRutaImagen());
 			Image scaledImage = imagenCarro.getImage().getScaledInstance(400, 300, Image.SCALE_SMOOTH);

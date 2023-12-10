@@ -139,8 +139,9 @@ public class PanelAdminCarrosInfo extends JPanel
 	public void actualizarCamposdeTexto(String placa, String marca, int modelo, String transmision, char categoría,
     		boolean alquilado, boolean disponible, String sede, boolean lavandose,
     		boolean enMantenimiento, String fechaDisponibleNuevamente, List<LocalDate>fechasNoDisponible,
-    		String rutaFoto)
+    		String rutaFoto, String tipo)
 	{
+		boxTipoVehiculo.setSelectedItem(tipo);
 		txtPlaca.setText(placa);
 		txtMarca.setText(marca);
 		txtModelo.setText(Integer.toString(modelo));
