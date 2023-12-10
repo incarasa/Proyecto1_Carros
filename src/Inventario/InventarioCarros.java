@@ -69,13 +69,23 @@ public class InventarioCarros {
     	datos.setFechaDisponibleNuevamente(fechaDisponibleNuevamente);
     	datos.setRutaImagen(rutaImagen);
     	
-        VehiculoBase vehiculo = factory.crearVehiculo(datos);
-        
-        //persistencia
-        String ruta_carro = "data/carros/" + placa + ".txt";
-    	vehiculo.guardarEnArchivo(ruta_carro); //guarda el carro en archivo
-    	System.out.println("Carro creado");
-        
+        VehiculoBase vehiculo;
+		try {
+			vehiculo = factory.crearVehiculo(datos);
+			 //persistencia
+	        String ruta_carro = "data/carros/" + placa + ".txt";
+	    	vehiculo.guardarEnArchivo(ruta_carro); //guarda el carro en archivo
+	    	System.out.println("Vehiculo creado");
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			System.out.println("El tipo de vehiculo no existe");
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Hubo un problema al crear la instancia del vehiculo");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println("Hubo un problema al crear el vehiculo");
+		}
     	
     }
     
@@ -282,6 +292,20 @@ public class InventarioCarros {
 	
 	public ArrayList<String> getTipos(){
 		return factory.getTipos();
+	}
+	
+	public ArrayList<String> getCamposSegunTipo(String tipo) throws ClassNotFoundException, InstantiationException, Exception {
+		ArrayList<String> campos;
+		DTOInfoVehiculo dto = new DTOInfoVehiculo();
+		ArrayList<String> carac = new ArrayList<String>();
+		for(int i=0;i<10;i++) {
+			carac.add("a");
+		}
+		dto.setTipo(tipo);
+		dto.setCaracteristicas(carac);
+		VehiculoBase datos = factory.crearVehiculo(dto);
+		campos = datos.getCamposNecesarios();
+		return campos;
 	}
     
 }

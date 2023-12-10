@@ -53,5 +53,12 @@ public class Carro extends VehiculoBase{
 	public String getTipo() {
 		return tipo;
 	}
+
+	@Override
+	public ArrayList<String> getCamposNecesarios() {
+		ArrayList<String> datos = new ArrayList<>();
+		datos.add("Transmision");
+		return datos;
+	}
 	
 }

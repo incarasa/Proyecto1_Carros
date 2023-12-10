@@ -74,7 +74,19 @@ public class Manejo_CSV
 	    datosCrear.setRutaImagen(partes[11]);
 	    datosCrear.setTipo(partes[12]);
 	  
-	    VehiculoBase retorno = factory.crearVehiculo(datosCrear);
+	    VehiculoBase retorno = null;
+		try {
+			retorno = factory.crearVehiculo(datosCrear);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	    
 	    return retorno;
 	}
