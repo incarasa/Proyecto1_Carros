@@ -79,6 +79,10 @@ public class RentACar
 	
 	//aca va una funcion
 	
+	public ArrayList<String> getTipos(){
+		return inventario.getTipos();
+	}
+	
 	public void eliminarCarro(String placa)
 	{
 		inventario.eliminarCarro(placa);

@@ -263,6 +263,10 @@ public class InventarioCarros {
 			carro.fechaDisponible(fechaDisponibleNuevamente);
 		}
 	}
+	
+	public ArrayList<String> getTipos(){
+		return factory.getTipos();
+	}
     
 }
 
