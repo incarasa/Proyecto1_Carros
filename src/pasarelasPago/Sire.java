@@ -8,8 +8,13 @@ public class Sire extends PasarelaPago{
 
 	@Override
 	public boolean hacerPago(Cliente cliente, int monto) throws TarjetaBloqueadaException, TarjetaSinCupoException {
-		// TODO Auto-generated method stub
-		return true;
+		if (cliente.isBloqueada()) {
+			throw new TarjetaBloqueadaException();
+		} else if (monto > cliente.getCupoTarjeta()) {
+			throw new TarjetaSinCupoException();
+		} else {
+			return true;
+		}
 	}
 
 }

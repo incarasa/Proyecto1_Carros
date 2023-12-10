@@ -7,7 +7,13 @@ import pasarelasPago.exceptions.TarjetaSinCupoException;
 public class PayU extends PasarelaPago{
 	
 	public boolean hacerPago(Cliente cliente, int monto) throws TarjetaBloqueadaException, TarjetaSinCupoException {
-		return true;
+		if (cliente.isBloqueada()) {
+			throw new TarjetaBloqueadaException();
+		} else if (monto > cliente.getCupoTarjeta()) {
+			throw new TarjetaSinCupoException();
+		} else {
+			return true;
+		}
 	}
 
 }
