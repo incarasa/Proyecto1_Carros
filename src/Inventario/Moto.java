@@ -56,5 +56,4 @@ public class Moto extends VehiculoBase{
 		datos.add("Transmision");
 		return datos;
 	}
-
 }

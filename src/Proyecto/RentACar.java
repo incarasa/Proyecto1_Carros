@@ -417,6 +417,9 @@ public class RentACar
 		return usuarios;
 	}
 	
+	public ArrayList<String> getCamposSegunTipo(String tipo) throws ClassNotFoundException, InstantiationException, Exception{
+		return inventario.getCamposSegunTipo(tipo);
+	}
 
 }
 

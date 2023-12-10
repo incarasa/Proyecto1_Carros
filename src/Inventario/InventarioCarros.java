@@ -293,6 +293,20 @@ public class InventarioCarros {
 	public ArrayList<String> getTipos(){
 		return factory.getTipos();
 	}
+	
+	public ArrayList<String> getCamposSegunTipo(String tipo) throws ClassNotFoundException, InstantiationException, Exception {
+		ArrayList<String> campos;
+		DTOInfoVehiculo dto = new DTOInfoVehiculo();
+		ArrayList<String> carac = new ArrayList<String>();
+		for(int i=0;i<10;i++) {
+			carac.add("a");
+		}
+		dto.setTipo(tipo);
+		dto.setCaracteristicas(carac);
+		VehiculoBase datos = factory.crearVehiculo(dto);
+		campos = datos.getCamposNecesarios();
+		return campos;
+	}
     
 }
 
