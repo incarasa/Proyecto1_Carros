@@ -8,7 +8,7 @@ public class PersistenciaUsuario
 	
 	{
 	    String[] partes = lineaCSV.split(",");
-	    if (partes.length != 14) {
+	    if (partes.length != 16) {
 	        throw new IllegalArgumentException("Formato CSV no válido");
 	    }
 

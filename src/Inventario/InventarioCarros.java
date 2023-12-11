@@ -185,113 +185,123 @@ public class InventarioCarros {
     	//se recorre para mirar que carros estan disponibles.
     	for(VehiculoBase carro : carros)
 		{
-    		if(carro.esReservable(fechaInicio, fechaFin))
-    		{
+			if (carro.esReservable(fechaInicio, fechaFin))
+			{
 
-    			carrosDisponibles.add(carro);
-    		}		
+				carrosDisponibles.add(carro);
+			}
 		}
-    	return carrosDisponibles;
-	}
-    
-    public List<VehiculoBase> DisponiblesCategoriaOSuperior(List<VehiculoBase> carros , char categoria)
-    {
-    	List<VehiculoBase> carrosCategoriaoSup = new ArrayList<VehiculoBase>();
-    	
-    	while((carrosCategoriaoSup.size() == 0) && (categoria >= "A".charAt(0)))
-    	{
-    		for(VehiculoBase carro : carros)
-        	{
-        		char categoriaSTR = carro.getCategoría();
-        		if(categoria == categoriaSTR)
-        		{
-        			carrosCategoriaoSup.add(carro);
-        		}
-        	}
-    	categoria--;
-    	}
-    	
-    	return carrosCategoriaoSup;
-    }
-    
-    /**
-     * Este metodo carga los datos de los vehiculos.
-     */
-    public void cargarCarrosDesdeCarpeta() 
-    {
-    	File carpetaCarros = new File("./data/carros");
-	
-    	//IMPORTANTE
-    	File[] archivosCarros = carpetaCarros.listFiles();
-    	for(File carroArchivo: archivosCarros)
-    	{
-    		//aca tengo un archivo de carro
-    		try (BufferedReader br = new BufferedReader(new FileReader(carroArchivo))) 
-    		{
-    			String primeraLinea = br.readLine();
-    			VehiculoBase carro = Manejo_CSV.fromCSV(primeraLinea); //retorna un carro
-    			
-    			String linea;
-    			linea = br.readLine();
-    			while (linea != null && (!linea.equals(""))) 
-    			{
-    				//aca debe añadirse al mapa de reservas un día particular
-    				carro.reservar(Manejo_CSV.lineaCSVaDate(linea), Manejo_CSV.lineaCSVaDate(linea));
-    				linea = br.readLine(); //incrementar la linea
-    			}
-    			inventario.put(carro.getPlaca(), carro); //añado el carro al mapa
-    		}
-		
-    		catch (IOException e) 
-    		{
-	            e.printStackTrace();
-    		}
-    	}
+		return carrosDisponibles;
 	}
 
-    /**Este metodo busca el carro que se quiere reservar en el mapa y reserva los días.
-    la persistencia la maneja el metodo reservar de carro
-    */
-    
-    public void reservarCarro(String placa, LocalDate diaInicio, LocalDate diaFin)
-    {
-    	VehiculoBase carro = buscarCarroPorPlaca(placa);
-    	carro.reservar(diaInicio, diaFin);
-    }
-    
-    public void alquilarCarro(String placa, String cedulaCliente, LocalDate diaInicio, 
-    		LocalDate diaFin)
-    {
-    	VehiculoBase carro = buscarCarroPorPlaca(placa);
-    	carro.alquilarCarro(cedulaCliente, diaInicio, diaFin);
-    }
+	public List<VehiculoBase> DisponiblesCategoriaOSuperior(
+			List<VehiculoBase> carros, char categoria)
+	{
+		List<VehiculoBase> carrosCategoriaoSup = new ArrayList<VehiculoBase>();
 
-	public Map<String, VehiculoBase> getInventario() 
+		while ((carrosCategoriaoSup.size() == 0)
+				&& (categoria >= "A".charAt(0)))
+		{
+			for (VehiculoBase carro : carros)
+			{
+				char categoriaSTR = carro.getCategoría();
+				if (categoria == categoriaSTR)
+				{
+					carrosCategoriaoSup.add(carro);
+				}
+			}
+			categoria--;
+		}
+
+		return carrosCategoriaoSup;
+	}
+
+	/**
+	 * Este metodo carga los datos de los vehiculos.
+	 */
+	public void cargarCarrosDesdeCarpeta()
+	{
+		File carpetaCarros = new File("./data/carros");
+
+		// IMPORTANTE
+		File[] archivosCarros = carpetaCarros.listFiles();
+		for (File carroArchivo : archivosCarros)
+		{
+			// aca tengo un archivo de carro
+			try (BufferedReader br = new BufferedReader(
+					new FileReader(carroArchivo)))
+			{
+				String primeraLinea = br.readLine();
+				VehiculoBase carro = Manejo_CSV.fromCSV(primeraLinea); // retorna
+																		// un
+																		// carro
+
+				String linea;
+				linea = br.readLine();
+				while (linea != null && (!linea.equals("")))
+				{
+					// aca debe añadirse al mapa de reservas un día particular
+					carro.reservar(Manejo_CSV.lineaCSVaDate(linea),
+							Manejo_CSV.lineaCSVaDate(linea));
+					linea = br.readLine(); // incrementar la linea
+				}
+				inventario.put(carro.getPlaca(), carro); // añado el carro al
+															// mapa
+			}
+
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+		}
+	}
+
+	/**
+	 * Este metodo busca el carro que se quiere reservar en el mapa y reserva
+	 * los días. la persistencia la maneja el metodo reservar de carro
+	 */
+
+	public void reservarCarro(String placa, LocalDate diaInicio,
+			LocalDate diaFin)
+	{
+		VehiculoBase carro = buscarCarroPorPlaca(placa);
+		carro.reservar(diaInicio, diaFin);
+	}
+
+	public void alquilarCarro(String placa, String cedulaCliente,
+			LocalDate diaInicio, LocalDate diaFin)
+	{
+		VehiculoBase carro = buscarCarroPorPlaca(placa);
+		carro.alquilarCarro(cedulaCliente, diaInicio, diaFin);
+	}
+
+	public Map<String, VehiculoBase> getInventario()
 	{
 		return inventario;
 	}
-    
-	public void devolverCarro(String placa, boolean lavar, boolean 
-			mantenimiento, String fechaDisponibleNuevamente)
+
+	public void devolverCarro(String placa, boolean lavar,
+			boolean mantenimiento, String fechaDisponibleNuevamente)
 	{
 		VehiculoBase carro = inventario.get(placa);
 		carro.devolverCarro();
-		if(lavar)
+		if (lavar)
 		{
 			carro.lavarCarro();
 		}
-		if(mantenimiento)
+		if (mantenimiento)
 		{
 			carro.manteniemiento();
 		}
-		
-		if(lavar || mantenimiento)
+
+		if (lavar || mantenimiento)
 		{
 			carro.fechaDisponible(fechaDisponibleNuevamente);
 		}
 	}
-	
-	public ArrayList<String> getTipos(){
+
+	public ArrayList<String> getTipos()
+	{
 		return factory.getTipos();
 	}
 	
@@ -312,3 +322,4 @@ public class InventarioCarros {
 }
 
 
+}
