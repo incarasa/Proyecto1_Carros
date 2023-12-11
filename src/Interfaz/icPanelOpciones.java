@@ -23,6 +23,9 @@ public class icPanelOpciones extends JPanel implements ActionListener
 {
 	private InterfazCliente ventanaCliente;
 	
+	private JLabel labTipoVehiculo = new JLabel("Tipo vehículo:");
+	private JComboBox<String> boxTipoVehiculo;
+	
 	private JComboBox<String> boxCategorias;
 	private JComboBox<String> boxSedeRecogida;
 	private JComboBox<String> boxSedeDevolucion;
@@ -50,7 +53,8 @@ public class icPanelOpciones extends JPanel implements ActionListener
 	private JLabel labEstado = new JLabel("");
 	
 	
-	public icPanelOpciones(String[] arrayCategorias , String[] arraySedes , InterfazCliente ventanaCliente)
+	public icPanelOpciones(String[] arrayCategorias , String[] arraySedes , 
+			InterfazCliente ventanaCliente, String[] tiposArray)
 	{
 		setLayout(new GridLayout(22,1));
 		
@@ -76,6 +80,7 @@ public class icPanelOpciones extends JPanel implements ActionListener
 		labEstado.setForeground(new Color(215, 0, 64)); //Color Carmine
 		labEstado.setFont(new Font("Sans-serif", Font.BOLD, 15));
 		
+		this.boxTipoVehiculo = new JComboBox<String>(tiposArray);
 		this.boxCategorias = new JComboBox<String>(arrayCategorias);
 		this.boxSedeRecogida = new JComboBox<String>(arraySedes);
 		this.boxSedeDevolucion= new JComboBox<String>(arraySedes);
@@ -93,6 +98,9 @@ public class icPanelOpciones extends JPanel implements ActionListener
 		//se añaden los elementos
 		
 		add(labTitulo);
+		
+		add(labTipoVehiculo);
+		add(boxTipoVehiculo);
 		
 		add(labCategoria);
 		add(boxCategorias);
@@ -163,13 +171,14 @@ public class icPanelOpciones extends JPanel implements ActionListener
 		//Toma las sedes seleccionadas y las guarda en variables.
 		String sedeRecogida = (String)boxSedeRecogida.getSelectedItem();
 		String sedeDevolucion = (String)boxSedeDevolucion.getSelectedItem();
+		String tipoVehiculo = (String)boxTipoVehiculo.getSelectedItem();
 		
 		//Categoria
 		char categoria = ((String)boxCategorias.getSelectedItem()).charAt(0);
 		
 		//envia la información para reservar.
 		ventanaCliente.reservar(fechaRecogida, fechaDevolucion, horaRecogida, 
-				horaDevolucion, sedeRecogida, sedeDevolucion , categoria);
+				horaDevolucion, sedeRecogida, sedeDevolucion , categoria, tipoVehiculo);
 	}
 	
 	

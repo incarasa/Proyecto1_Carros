@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -25,7 +26,10 @@ public class ReservaPanelCentro extends JPanel implements ActionListener
 	private JLabel lab30 = new JLabel("");
 	private JLabel labDeseaReservar = new JLabel("¿Desea pagar y reservar?");
 	
-	public ReservaPanelCentro(VentanaReservar ventanaReservar)
+	private JLabel labPasarela = new JLabel("Ingrese la pasarela de pago");
+	private JComboBox<String> boxPasarela;
+	
+	public ReservaPanelCentro(VentanaReservar ventanaReservar, String[] arrayPasarelas)
 	
 	{
 		this.ventanaReservar = ventanaReservar;
@@ -35,6 +39,8 @@ public class ReservaPanelCentro extends JPanel implements ActionListener
 		//TITULO
 		labTitulo.setForeground(Color.BLACK); //Color del título
 		labTitulo.setFont(new Font("Sans-serif", Font.BOLD, 20));
+		
+		boxPasarela = new JComboBox<String>(arrayPasarelas);
 		
 		this.btnCancelar = new JButton("Cancelar");
 		this.btnReservar = new JButton("Reservar");
@@ -48,6 +54,8 @@ public class ReservaPanelCentro extends JPanel implements ActionListener
 		add(labPrecioCompleto);
 		add(labEl30);
 		add(lab30);
+		add(labPasarela);
+		add(boxPasarela);
 		add(labDeseaReservar);
 		add(btnCancelar);
 		add(btnReservar);
@@ -63,7 +71,12 @@ public class ReservaPanelCentro extends JPanel implements ActionListener
 		}
 		else if(e.getSource()==btnReservar)
 		{
-			ventanaReservar.reservarLazy();
+			String pasarela = (String) boxPasarela.getSelectedItem();
+			if(ventanaReservar.pagar(pasarela))
+			{
+				ventanaReservar.reservarLazy();
+			}
+			
 		}
 	}
 	

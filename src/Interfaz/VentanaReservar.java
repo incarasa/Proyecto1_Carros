@@ -4,18 +4,24 @@ import java.awt.BorderLayout;
 import java.security.PublicKey;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
+import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
+
 import Inventario.Carro;
+import Inventario.VehiculoBase;
 import Proyecto.RentACar;
 import Usuarios.Cliente;
+import pasarelasPago.exceptions.TarjetaBloqueadaException;
+import pasarelasPago.exceptions.TarjetaSinCupoException;
 
 public class VentanaReservar extends JFrame
 {
 	private RentACar aplicacion;
 	private icPanelOpciones reservarPanelInformacion;
-	private Carro carroSeleccionado;
+	private VehiculoBase carroSeleccionado;
 	
 	private LocalDate fechaRecogida;
 	private LocalDate fechaDevolucion;
@@ -25,6 +31,7 @@ public class VentanaReservar extends JFrame
 	private String sedeDevolucion;
 	private char categoria;
 	
+	
 	private Cliente cliente;
 	
 	private ReservaPanelCentro reservaPanelCentro;
@@ -32,7 +39,7 @@ public class VentanaReservar extends JFrame
 	//lleva en 0 el precio total y en 1 el 30%
 	private double[] precios;
 	
-	public VentanaReservar(Cliente cliente, RentACar aplicacion , double[] precios , Carro carroSeleccionado,
+	public VentanaReservar(Cliente cliente, RentACar aplicacion , double[] precios , VehiculoBase carroSeleccionado,
 			LocalDate fechaRecogida, LocalDate fechaDevolucion, LocalTime horaRecogida,
 			LocalTime horaDevolucion, String sedeRecogida, String sedeDevolucion , char categoria)
 	{
@@ -46,7 +53,7 @@ public class VentanaReservar extends JFrame
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
 		
-		this.reservaPanelCentro = new ReservaPanelCentro(this);
+		this.reservaPanelCentro = new ReservaPanelCentro(this, getPasarelas());
 		this.precios = precios;
 		this.carroSeleccionado = carroSeleccionado;
 		this.cliente = cliente;
@@ -80,14 +87,14 @@ public class VentanaReservar extends JFrame
 		reservarCompleta(cliente, precios[1], carroSeleccionado,fechaRecogida, fechaDevolucion, horaRecogida, horaDevolucion, sedeRecogida, sedeDevolucion, categoria);
 	}
 	
-	public void reservarCompleta(Cliente cliente, double precio30,Carro carroSelecionado, 
+	public void reservarCompleta(Cliente cliente, double precio30, VehiculoBase carroSelecionado2, 
 			LocalDate fechaRecogida, LocalDate fechaDevolucion, 
 			LocalTime horaRecogida, LocalTime horaDevolucion, 
 			String sedeRecogida, String sedeDevolucion, char categoria)
 	{
 		
 		//se actualiza la informacion creando la reserva y actualizando la data del vechiculo
-		aplicacion.reservarDefinitivo(cliente, precio30, carroSelecionado, 
+		aplicacion.reservarDefinitivo(cliente, precio30, carroSelecionado2, 
 				fechaRecogida, fechaDevolucion, 
 				 horaRecogida,  horaDevolucion, 
 				 sedeRecogida,  sedeDevolucion,  categoria);
@@ -98,5 +105,43 @@ public class VentanaReservar extends JFrame
 		cerrarVentana();
 	}
 	
+	public String[] getPasarelas()
+	{
+		String[] arrayPasarelas = aplicacion.getPasarelas().toArray(new String[0]);
+		return arrayPasarelas;
+	}
 
+	public boolean pagar(String pasarela)
+	{
+		boolean retVar = false;
+		try 
+		{
+			 retVar = aplicacion.pagar(pasarela, cliente, (int)precios[1]);
+			 //cliente.setBloqueada(true);
+		} 
+		catch (ClassNotFoundException e) 
+		{
+			JOptionPane.showMessageDialog(this, "ERROR EN LA PASARELA DE PAGO",
+					"Error", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		} 
+		catch (TarjetaBloqueadaException e) 
+		{
+			JOptionPane.showMessageDialog(this, "LA TARJETA ESTÁ BLOQUEADA",
+					"Error", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		} 
+		catch (TarjetaSinCupoException e) 
+		{
+			JOptionPane.showMessageDialog(this, "LA TARJETA NO TIENE CUPO",
+					"Error", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+		
+		return retVar;
+	}
 }

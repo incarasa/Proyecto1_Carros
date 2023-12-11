@@ -12,8 +12,8 @@ public class PanelAdminCarrosBotones extends JPanel implements ActionListener
 {
 	private VentanaAdminCarros ventanaAdminCarros;
 	
-	private JButton btnBuscarCarro = new JButton("Buscar carro");
-	private JButton btnAñadirCarro = new JButton("Añadir carro");
+	private JButton btnBuscarCarro = new JButton("Buscar vehiculo");
+	private JButton btnAñadirCarro = new JButton("Añadir vehiculo");
 	private JButton btnDarCarrodeBaja = new JButton("Dar de baja");
 	
 	public PanelAdminCarrosBotones(VentanaAdminCarros ventanaAdminCarros)

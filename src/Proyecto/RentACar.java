@@ -35,6 +35,9 @@ import Usuarios.Administrador_Sede;
 import Usuarios.Cliente;
 import Usuarios.Empleado;
 import Usuarios.Usuarios;
+import pasarelasPago.GestorPasarelasPago;
+import pasarelasPago.exceptions.TarjetaBloqueadaException;
+import pasarelasPago.exceptions.TarjetaSinCupoException;
 
 
 public class RentACar 
@@ -47,6 +50,7 @@ public class RentACar
 	private Seguros seguros;
 	private Usuarios usuarios;
 	private cambioSede tarifaCambioSede = new cambioSede();
+	private GestorPasarelasPago pasarelas = GestorPasarelasPago.getInstance();
 	
 	public RentACar()
 	{
@@ -79,7 +83,8 @@ public class RentACar
 	
 	//aca va una funcion
 	
-	public ArrayList<String> getTipos(){
+	public ArrayList<String> getTipos()
+	{
 		return inventario.getTipos();
 	}
 	
@@ -132,7 +137,7 @@ public class RentACar
 	
 	public Object[] reservarCarro(String nombreSedeRecogida, String nombreSedeDevolucion,
 			LocalDate diaRecogida, LocalDate diaDevolucion,
-			LocalTime horaRecogida, LocalTime horaDevolucion , char categoria)
+			LocalTime horaRecogida, LocalTime horaDevolucion , char categoria, String tipoDeVehiculo)
 	{
 		int retVar = 10; //arranca en estado de que funcionó bien
 		double[] precios = null;
@@ -181,7 +186,7 @@ public class RentACar
 		{
 			//Que carros hay en la sede disponibles para reservar?
 			List<VehiculoBase> carrosDisponibles = inventario.carrosDisponibles(nombreSedeRecogida,
-					diaRecogida, diaDevolucion , categoria);
+					diaRecogida, diaDevolucion , categoria, tipoDeVehiculo);
 			
 			//LOOP PARA SABER CUANTOS CARROS HAY
 			for(VehiculoBase carro: carrosDisponibles)
@@ -240,13 +245,13 @@ public class RentACar
 	}
 	
 	//crea una reserva y cambia la disponibilidad del vehiculo
-	public void reservarDefinitivo(Cliente cliente, double precio30,Carro carroSelecionado, 
+	public void reservarDefinitivo(Cliente cliente, double precio30,VehiculoBase vehiculoSeleccionado, 
 			LocalDate fechaRecogida, LocalDate fechaDevolucion, 
 			LocalTime horaRecogida, LocalTime horaDevolucion, 
 			String sedeRecogida, String sedeDevolucion, char categoria)
 	{
-		gestorReservas.crearReserva(horaRecogida, fechaRecogida, fechaDevolucion, cliente.getNumeroDocumento(), precio30, String.valueOf(categoria), carroSelecionado.getPlaca());
-		inventario.reservarCarro(carroSelecionado.getPlaca(), fechaRecogida, fechaDevolucion);
+		gestorReservas.crearReserva(horaRecogida, fechaRecogida, fechaDevolucion, cliente.getNumeroDocumento(), precio30, String.valueOf(categoria), vehiculoSeleccionado.getPlaca());
+		inventario.reservarCarro(vehiculoSeleccionado.getPlaca(), fechaRecogida, fechaDevolucion);
 	}
 	
 	
@@ -416,6 +421,20 @@ public class RentACar
 		return usuarios;
 	}
 	
-
+	public ArrayList<String> getCamposSegunTipo(String tipo) throws ClassNotFoundException, InstantiationException, Exception{
+		return inventario.getCamposSegunTipo(tipo);
+	}
+	
+	public ArrayList<String> getPasarelas(){
+		return pasarelas.getPasarelas();
+	}
+	
+	public boolean pagar(String pasarela, Cliente cliente, int monto) throws ClassNotFoundException, TarjetaBloqueadaException, TarjetaSinCupoException, Exception {
+		pasarelas.SeleccionarPasarela(pasarela);
+		boolean pago = pasarelas.pagar(cliente, monto);
+		pasarelas.reiniciarPasarela();
+		return pago;
+	}
+	
 }
 

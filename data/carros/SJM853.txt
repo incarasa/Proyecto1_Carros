@@ -1,4 +1,4 @@
-SJM853,CHEVROLET,2020,MANUAL,B,false,true,MODELIA,false,false,,C:\Users\incar\eclipse-workspace\Proyecto1_AlquilerCarros\data\fotosCarros\SJM853.jpg,Carro
+SJM853,CHEVROLET,2020,MANUAL,B,false,true,MODELIA,false,false,,data\fotosCarros\SJM853.jpg,Carro
 2023/NOVEMBER/20
 2023/NOVEMBER/21
 2023/NOVEMBER/22

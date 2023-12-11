@@ -6,10 +6,14 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -18,15 +22,21 @@ import javax.swing.JTextField;
 import javax.swing.ListModel;
 import javax.swing.ScrollPaneConstants;
 
+import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
+
 import Proyecto.RentACar;
 
-public class PanelAdminCarrosInfo extends JPanel
+public class PanelAdminCarrosInfo extends JPanel implements ActionListener
 {
 	private VentanaAdminCarros ventanaAdminCarros;
 	
 	private JScrollPane scroller;
 	
 	private JLabel labtitulo = new JLabel("Panel Carros");
+	
+	//tipo de vehículo
+	private JLabel labTipoVehiculo = new JLabel("Tipo vehículo:");
+	private JComboBox<String> boxTipoVehiculo;
 	
 	private JLabel labPlaca = new JLabel("Placa: ");
 	private JTextField txtPlaca = new JTextField("");
@@ -39,6 +49,9 @@ public class PanelAdminCarrosInfo extends JPanel
 	
 	private JLabel labTransmision = new JLabel("Transmisión: ");
 	private JTextField txtTransmision = new JTextField("");
+	
+	private JLabel labCilindraje = new JLabel("Cilindraje: ");
+	private JTextField txtCilindraje = new JTextField("");
 	
 	private JLabel labCategoria = new JLabel("Categoria: ");
 	private JTextField txtCategoria = new JTextField("");
@@ -70,15 +83,19 @@ public class PanelAdminCarrosInfo extends JPanel
 	
 	private JLabel labEstado = new JLabel("");
 	
-	public PanelAdminCarrosInfo(VentanaAdminCarros ventanaAdminCarros)
+	public PanelAdminCarrosInfo(VentanaAdminCarros ventanaAdminCarros, String[] tiposArray)
 	{
 		this.ventanaAdminCarros = ventanaAdminCarros;
 		
 		setLayout(new GridLayout(20,2));
 		
+		this.boxTipoVehiculo = new JComboBox<String>(tiposArray);
+		
 		add(labtitulo);
 		add(new JLabel("."));
 		
+		add(labTipoVehiculo);
+		add(boxTipoVehiculo);
 		add(labPlaca);
 		add(txtPlaca);
 		add(labMarca);
@@ -87,6 +104,8 @@ public class PanelAdminCarrosInfo extends JPanel
 		add(txtModelo);
 		add(labTransmision);
 		add(txtTransmision);
+		add(labCilindraje);
+		add(txtCilindraje);
 		add(labCategoria);
 		add(txtCategoria);
 		add(labSede);
@@ -121,6 +140,8 @@ public class PanelAdminCarrosInfo extends JPanel
         //poner invisible
         setVisibleElementos(false);
         
+        boxTipoVehiculo.addActionListener(this);
+        
         
 		
 	}
@@ -128,8 +149,9 @@ public class PanelAdminCarrosInfo extends JPanel
 	public void actualizarCamposdeTexto(String placa, String marca, int modelo, String transmision, char categoría,
     		boolean alquilado, boolean disponible, String sede, boolean lavandose,
     		boolean enMantenimiento, String fechaDisponibleNuevamente, List<LocalDate>fechasNoDisponible,
-    		String rutaFoto)
+    		String rutaFoto, String tipo)
 	{
+		boxTipoVehiculo.setSelectedItem(tipo);
 		txtPlaca.setText(placa);
 		txtMarca.setText(marca);
 		txtModelo.setText(Integer.toString(modelo));
@@ -162,12 +184,14 @@ public class PanelAdminCarrosInfo extends JPanel
 	
 	public void setVisibleElementos(boolean estado)
 	{
+		labTransmision.setVisible(estado);
+		txtTransmision.setVisible(estado);
+		labCilindraje.setVisible(estado);
+		txtCilindraje.setVisible(estado);
 		labMarca.setVisible(estado);
 		txtMarca.setVisible(estado);
 		labModelo.setVisible(estado);
 		txtModelo.setVisible(estado);
-		labTransmision.setVisible(estado);
-		txtTransmision.setVisible(estado);
 		labCategoria.setVisible(estado);
 		txtCategoria.setVisible(estado);
 		labSede.setVisible(estado);
@@ -244,6 +268,44 @@ public class PanelAdminCarrosInfo extends JPanel
 	{
 		return txtRutaFoto.getText();
 	}
+	public String getTipo()
+	{
+		return (String)boxTipoVehiculo.getSelectedItem();
+	}
 
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == boxTipoVehiculo)
+		{
+			String tipoVehiculo = (String) boxTipoVehiculo.getSelectedItem();
+			try {
+				ArrayList<String> listaCampos = ventanaAdminCarros.getCamposSegunTipo(tipoVehiculo);
+				if(!listaCampos.contains("Transmision"))
+				{
+					setVisibleTransmision(false);
+				}
+				if(!listaCampos.contains("Cilindraje"))
+				{
+					setVisibleCilindraje(false);
+				}
+			} 
+			catch (Exception e1) {
+				e1.printStackTrace();
+			}
+			
+		}
+		
+	}
+
+	public void setVisibleCilindraje(boolean estado)
+	{
+		labCilindraje.setVisible(estado);
+		txtCilindraje.setVisible(estado);
+	}
 	
+	public void setVisibleTransmision(boolean estado)
+	{
+		labTransmision.setVisible(estado);
+		txtTransmision.setVisible(estado);
+	}
 }

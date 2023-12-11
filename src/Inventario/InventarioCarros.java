@@ -17,152 +17,173 @@ import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
 
 import Instalaciones.Sede;
 import Tarifas.Categorias;
+import pasarelasPago.GestorPasarelasPago;
 
-public class InventarioCarros
-{
-
-	// atributos
-
+public class InventarioCarros {
+	
+	//atributos
+	private GestorPasarelasPago pasarelas = GestorPasarelasPago.getInstance();
 	private FactoryVehiculos factory = FactoryVehiculos.getInstance();
-	private Map<String, VehiculoBase> inventario;
-	private String rutaCSV;
-	private char[] categorias =
-	{'N', 'M', 'L', 'K', 'J', 'I', 'H', 'G', 'F', 'E', 'D', 'C', 'B', 'A'};
+    private Map<String, VehiculoBase> inventario;
+    private String rutaCSV;
+    private char[] categorias = {'N', 'M', 'L', 'K', 'J', 'I', 'H', 'G', 'F', 'E', 'D', 'C', 'B', 'A'};
 
-	// constructor
-	public InventarioCarros()
-	{
-		inventario = new HashMap<>();
-		rutaCSV = "data/carros/carros.csv";
-	}
+    
+    //constructor
+    public InventarioCarros() {
+        inventario = new HashMap<>();
+        rutaCSV = "data/carros/carros.csv";
+    }
 
-	// METODOS
-
-	/**
-	 * Crea un carro nuevo y crea un archivo con la información del carro. Los
-	 * días reservados están vacío por ahora
-	 * 
-	 * @param placa
-	 * @param marca
-	 * @param modelo
-	 * @param transmision
-	 * @param categoría
-	 * @param sede
-	 */
-	public void agregarVehiculo(String placa, String marca, int modelo,
-			ArrayList<String> carac, char categoría, boolean alquilado,
-			boolean disponible, String sede, boolean lavandose,
-			boolean enMantenimiento, String fechaDisponibleNuevamente,
-			String rutaImagen, String tipo)
-	{
-		// agrega un carro
-		DTOInfoVehiculo datos = new DTOInfoVehiculo();
-
-		datos.setTipo(tipo);
-		datos.setPlaca(placa);
-		datos.setMarca(marca);
-		datos.setModelo(modelo);
-		datos.setCaracteristicas(carac);
-		datos.setCategoría(categoría);
-		datos.setAlquilado(alquilado);
-		datos.setDisponible(disponible);
-		datos.setSede(sede);
-		datos.setLavandose(lavandose);
-		datos.setEnMantenimiento(enMantenimiento);
-		datos.setFechaDisponibleNuevamente(fechaDisponibleNuevamente);
-		datos.setRutaImagen(rutaImagen);
-
-		VehiculoBase vehiculo = factory.crearVehiculo(datos);
-
-		// persistencia
-		String ruta_carro = "data/carros/" + placa + ".txt";
-		vehiculo.guardarEnArchivo(ruta_carro); // guarda el carro en archivo
-		System.out.println("Carro creado");
-
-	}
-
-	public void eliminarCarro(String placa)
-	{
-		// elimina un carro
-		inventario.remove(placa);
-
-		// elimina el archivo del carro
-		String ruta_carro = "data/carros/" + placa + ".txt";
-		File archivoCarro = new File(ruta_carro);
-		archivoCarro.delete();
-
-		String ruta_carro_imagen = "data/fotosCarros/" + placa + ".jpg";
-		File carro_imagen = new File(ruta_carro_imagen);
-		carro_imagen.delete();
-
-		System.out.println("Carro eliminado");
-
-	}
-
-	public VehiculoBase buscarCarroPorPlaca(String placa)
-	{
-		return inventario.get(placa);
-	}
-
-	public List<VehiculoBase> carrosDisponibles(String sede,
-			LocalDate fechaInicio, LocalDate fechaFin, char categoria)
-	{
-		// filtrar por sede
-		List<VehiculoBase> listaDisponibles = carrosDisponiblesEnSede(sede);
-
-		// filtrar por dias disponibles
-		listaDisponibles = DisponiblesEnFechas(listaDisponibles, fechaInicio,
-				fechaFin);
-
-		listaDisponibles = DisponiblesCategoriaOSuperior(listaDisponibles,
-				categoria);
-
-		return listaDisponibles;
-	}
-
-	/**
-	 * Esta funcion retorna los carros que no estan alquilados ni en
-	 * mantenimiento ni lavando en una sede.
-	 * 
-	 * @param sede
-	 * @return
-	 */
-	public List<VehiculoBase> carrosDisponiblesEnSede(String sede)
-	{
-		List<VehiculoBase> carrosDisponibles = new ArrayList<>();
-
-		for (VehiculoBase carro : inventario.values())
-		{
-			// Que el carro no esté alquilado y que esté disponible
-			// (mantenimiento o aseo).
-
-			if ((!carro.isAlquilado()) && (carro.isDisponible())
-					&& ((carro.getSede()).equals(sede)))
-			{
-				carrosDisponibles.add(carro);
-			}
+    
+    //METODOS
+    
+    /**
+     * Crea un carro nuevo y crea un archivo con la información del carro. Los días reservados
+     * están vacío por ahora
+     * @param placa
+     * @param marca
+     * @param modelo
+     * @param transmision
+     * @param categoría
+     * @param sede
+     */
+    public void agregarVehiculo(String placa, String marca, int modelo, ArrayList<String> carac, 
+    		char categoría, boolean alquilado, boolean disponible, String sede,
+    		boolean lavandose, boolean enMantenimiento, String fechaDisponibleNuevamente,
+    		String rutaImagen, String tipo) 
+    {
+    	//agrega un carro
+    	DTOInfoVehiculo datos = new DTOInfoVehiculo();
+    	
+    	datos.setTipo(tipo);
+    	datos.setPlaca(placa);
+    	datos.setMarca(marca);
+    	datos.setModelo(modelo);
+    	datos.setCaracteristicas(carac);
+    	datos.setCategoría(categoría);
+    	datos.setAlquilado(alquilado);
+    	datos.setDisponible(disponible);
+    	datos.setSede(sede);
+    	datos.setLavandose(lavandose);
+    	datos.setEnMantenimiento(enMantenimiento);
+    	datos.setFechaDisponibleNuevamente(fechaDisponibleNuevamente);
+    	datos.setRutaImagen(rutaImagen);
+    	
+        VehiculoBase vehiculo;
+		try {
+			vehiculo = factory.crearVehiculo(datos);
+			 //persistencia
+	        String ruta_carro = "data/carros/" + placa + ".txt";
+	    	vehiculo.guardarEnArchivo(ruta_carro); //guarda el carro en archivo
+	    	System.out.println("Vehiculo creado");
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			System.out.println("El tipo de vehiculo no existe");
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Hubo un problema al crear la instancia del vehiculo");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println("Hubo un problema al crear el vehiculo");
 		}
+    	
+    }
+    
+    public void eliminarCarro(String placa) 
+    {
+    	//elimina un carro
+        inventario.remove(placa);
+        
+        //elimina el archivo del carro
+        String ruta_carro = "data/carros/" + placa + ".txt";
+        File archivoCarro = new File(ruta_carro);
+        archivoCarro.delete();
+        
+        String ruta_carro_imagen = "data/fotosCarros/" + placa + ".jpg";
+        File carro_imagen = new File(ruta_carro_imagen);
+        carro_imagen.delete();
+        
+        System.out.println("Carro eliminado");
+            
+    }
 
-		return carrosDisponibles;
+    public VehiculoBase buscarCarroPorPlaca(String placa) {
+        return inventario.get(placa);
+    }
+    
+    public List<VehiculoBase> filtroPorTipos(List<VehiculoBase> datos, String tipo){
+    	List<VehiculoBase> retorno = new ArrayList<>();
+    	
+    	for (VehiculoBase data: datos) {
+    		if (data.getTipo().equals(tipo)) {
+    			retorno.add(data);
+    		}
+    	}
+    	
+    	return retorno;
+    	
+    }
+    
+    
+    public List<VehiculoBase> carrosDisponibles(String sede, LocalDate fechaInicio, LocalDate fechaFin,
+    		char categoria, String tipoDeVehiculo)
+    {
+    	//filtrar por sede
+    	List<VehiculoBase> listaDisponibles = carrosDisponiblesEnSede(sede);
+    	
+    	//filtrar por dias disponibles
+    	listaDisponibles = DisponiblesEnFechas(listaDisponibles, fechaInicio,
+    			fechaFin);
+    	
+    	//filtrar por tipo de vehiculo
+    	
+    	listaDisponibles = filtroPorTipos(listaDisponibles, tipoDeVehiculo);
+    	
+    	//______
+    	listaDisponibles = DisponiblesCategoriaOSuperior(listaDisponibles, categoria);
+    	
+    	return listaDisponibles;
+    }
+    
+    /**
+     * Esta funcion retorna los carros que no estan alquilados ni en mantenimiento ni lavando
+     * en una sede.
+     * @param sede
+     * @return
+     */
+    public List<VehiculoBase> carrosDisponiblesEnSede(String sede) {
+        List<VehiculoBase> carrosDisponibles = new ArrayList<>();
 
-	}
-	/**
-	 * Este metodo recibe una lista de carros y escoge los que puedan estar
-	 * disponibles para reservar en las fechas seleccionadas.
-	 * 
-	 * @param carros
-	 * @param fechaInicio
-	 * @param fechaFin
-	 * @return lista carros disponibles
-	 */
-	public List<VehiculoBase> DisponiblesEnFechas(List<VehiculoBase> carros,
-			LocalDate fechaInicio, LocalDate fechaFin)
-	{
+        for (VehiculoBase carro : inventario.values()) {
+        	//Que el carro no esté alquilado y que esté disponible (mantenimiento o aseo).
+        	
+            if ((!carro.isAlquilado()) && (carro.isDisponible()) &&
+            		((carro.getSede()).equals(sede)) ) 
+            {
+                carrosDisponibles.add(carro);
+            }
+        }
 
-		List<VehiculoBase> carrosDisponibles = new ArrayList<VehiculoBase>();
+        return carrosDisponibles;
 
-		// se recorre para mirar que carros estan disponibles.
-		for (VehiculoBase carro : carros)
+    // Otros métodos para listar carros, alquilar, devolver y cambiar sede, etc.
+}
+    /**
+     * Este metodo recibe una lista de carros y escoge los que puedan estar disponibles
+     * para reservar en las fechas seleccionadas.
+     * @param carros
+     * @param fechaInicio
+     * @param fechaFin
+     * @return lista carros disponibles
+     */
+    public List<VehiculoBase> DisponiblesEnFechas(List<VehiculoBase> carros , LocalDate fechaInicio, LocalDate fechaFin)
+    {
+
+    	List<VehiculoBase> carrosDisponibles = new ArrayList<VehiculoBase>();
+    	
+    	//se recorre para mirar que carros estan disponibles.
+    	for(VehiculoBase carro : carros)
 		{
 			if (carro.esReservable(fechaInicio, fechaFin))
 			{
@@ -283,5 +304,22 @@ public class InventarioCarros
 	{
 		return factory.getTipos();
 	}
+	
+	public ArrayList<String> getCamposSegunTipo(String tipo) throws ClassNotFoundException, InstantiationException, Exception {
+		ArrayList<String> campos;
+		DTOInfoVehiculo dto = new DTOInfoVehiculo();
+		ArrayList<String> carac = new ArrayList<String>();
+		for(int i=0;i<10;i++) {
+			carac.add("a");
+		}
+		dto.setTipo(tipo);
+		dto.setCaracteristicas(carac);
+		VehiculoBase datos = factory.crearVehiculo(dto);
+		campos = datos.getCamposNecesarios();
+		return campos;
+	}
+	
+}
+
 
 }

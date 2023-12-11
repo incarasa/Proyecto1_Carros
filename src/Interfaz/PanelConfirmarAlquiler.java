@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -22,10 +23,14 @@ public class PanelConfirmarAlquiler extends JPanel implements ActionListener
 	private JLabel labValorFinal = new JLabel("");
 	private JLabel labDeseaReservar = new JLabel("¿Desea pagar y alquilar el vehiculo?");
 	
+	private JLabel labPasarela = new JLabel("Ingrese la pasarela de pago");
+	private JComboBox<String> boxPasarela;
+	
+	
 	private double precioFinal;
 	
 	public PanelConfirmarAlquiler(VentanaConfirmarAlquiler ventanaConfirmarAlquiler,
-			double precio, double precioReserva)
+			double precio, double precioReserva, String[] arrayPasarela)
 	{
 		this.ventanaConfirmarAlquiler = ventanaConfirmarAlquiler;
 		setLayout(new GridLayout(22,1));
@@ -43,6 +48,8 @@ public class PanelConfirmarAlquiler extends JPanel implements ActionListener
 		lab30.setText(Double.toString(precioReserva));
 		labValorFinal.setText(Double.toString(precioFinal));
 		
+		boxPasarela = new JComboBox<String>(arrayPasarela);
+		
 		add(labTitulo);
 		add(labElPrecioCompleto);
 		add(labPrecioCompleto);
@@ -50,6 +57,8 @@ public class PanelConfirmarAlquiler extends JPanel implements ActionListener
 		add(lab30);
 		add(labElValorFinal);
 		add(labValorFinal);
+		add(labPasarela);
+		add(boxPasarela);
 		add(labDeseaReservar);
 		add(btnAlquilar);
 		
@@ -61,7 +70,12 @@ public class PanelConfirmarAlquiler extends JPanel implements ActionListener
 	{
 		if(e.getSource() == btnAlquilar)
 		{
-			ventanaConfirmarAlquiler.alquilar(precioFinal);
+			if(ventanaConfirmarAlquiler.pagar((String) boxPasarela.getSelectedItem(), 
+					precioFinal))
+			{
+				ventanaConfirmarAlquiler.alquilar(precioFinal);
+			}
+			
 		}
 		
 	}
