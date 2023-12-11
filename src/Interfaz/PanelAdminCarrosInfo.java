@@ -6,7 +6,10 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
@@ -23,7 +26,7 @@ import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
 
 import Proyecto.RentACar;
 
-public class PanelAdminCarrosInfo extends JPanel
+public class PanelAdminCarrosInfo extends JPanel implements ActionListener
 {
 	private VentanaAdminCarros ventanaAdminCarros;
 	
@@ -46,6 +49,9 @@ public class PanelAdminCarrosInfo extends JPanel
 	
 	private JLabel labTransmision = new JLabel("Transmisión: ");
 	private JTextField txtTransmision = new JTextField("");
+	
+	private JLabel labCilindraje = new JLabel("Cilindraje: ");
+	private JTextField txtCilindraje = new JTextField("");
 	
 	private JLabel labCategoria = new JLabel("Categoria: ");
 	private JTextField txtCategoria = new JTextField("");
@@ -98,6 +104,8 @@ public class PanelAdminCarrosInfo extends JPanel
 		add(txtModelo);
 		add(labTransmision);
 		add(txtTransmision);
+		add(labCilindraje);
+		add(txtCilindraje);
 		add(labCategoria);
 		add(txtCategoria);
 		add(labSede);
@@ -131,6 +139,8 @@ public class PanelAdminCarrosInfo extends JPanel
         
         //poner invisible
         setVisibleElementos(false);
+        
+        boxTipoVehiculo.addActionListener(this);
         
         
 		
@@ -174,12 +184,14 @@ public class PanelAdminCarrosInfo extends JPanel
 	
 	public void setVisibleElementos(boolean estado)
 	{
+		labTransmision.setVisible(estado);
+		txtTransmision.setVisible(estado);
+		labCilindraje.setVisible(estado);
+		txtCilindraje.setVisible(estado);
 		labMarca.setVisible(estado);
 		txtMarca.setVisible(estado);
 		labModelo.setVisible(estado);
 		txtModelo.setVisible(estado);
-		labTransmision.setVisible(estado);
-		txtTransmision.setVisible(estado);
 		labCategoria.setVisible(estado);
 		txtCategoria.setVisible(estado);
 		labSede.setVisible(estado);
@@ -261,5 +273,39 @@ public class PanelAdminCarrosInfo extends JPanel
 		return (String)boxTipoVehiculo.getSelectedItem();
 	}
 
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == boxTipoVehiculo)
+		{
+			String tipoVehiculo = (String) boxTipoVehiculo.getSelectedItem();
+			try {
+				ArrayList<String> listaCampos = ventanaAdminCarros.getCamposSegunTipo(tipoVehiculo);
+				if(!listaCampos.contains("Transmision"))
+				{
+					setVisibleTransmision(false);
+				}
+				if(!listaCampos.contains("Cilindraje"))
+				{
+					setVisibleCilindraje(false);
+				}
+			} 
+			catch (Exception e1) {
+				e1.printStackTrace();
+			}
+			
+		}
+		
+	}
+
+	public void setVisibleCilindraje(boolean estado)
+	{
+		labCilindraje.setVisible(estado);
+		txtCilindraje.setVisible(estado);
+	}
 	
+	public void setVisibleTransmision(boolean estado)
+	{
+		labTransmision.setVisible(estado);
+		txtTransmision.setVisible(estado);
+	}
 }

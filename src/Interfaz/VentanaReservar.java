@@ -4,13 +4,18 @@ import java.awt.BorderLayout;
 import java.security.PublicKey;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 
 import javax.swing.*;
+
+import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
 
 import Inventario.Carro;
 import Inventario.VehiculoBase;
 import Proyecto.RentACar;
 import Usuarios.Cliente;
+import pasarelasPago.exceptions.TarjetaBloqueadaException;
+import pasarelasPago.exceptions.TarjetaSinCupoException;
 
 public class VentanaReservar extends JFrame
 {
@@ -25,6 +30,7 @@ public class VentanaReservar extends JFrame
 	private String sedeRecogida;
 	private String sedeDevolucion;
 	private char categoria;
+	
 	
 	private Cliente cliente;
 	
@@ -47,7 +53,7 @@ public class VentanaReservar extends JFrame
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
 		
-		this.reservaPanelCentro = new ReservaPanelCentro(this);
+		this.reservaPanelCentro = new ReservaPanelCentro(this, getPasarelas());
 		this.precios = precios;
 		this.carroSeleccionado = carroSeleccionado;
 		this.cliente = cliente;
@@ -99,5 +105,43 @@ public class VentanaReservar extends JFrame
 		cerrarVentana();
 	}
 	
+	public String[] getPasarelas()
+	{
+		String[] arrayPasarelas = aplicacion.getPasarelas().toArray(new String[0]);
+		return arrayPasarelas;
+	}
 
+	public boolean pagar(String pasarela)
+	{
+		boolean retVar = false;
+		try 
+		{
+			 retVar = aplicacion.pagar(pasarela, cliente, (int)precios[1]);
+			 //cliente.setBloqueada(true);
+		} 
+		catch (ClassNotFoundException e) 
+		{
+			JOptionPane.showMessageDialog(this, "ERROR EN LA PASARELA DE PAGO",
+					"Error", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		} 
+		catch (TarjetaBloqueadaException e) 
+		{
+			JOptionPane.showMessageDialog(this, "LA TARJETA ESTÁ BLOQUEADA",
+					"Error", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		} 
+		catch (TarjetaSinCupoException e) 
+		{
+			JOptionPane.showMessageDialog(this, "LA TARJETA NO TIENE CUPO",
+					"Error", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+		
+		return retVar;
+	}
 }

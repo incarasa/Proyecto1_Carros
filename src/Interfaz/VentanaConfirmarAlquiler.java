@@ -14,6 +14,8 @@ import Proyecto.RentACar;
 import Tarifas.Conductor;
 import Usuarios.Cliente;
 import Usuarios.Empleado;
+import pasarelasPago.exceptions.TarjetaBloqueadaException;
+import pasarelasPago.exceptions.TarjetaSinCupoException;
 
 public class VentanaConfirmarAlquiler extends JFrame
 {
@@ -50,7 +52,7 @@ public class VentanaConfirmarAlquiler extends JFrame
 		setLayout(new BorderLayout());
 		
 		this.panelConfirmarAlquiler = new PanelConfirmarAlquiler(this, precio, 
-				reserva.getPrecio());
+				reserva.getPrecio(), getPasarelas());
 		add(panelConfirmarAlquiler, BorderLayout.CENTER);
 		
 		
@@ -70,6 +72,45 @@ public class VentanaConfirmarAlquiler extends JFrame
 				"Reserva exitosa", JOptionPane.INFORMATION_MESSAGE);
 		
 		dispose();
+	}
+	
+	public boolean pagar(String pasarela, double precioF)
+	{
+		boolean retVar = false;
+		try 
+		{
+			 retVar = aplicacion.pagar(pasarela, cliente, (int)precioF);
+		} 
+		catch (ClassNotFoundException e) 
+		{
+			JOptionPane.showMessageDialog(this, "ERROR EN LA PASARELA DE PAGO",
+					"Error", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		} 
+		catch (TarjetaBloqueadaException e) 
+		{
+			JOptionPane.showMessageDialog(this, "LA TARJETA ESTÁ BLOQUEADA",
+					"Error", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		} 
+		catch (TarjetaSinCupoException e) 
+		{
+			JOptionPane.showMessageDialog(this, "LA TARJETA NO TIENE CUPO",
+					"Error", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+		
+		return retVar;
+	}
+
+	public String[] getPasarelas()
+	{
+		String[] arrayPasarelas = aplicacion.getPasarelas().toArray(new String[0]);
+		return arrayPasarelas;
 	}
 	
 }

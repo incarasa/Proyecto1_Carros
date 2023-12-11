@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import com.itextpdf.text.List;
 import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
 
 import Inventario.Carro;
@@ -125,5 +126,10 @@ public class VentanaAdminCarros extends JFrame
 		ArrayList<String> tiposList = aplicacion.getTipos();
 		String[] tiposArray = tiposList.toArray(new String[0]);
 		return tiposArray;
+	}
+	
+	public ArrayList<String> getCamposSegunTipo(String tipo) throws Exception
+	{
+		return aplicacion.getCamposSegunTipo(tipo);
 	}
 }
