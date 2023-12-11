@@ -9,7 +9,7 @@ public class TestGuardadoVehiculo {
 	public void test() {
 		
 		try {
-			ArrayList<String> datos = inventario.getCamposSegunTipo("Carro");
+			ArrayList<String> datos = inventario.getCamposSegunTipo("Moto");
 			for (String info: datos) {
 				System.out.println(info);
 			}
