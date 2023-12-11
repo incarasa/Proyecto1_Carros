@@ -35,6 +35,9 @@ import Usuarios.Administrador_Sede;
 import Usuarios.Cliente;
 import Usuarios.Empleado;
 import Usuarios.Usuarios;
+import pasarelasPago.GestorPasarelasPago;
+import pasarelasPago.exceptions.TarjetaBloqueadaException;
+import pasarelasPago.exceptions.TarjetaSinCupoException;
 
 
 public class RentACar 
@@ -47,6 +50,7 @@ public class RentACar
 	private Seguros seguros;
 	private Usuarios usuarios;
 	private cambioSede tarifaCambioSede = new cambioSede();
+	private GestorPasarelasPago pasarelas = GestorPasarelasPago.getInstance();
 	
 	public RentACar()
 	{
@@ -420,6 +424,17 @@ public class RentACar
 	public ArrayList<String> getCamposSegunTipo(String tipo) throws ClassNotFoundException, InstantiationException, Exception{
 		return inventario.getCamposSegunTipo(tipo);
 	}
-
+	
+	public ArrayList<String> getPasarelas(){
+		return pasarelas.getPasarelas();
+	}
+	
+	public boolean pagar(String pasarela, Cliente cliente, int monto) throws ClassNotFoundException, TarjetaBloqueadaException, TarjetaSinCupoException, Exception {
+		pasarelas.SeleccionarPasarela(pasarela);
+		boolean pago = pasarelas.pagar(cliente, monto);
+		pasarelas.reiniciarPasarela();
+		return pago;
+	}
+	
 }
 

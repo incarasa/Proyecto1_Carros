@@ -17,11 +17,12 @@ import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
 
 import Instalaciones.Sede;
 import Tarifas.Categorias;
+import pasarelasPago.GestorPasarelasPago;
 
 public class InventarioCarros {
 	
 	//atributos
-	
+	private GestorPasarelasPago pasarelas = GestorPasarelasPago.getInstance();
 	private FactoryVehiculos factory = FactoryVehiculos.getInstance();
     private Map<String, VehiculoBase> inventario;
     private String rutaCSV;
@@ -307,7 +308,7 @@ public class InventarioCarros {
 		campos = datos.getCamposNecesarios();
 		return campos;
 	}
-    
+	
 }
 
 
